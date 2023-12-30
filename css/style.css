@@ -101,7 +101,7 @@ header {
 	padding: 8px 20px;	/*上下、左右への余白*/
 	background: #fff;	/*背景色*/
 	border: 1px solid #ccc;	/*枠線の幅、線種、色*/
-	border-radius: 10px;	/*角を丸くする指定。この１行を削除すれば角丸がなくなります。*/
+	border-radius: 0px;	/*角を丸くする指定。この１行を削除すれば角丸がなくなります。元は10*/
 }
 /*コンテンツのp(段落)タグ設定*/
 #contents p {
