@@ -6,7 +6,11 @@
 * CVとか載せる
 ## 2.参考ウェブサイト
 ### 2.1 テンプレート
+* [アラン研究室が出しているテンプレート](https://www.allanlab.org/aboutwebsite.html)
+* [ISSLの研究室サイトのgithubリポジトリ](https://github.com/ut-issl/ut-issl.github.io)
 ### 2.2 先輩の研究例
+* [ISSLの研究室サイト](https://www.space.t.u-tokyo.ac.jp/)
+* [飯山さんの個人サイト](https://kdricemt.github.io/japanese/)
 ## 3.参考資料
 * https://qiita.com/MokeeeMokeee/items/4b33691b829aaf119bbf
   * URL = toma-kazuki.github.io と入力
