@@ -217,7 +217,7 @@ footer .pr {
 	font-size: 70%;
 	line-height: 1.5;
 	padding: 2px 5px;
-	border-radius: 2px;
+	/*border-radius: 2px;*/
 	margin: 0px 5px;
 	vertical-align: text-top;
 }
