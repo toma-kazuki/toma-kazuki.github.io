@@ -12,3 +12,6 @@
 * [GitHub Pagesで「404エラー」時に確認すべき7つのこと](https://qiita.com/yuta_sawamura/items/6b05c2173a48e13a1373)
   * リポジトリーをとりあえずパブリックに
   * https://toma-kazuki.github.io
+  * まだうまくいかない
+  * <img width="657" alt="image" src="https://github.com/toma-kazuki/toma-kazuki.github.io/assets/63711051/5bee07a3-c61f-4c30-9de9-c946e28ad832">
+
