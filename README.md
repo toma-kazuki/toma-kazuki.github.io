@@ -12,6 +12,9 @@
 ### 2.2 先輩の研究例
 * [ISSLの研究室サイト](https://www.space.t.u-tokyo.ac.jp/)
 * [飯山さんの個人サイト](https://kdricemt.github.io/japanese/)
+* [深見さん(慶應→UCLA)](https://sites.google.com/view/kai-fukami/home?authuser=0)
+ * googleサイト使用
+
 ## 3.参考資料
 * https://qiita.com/MokeeeMokeee/items/4b33691b829aaf119bbf
   * URL = toma-kazuki.github.io と入力
