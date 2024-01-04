@@ -24,10 +24,18 @@
 * vim使う？：https://www.sejuku.net/blog/5570
 * wiki使う?: [GitHubのIssuesとWikiを知れば作業効率化を実現できる](https://enlyt.co.jp/blog/github_issues-wiki/#Wiki%E3%83%9A%E3%83%BC%E3%82%B8%E3%82%92%E8%BF%BD%E5%8A%A0)
 
+## 4. サーチエンジン登録
+* [GitHub Pagesで作ったブログをGoogle検索にヒットさせる](https://www.bedroomcomputing.com/2020/04/2020-0408-googleconsole/)
+1. Google Analyticsへの登録　→　完了！
+2. Google Search Consoleへの登録
+3. Site mapの登録
+* [Google Search Console](https://search.google.com/search-console/welcome?utm_source=wmx&utm_medium=deprecation-pane&utm_content=home#utm_source=ja-wmxmsg&utm_medium=wmxmsg&utm_campaign=bm&authuser=0)
+
 ## 4.アップデートとデバッグまとめ
 * [GitHub Pagesで「404エラー」時に確認すべき7つのこと](https://qiita.com/yuta_sawamura/items/6b05c2173a48e13a1373)
   * リポジトリーをとりあえずパブリックに
   * https://toma-kazuki.github.io
   * まだうまくいかない
   * <img width="657" alt="image" src="https://github.com/toma-kazuki/toma-kazuki.github.io/assets/63711051/5bee07a3-c61f-4c30-9de9-c946e28ad832">
+  * 2024/1/4: とりあえずシンプルなサイトが誕生した。現在はサーチエンジン登録を頑張っている
 
