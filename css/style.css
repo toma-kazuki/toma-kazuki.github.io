@@ -61,12 +61,72 @@ header {
 	margin-bottom: 40px;	/*下に空けるスペース*/
 }
 
+/*追加(画像を暗くして文字を入れる)
+---------------------------------------------------------------------------*/
+.boxbackground {
+	position: relative;
+	width: 1400px;
+	height: 200px;
+	background: url("../images/spectacle4.png");
+    background-position: bottom;
+	background-size: cover;
+	margin-bottom: 10px;	/*下に空けるスペース*/
+}
+#title {
+	position: absolute;
+	width: 1400px;
+	height:150px;
+	background: rgba(0, 0, 0, 0.7);
+	text-align: center;
+	padding-top:50px;
+}
+#title h1{
+	color: rgba(255, 255, 255, 1);
+	font-size: 40px
+}
+#title p{
+	color: rgba(255, 255, 255, 1);
+	font-size: 20px
+}
+
+/*SNS画像
+HTML・CSSのおさらい! アイコンとテキストを
+横並びに配置する方法まとめ
+https://ics.media/entry/220126/
+--------------------------------------------------------------------------*/
+.button-01 {
+	display: block;
+	/*width: 100%;*/
+	/*/ アイコンのスペースを確保したpadding-leftを設定する*/
+	/*
+	padding: 2px 2px 2px 5px;*/
+	background-color: #fff;
+	/*/ 左から16pxの上下中央に背景画像を配置*/
+	background-position: left 600px center;
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	/*/ 折り返しの対応*/
+	overflow-wrap: break-word;
+	text-align: center;
+	font-size: 20px;
+	&.linkedin {
+	  background-image: url("../images/sample5.jpg");
+	}
+	&.message {
+	  background-image: url("../images/sample5.jpg");
+	}
+	&.trash {
+	  background-image: url("../images/sample5.jpg");
+	}
+  }
+  
 /*メニュー
 ---------------------------------------------------------------------------*/
 /*メニュー全体を囲むブロック*/
 #menubar {
-	text-align: center;		/*文字をセンタリング*/
+	text-align: left;		/*文字をセンタリング*/
 	font-size: 18px;		/*文字サイズ*/
+	margin-top: 10px;	/*下に空けるスペース https://open.shonan.bunkyo.ac.jp/~ohtan/kouza/css-margin.html*/
 	margin-bottom: 40px;	/*下に空けるスペース*/
 }
 /*メニュー１個あたりの設定*/
