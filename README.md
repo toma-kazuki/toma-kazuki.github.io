@@ -9,11 +9,13 @@
 * [アラン研究室が出しているテンプレート](https://www.allanlab.org/aboutwebsite.html)
 * [ISSLの研究室サイトのgithubリポジトリ](https://github.com/ut-issl/ut-issl.github.io)
 * [個人サイト向け ホームページテンプレート（100件）](https://template-party.com/db_template/?act=list&kind=1&info6=%E5%80%8B%E4%BA%BA%E3%82%B5%E3%82%A4%E3%83%88%E5%90%91%E3%81%91)
-### 2.2 先輩の研究例
+* [yagiのgithubリポジトリ](https://github.com/ryotayagiABC/ryotayagi.github.io/blob/main/index.html)
+### 2.2 先輩のサイト例
 * [ISSLの研究室サイト](https://www.space.t.u-tokyo.ac.jp/)
 * [飯山さんの個人サイト](https://kdricemt.github.io/japanese/)
 * [深見さん(慶應→UCLA)](https://sites.google.com/view/kai-fukami/home?authuser=0)
  * googleサイト使用
+ * [yagiのアカデミックウェブサイト](https:/ryotayagi.github.io)
 
 ## 3.参考資料
 * https://qiita.com/MokeeeMokeee/items/4b33691b829aaf119bbf
