@@ -133,6 +133,21 @@ https://magazine.techacademy.jp/magazine/34779
 	font-weight: normal;
 }
 
+#page_caption {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 2px 5px;
+    color: #fff;
+    font-family: Georgia,Times,serif;
+    font-size: .6875em;
+    background: #000;
+    text-align: right;
+    z-index: 5;
+    opacity: 0.5;
+    border-radius: 4px 0 4px 0
+}
 /*SNS画像
 HTML・CSSのおさらい! アイコンとテキストを
 横並びに配置する方法まとめ
