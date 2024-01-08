@@ -35,19 +35,20 @@ a:hover {
 	color: #224acf;	/*マウスオン時の文字色*/
 }
 
-/*コンテナー（ホームページを囲む一番外側のブロック）
----------------------------------------------------------------------------*/
-#container {
-	max-width: 1400px;	/*ブロックの最大幅*/
-	margin: 0 auto;
-	padding: 0 3%;
-}
 
 /*ヘッダー（ロゴが入った最上段のブロック）
 ---------------------------------------------------------------------------*/
 /*headerブロック*/
 header {
 	text-align: center;	/*内容を中央よせ*/
+    /*position: fixed;*/
+    width: 100%;
+    top: 0;
+    z-index: 10; /* ヘッダーを最前面に表示 */
+    background-color: #f3f3f3;
+    padding: 10px; /* ヘッダーの高さに影響します */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    height: 255px; /* ヘッダーの高さ */
 }
 /*ロゴ画像設定*/
 #logo img {
@@ -55,12 +56,38 @@ header {
 	/*margin: 40px auto 40px;	/*ロゴの上と下に40pxスペースを空ける設定*/
 }
 
-/*トップページのメイン画像
+/*コンテナー（ホームページを囲む一番外側のブロック）と画面左右分割
 ---------------------------------------------------------------------------*/
-/*画像ブロック*/
-#mainimg img {
-	border-radius: 10px;	/*角を丸くする指定。この１行を削除すれば角丸がなくなります。*/
-	margin-bottom: 40px;	/*下に空けるスペース*/
+.container {
+    display: flex;
+    min-height: 100vh; /* ビューポートの高さに合わせる */
+	/*max-width: 1400px;	/*ブロックの最大幅*/
+	/*margin: 0 auto;
+	padding: 0 3%;*/
+    padding-top: 40px; /* ヘッダーの高さに応じて調整 */
+    padding-bottom: 60px; /* フッターの高さに応じて調整 */
+}
+
+.sidebar {
+    width: 15%;
+    height: 100%;
+    position: sticky;
+    top: 0px; /* ヘッダーの高さに応じて調整 */
+    left: 0;
+    bottom: 60px; /* フッターの高さに応じて調整 */
+    overflow-y: auto; /* 必要に応じてスクロール */
+    /*background-color: #f3f3f3; /* 背景色 */
+    padding: 20px;
+	/*text-align: center;*/
+}
+
+.main-content {
+    width: 75%;
+    margin-left: 0%; /* 左側のサイドバーの幅と同じ */
+    overflow-y: scroll;
+    height: 100%;
+    padding: 20px;
+    background-color: #fff; /* 背景色 */
 }
 
 /*追加(画像を暗くして文字を入れる)
@@ -69,20 +96,22 @@ https://magazine.techacademy.jp/magazine/34779
 ---------------------------------------------------------------------------*/
 .boxbackground {
 	position: relative;
-	width: 1400px;
-	height: 200px;
-	background: url("../images/spectacle4.png");
-    background-position: bottom;
+	/*width: 1400px;*/
+	height: 250px;
+	background: url("../images/tokyo.jpeg");
+    background-position: center;
 	background-size: cover;
 	margin-bottom: 10px;	/*下に空けるスペース*/
 }
 #title {
 	position: absolute;
-	width: 1400px;
-	height:150px;
-	background: rgba(0, 0, 0, 0.7);
+	width: 100vw;
+	height: 200px;
+	background: rgba(0, 0, 0, 0.5);
+	background-size: cover;
 	text-align: center;
-	padding-top:50px;
+	padding-top: 50px;
+	padding-left: -150px;
 }
 #title h1{
 	color: rgba(255, 255, 255, 1);
@@ -131,7 +160,7 @@ https://ics.media/entry/220126/
 	text-align: left;		/*文字をセンタリング*/
 	font-size: 18px;		/*文字サイズ*/
 	margin-top: 10px;	/*下に空けるスペース https://open.shonan.bunkyo.ac.jp/~ohtan/kouza/css-margin.html*/
-	margin-bottom: 40px;	/*下に空けるスペース*/
+	margin-bottom: 15px;	/*下に空けるスペース*/
 }
 /*メニュー１個あたりの設定*/
 #menubar li {
@@ -146,6 +175,40 @@ https://ics.media/entry/220126/
 	color: #224acf;	/*文字色*/
 	border-bottom: 4px solid #224acf;	/*下線の幅、線種、色*/
 }
+
+.social-icons a img {
+    width: 25px; /* Adjust the width as desired */
+    height: 25px; /* Adjust the height as desired */
+}
+
+.pdf-icons a img {
+max-width: 10px;
+max-height: 10px;
+width: 10px; /* Adjust the width as desired */
+he
+}
+
+
+
+/*イメージ関連 トップページのNEWアイコン
+---------------------------------------------------------------------------*/
+.newicon {
+	background: #F00;	/*背景色*/
+	color: #FFF;		/*文字色*/
+	font-size: 70%;
+	line-height: 1.5;
+	padding: 2px 5px;
+	/*border-radius: 2px;*/
+	margin: 0px 5px;
+	vertical-align: text-top;
+}
+
+.profile-picture {
+	width: 220px;
+	height: 220px;
+	margin-bottom: 20px;
+}
+
 
 /*コンテンツ（見出しバーや文字などが入っているブロック）
 ---------------------------------------------------------------------------*/
@@ -273,18 +336,6 @@ footer .pr {
 	width: 30%;			/*幅*/
 }
 
-/*トップページのNEWアイコン
----------------------------------------------------------------------------*/
-.newicon {
-	background: #F00;	/*背景色*/
-	color: #FFF;		/*文字色*/
-	font-size: 70%;
-	line-height: 1.5;
-	padding: 2px 5px;
-	/*border-radius: 2px;*/
-	margin: 0px 5px;
-	vertical-align: text-top;
-}
 
 /*その他
 ---------------------------------------------------------------------------*/
