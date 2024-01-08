@@ -18,7 +18,8 @@ body {
 	line-height: 2;		/*行間*/
 	background: #fff;	/*背景色*/
 }
-h1,h2,h3,h4,h5,p,ul,ol,li,dl,dt,dd,form,figure,form,select,input,textarea {margin: 0px;padding: 0px;font-size: 100%;font-weight: normal;}
+/* h1,h2,h3,h4,h5,p,*/
+ul,ol,li,dl,dt,dd,form,figure,form,select,input,textarea {margin: 0px;padding: 0px;font-size: 100%;font-weight: normal;}
 ul {list-style-type: none;}
 ol {padding-left: 40px;padding-bottom: 15px;}
 img {border: none;max-width: 100%;height: auto;vertical-align: middle;}
@@ -81,6 +82,8 @@ header {
 	/*text-align: center;*/
 }
 
+.sidebar p {margin: 0px;padding: 0px;font-size: 100%;font-weight: normal;}
+
 .main-content {
     width: 75%;
     margin-left: 0%; /* 左側のサイドバーの幅と同じ */
@@ -89,6 +92,8 @@ header {
     padding: 20px;
     background-color: #fff; /* 背景色 */
 }
+
+
 
 /*追加(画像を暗くして文字を入れる)
 画像編集せずCSSで画像を暗くする方法を現役エンジニアが解説【初心者向け】
@@ -115,11 +120,17 @@ https://magazine.techacademy.jp/magazine/34779
 }
 #title h1{
 	color: rgba(255, 255, 255, 1);
-	font-size: 40px
+	font-size: 40px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: normal;
 }
 #title p{
 	color: rgba(255, 255, 255, 1);
-	font-size: 20px
+	font-size: 20px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: normal;
 }
 
 /*SNS画像
