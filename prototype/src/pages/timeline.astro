@@ -1,0 +1,609 @@
+---
+/**
+ * Timeline — Dynamic Collision-Avoidance + Greedy L/R Assignment
+ *
+ * Build time:
+ *   - Each entry placed at time-true top = baseY, no side assigned
+ *   - Duration bar REMOVED from HTML — drawn in SVG at exact axis coordinates
+ *
+ * Client JS Layout Engine (runs on filter select):
+ *   1. Extract matched entries, sort by baseY
+ *   2. Greedy L/R assignment: pick the side whose `prevBottom` is lower
+ *      → distributes entries to both sides, minimising pushdown distance
+ *   3. Per-side collision avoidance: dispY = max(baseY, sideLastBottom + PAD)
+ *   4. Set `el.style.left / right` + `el.style.transform: translateY(offset)`
+ *
+ * SVG (redrawn on filter change + every RAF frame during animation):
+ *   - Duration bars centred on axis at exact (axisX, baseY) — height = barH
+ *   - Node dot at top of bar (axisX, baseY)
+ *   - Bézier curve origin = bar midpoint (axisX, baseY + barH/2)
+ *   - Bézier destination = live card edge (from getBoundingClientRect)
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { TIMELINE } from '../data/mock';
+import type { TimelineEntry } from '../data/mock';
+
+const PPY    = 100;
+const MIN_YR = 2018;
+const MAX_YR = 2029;
+const CARD_H = 108;
+
+function toY(iso: string): number {
+  const [y, m = '01'] = iso.split('-');
+  return (parseInt(y) - MIN_YR + (parseInt(m) - 1) / 12) * PPY;
+}
+
+function durLabel(s: string, e?: string): string {
+  const now = new Date();
+  const end = e ?? `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const [sy, sm] = s.split('-').map(Number);
+  const [ey, em] = end.split('-').map(Number);
+  const mo = (ey - sy) * 12 + (em - sm);
+  if (mo <= 0) return '';
+  const yr = Math.floor(mo / 12), mn = mo % 12;
+  return [yr && `${yr}y`, mn && `${mn}mo`].filter(Boolean).join(' ');
+}
+
+function typeColor(t: string): string {
+  return t === 'education' ? '#6B7280' : t === 'award' ? '#D97706' : '#3B82F6';
+}
+
+const now = new Date();
+const todayIso = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+interface PEntry {
+  e:     TimelineEntry;
+  baseY: number;
+  barH:  number;   // duration bar height px (proportional to time span)
+  totH:  number;   // entry container height = max(CARD_H, barH)
+  dur:   string;
+  color: string;
+  tags:  string;
+}
+
+// Entries to exclude from the timeline display
+const EXCLUDED_IDS = new Set(['lnss', 'lunar-rover']);
+
+// Sort by start_date — index determines initial L/R fallback in HTML only
+const sorted = [...TIMELINE]
+  .filter(e => !EXCLUDED_IDS.has(e.id))
+  .sort((a, b) => a.start_date.localeCompare(b.start_date));
+
+const pEntries: PEntry[] = sorted.map(e => {
+  const color  = typeColor(e.type);
+  const endIso = e.end_date ?? todayIso;
+  const baseY  = toY(e.start_date);
+  const barH   = Math.max(12, toY(endIso) - baseY);
+  const totH   = Math.max(CARD_H, barH);
+  return {
+    e, baseY, barH, totH,
+    dur:  durLabel(e.start_date, e.end_date),
+    color,
+    tags: [e.type, ...(e.labels ?? [])].join(','),
+  };
+});
+
+// Container initial height: time-true positions (JS expands when needed)
+const initH = Math.max(
+  (MAX_YR - MIN_YR) * PPY + 100,
+  Math.max(...pEntries.map(p => p.baseY + p.totH)) + 200,
+);
+
+const YEARS   = Array.from({ length: MAX_YR - MIN_YR }, (_, i) => MIN_YR + i);
+const FILTERS = [
+  { id: 'education', label: 'Education' },
+  { id: 'project',   label: 'Projects'  },
+  { id: 'research',  label: 'Research'  },
+  { id: 'work',      label: 'Work'      },
+  { id: 'award',     label: 'Awards'    },
+];
+---
+
+<BaseLayout title="Career Timeline">
+
+<div class="px-4 md:px-8 pt-12 pb-4 max-w-4xl mx-auto">
+  <p class="section-label mb-1">Career</p>
+  <h1 class="font-heading text-3xl font-bold">Timeline</h1>
+  <p class="text-sm mt-2 max-w-xl" style="color:var(--color-text-secondary);">
+    Duration bars mark exact time spans on the axis. On filter select, entries are
+    distributed left/right dynamically to minimise axis distance.
+  </p>
+</div>
+
+<!-- ─── Sticky filter bar ──────────────────────────────────── -->
+<div id="tl-filter-bar"
+     class="sticky top-16 z-20 -mx-4 md:-mx-8 px-4 md:px-8 py-3 flex flex-wrap gap-2 border-b"
+     style="background:var(--color-bg); border-color:var(--color-border);">
+  {FILTERS.map(f => (
+    <button class="tl-btn text-xs px-3 py-1.5 rounded-full border font-medium cursor-pointer"
+            data-f={f.id}
+            style="border-color:var(--color-border); color:var(--color-text-secondary);">
+      {f.label}
+    </button>
+  ))}
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     DESKTOP TIMELINE
+     ════════════════════════════════════════════════════ -->
+<div class="hidden md:block px-4 md:px-8 pt-10 pb-24">
+  <div id="tl-desktop" class="relative mx-auto" style={`height:${initH}px; max-width:960px;`}>
+
+    <svg id="tl-svg" class="absolute inset-0 w-full pointer-events-none"
+         style={`height:${initH}px; overflow:visible;`}
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="axisGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="var(--color-text-muted)" stop-opacity="0"/>
+          <stop offset="2%"   stop-color="var(--color-text-muted)" stop-opacity="0.95"/>
+          <stop offset="98%"  stop-color="var(--color-text-muted)" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="var(--color-text-muted)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- axis + year ticks: redrawn on resize only -->
+      <g id="svg-static"></g>
+      <!-- duration bars + node dots: redrawn on filter change -->
+      <g id="svg-bars"></g>
+      <!-- Bézier curves: redrawn every RAF frame during animation -->
+      <g id="svg-curves"></g>
+    </svg>
+
+    <!-- Year labels (left of axis) — same gray as ongoing… -->
+    {YEARS.map(y => (
+      <div class="absolute text-xs font-mono font-semibold select-none pointer-events-none"
+           style={`top:${(y - MIN_YR) * PPY - 8}px; right:calc(50% + 32px); color:var(--color-text-muted);`}>
+        {y}
+      </div>
+    ))}
+
+    <!-- ── Entry cards (NO duration bar inside; all axis visuals in SVG) ── -->
+    {pEntries.map((p, i) => (
+      <div
+        class="tl-entry absolute"
+        data-base-y ={p.baseY}
+        data-bar-h  ={p.barH}
+        data-entry-h={p.totH}
+        data-filter ={p.tags}
+        data-side   ={i % 2 === 0 ? 'left' : 'right'}
+        data-color  ={p.color}
+        style={[
+          `top:${p.baseY}px`,
+          `height:${p.totH}px`,
+          `width:280px`,
+          /* fallback horizontal position — JS overrides on first applyFilter */
+          i % 2 === 0
+            ? `right:calc(50% + 44px)`
+            : `left:calc(50% + 44px)`,
+        ].join('; ')}
+      >
+        <a href={p.e.link ?? '#'}
+           class="card-box block rounded-xl border p-4 group"
+           style={`min-height:${CARD_H}px; background:var(--color-surface); border-color:var(--color-border);`}>
+
+          <div class="flex gap-2 items-start">
+            <span class="shrink-0 text-sm mt-0.5" style={`color:${p.color};`}>
+              {p.e.type === 'education' ? '🎓' : p.e.type === 'award' ? '★' : '◆'}
+            </span>
+            <h3 class="font-heading font-semibold text-xs leading-snug group-hover:underline"
+                style="color:var(--color-text-primary);">{p.e.title}</h3>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 mt-2">
+            {p.dur && (
+              <span class="font-mono text-xs px-1.5 py-0.5 rounded font-medium"
+                    style={`background:${p.color}22; color:${p.color}; border:1px solid ${p.color}44;`}>
+                {p.dur}
+              </span>
+            )}
+            <span class="text-xs font-mono" style="color:var(--color-text-muted);">
+              {p.e.start}{p.e.end ? ` – ${p.e.end}` : ''}
+            </span>
+          </div>
+
+          <p class="text-xs leading-relaxed mt-2 line-clamp-2"
+             style="color:var(--color-text-secondary);">{p.e.description}</p>
+
+          {p.e.labels && p.e.labels.length > 0 && (
+            <div class="flex flex-wrap gap-1 mt-2 pt-2 border-t"
+                 style="border-color:var(--color-border);">
+              {p.e.labels.slice(0, 3).map((l: string) => (
+                <span class={`tag tag-${l} !text-xs`}>{l.replace(/-/g, ' ')}</span>
+              ))}
+            </div>
+          )}
+        </a>
+      </div>
+    ))}
+
+    <!-- "Ongoing…" cap -->
+    <div class="absolute pointer-events-none"
+         style={`top:${(MAX_YR - 1 - MIN_YR) * PPY + 20}px; left:50%; transform:translateX(-50%);`}>
+      <span class="text-xs font-mono px-3 py-1 rounded-full border"
+            style="color:var(--color-text-muted); border-color:var(--color-border); background:var(--color-bg);">
+        ongoing…
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     MOBILE: simple vertical list
+     ════════════════════════════════════════════════════ -->
+<div class="md:hidden px-4 pt-8 pb-20">
+  <div class="max-w-lg mx-auto pl-8 relative">
+    <div class="absolute left-3 top-0 bottom-0 w-0.5" style="background:var(--color-border);"></div>
+    {pEntries.map(p => (
+      <div class="tl-entry-mob relative mb-5" data-filter={p.tags}>
+        <div class="absolute -left-[21px] top-4 w-3.5 h-3.5 rounded-full border-2 z-10"
+             style={`background:${p.color}; border-color:var(--color-bg); box-shadow:0 0 0 2px ${p.color};`}></div>
+        <a href={p.e.link ?? '#'} class="card block p-4 group">
+          <div class="flex items-center gap-2 mb-1 flex-wrap">
+            <span class="text-xs font-mono" style="color:var(--color-text-muted);">
+              {p.e.start}{p.e.end ? ` – ${p.e.end}` : ''}
+            </span>
+            {p.dur && (
+              <span class="text-xs px-1.5 rounded font-mono font-medium"
+                    style={`background:${p.color}22; color:${p.color};`}>{p.dur}</span>
+            )}
+          </div>
+          <h3 class="font-heading font-semibold text-sm mb-1 group-hover:underline"
+              style="color:var(--color-text-primary);">{p.e.title}</h3>
+          <p class="text-xs leading-relaxed" style="color:var(--color-text-secondary);">{p.e.description}</p>
+        </a>
+      </div>
+    ))}
+  </div>
+</div>
+
+</BaseLayout>
+
+<!-- ════════════════════════════════════════════════════
+     DYNAMIC LAYOUT ENGINE
+     ════════════════════════════════════════════════════ -->
+<script>
+// ─── DOM refs ─────────────────────────────────────────────────────
+const desktop    = document.getElementById('tl-desktop')  as HTMLElement | null;
+const svgEl      = document.getElementById('tl-svg')      as SVGSVGElement | null;
+const gStatic    = document.getElementById('svg-static')  as SVGGElement | null;
+const gBars      = document.getElementById('svg-bars')    as SVGGElement | null;
+const gCurves    = document.getElementById('svg-curves')  as SVGGElement | null;
+const allEntries = Array.from(document.querySelectorAll<HTMLElement>('.tl-entry'));
+const mobEntries = Array.from(document.querySelectorAll<HTMLElement>('.tl-entry-mob'));
+const filterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.tl-btn'));
+
+// ─── Constants (mirror Astro frontmatter) ─────────────────────────
+const PPY      = 100;
+const MIN_YR   = 2018;
+const MAX_YR   = 2029;
+const AXIS_GAP = 44;   // px gap between axis centre and card edge (2× previous 22px)
+const COLL_PAD = 14;   // min gap between two entries on the same side
+const ANIM_MS  = 600;  // RAF curve loop duration
+
+// ─── SVG helper ───────────────────────────────────────────────────
+function mkSvg(tag: string, attrs: Record<string, string | number>) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+  return el;
+}
+
+// ─── Axis + year ticks (static, redrawn on resize) ────────────────
+function drawStatic() {
+  if (!desktop || !gStatic) return;
+  const W  = desktop.offsetWidth;
+  const ax = W / 2;
+  const H  = parseInt(desktop.style.height || String((MAX_YR - MIN_YR) * PPY + 200));
+  gStatic.innerHTML = '';
+
+  // Subtle glow behind axis (same token as ongoing… / year labels)
+  gStatic.appendChild(mkSvg('line', {
+    x1: ax, y1: 0, x2: ax, y2: H,
+    stroke: 'var(--color-text-muted)', 'stroke-width': 8, 'stroke-opacity': 0.22,
+    'stroke-linecap': 'round',
+  }));
+  // Main axis
+  gStatic.appendChild(mkSvg('line', {
+    x1: ax, y1: 0, x2: ax, y2: H,
+    stroke: 'url(#axisGrad)', 'stroke-width': 2.5, 'stroke-linecap': 'round',
+  }));
+  // Year ticks
+  for (let y = MIN_YR; y < MAX_YR; y++) {
+    const ty = (y - MIN_YR) * PPY;
+    gStatic.appendChild(mkSvg('line', {
+      x1: ax - 10, y1: ty, x2: ax + 10, y2: ty,
+      stroke: 'var(--color-text-muted)', 'stroke-width': 1.5, 'stroke-opacity': 0.85,
+    }));
+  }
+}
+
+/**
+ * Duration bars (centred exactly on axis) + node dots (at baseY).
+ * Called on filter change — bars remain at time-true coordinates.
+ *
+ * Bar placement:
+ *   - left-side cards: bar occupies  [axisX - 5, axisX - 1]  (left of axis)
+ *   - right-side cards: bar occupies [axisX + 1, axisX + 5]  (right of axis)
+ *   This separates overlapping bars per side and aligns with card direction.
+ */
+function drawBarsAndNodes(activeFilter: string) {
+  if (!desktop || !gBars) return;
+  const W  = desktop.offsetWidth;
+  const ax = W / 2;
+  gBars.innerHTML = '';
+
+  allEntries.forEach(el => {
+    const baseY   = parseFloat(el.dataset.baseY ?? '0');
+    const barH    = parseFloat(el.dataset.barH  ?? '12');
+    const color   = el.dataset.color ?? '#3B82F6';
+    const side    = el.dataset.side  as 'left' | 'right';
+    const matched = el.dataset.filter?.split(',').includes(activeFilter) ?? false;
+    const barOp   = matched ? 0.55 : 0;
+    const dotOp   = matched ? 0.95 : 0;
+
+    // Bar: 5px wide, placed OUTSIDE the axis (axis spans ±1.25px from centre)
+    //   left  entries: bar occupies [ax - 14, ax - 9]  (left of axis, no overlap)
+    //   right entries: bar occupies [ax +  9, ax + 14] (right of axis, no overlap)
+    const BAR_W    = 5;
+    const BAR_NEAR = 9;   // nearest edge distance from axis centre
+    const bx = side === 'left' ? ax - BAR_NEAR - BAR_W : ax + BAR_NEAR;
+    const barCx = bx + BAR_W / 2;   // horizontal centre of the bar (for node + curve origin)
+    gBars.appendChild(mkSvg('rect', {
+      x: bx, y: baseY, width: BAR_W, height: barH,
+      fill: color, opacity: barOp, rx: 2,
+    }));
+
+    // Node glow ring at baseY, centred on bar
+    gBars.appendChild(mkSvg('circle', {
+      cx: barCx, cy: baseY, r: 8,
+      fill: color, opacity: matched ? 0.15 : 0,
+    }));
+    // Node solid dot at bar centre, at start date
+    gBars.appendChild(mkSvg('circle', {
+      cx: barCx, cy: baseY, r: 4.5,
+      fill: color,
+      stroke: 'var(--color-bg)', 'stroke-width': 1.5,
+      opacity: dotOp,
+    }));
+    // Store barCx so drawCurves can use it as the Bézier origin
+    el.dataset.barCx = String(barCx);
+  });
+}
+
+/**
+ * Bézier curves — called every RAF frame during animation.
+ *
+ * Curve origin = bar's vertical midpoint:  (axisX ± barOffset, baseY + barH/2)
+ * Curve destination = centre of axis-facing edge of .tl-entry (live from getBoundingClientRect)
+ *   where liveCardTop comes from getBoundingClientRect() during CSS transition.
+ *
+ * Control points scale with vertical displacement (dy) to produce
+ * tighter curves when cards are near their time-true position and
+ * wider arcs when pushed far down.
+ */
+function drawCurves(activeFilter: string) {
+  if (!desktop || !gCurves) return;
+  const W  = desktop.offsetWidth;
+  const ax = W / 2;
+  const cr = desktop.getBoundingClientRect();
+  gCurves.innerHTML = '';
+
+  allEntries.forEach(el => {
+    const baseY   = parseFloat(el.dataset.baseY ?? '0');
+    const barH    = parseFloat(el.dataset.barH  ?? '12');
+    const side    = el.dataset.side as 'left' | 'right';
+    const color   = el.dataset.color ?? '#3B82F6';
+    const matched = el.dataset.filter?.split(',').includes(activeFilter) ?? false;
+
+    // Live box rect (updates each frame during CSS transition)
+    const rect      = el.getBoundingClientRect();
+    // Vertical centre of the entry box (axis-facing edge midpoint, Y)
+    const cardY     = (rect.top + rect.bottom) / 2 - cr.top;
+    // X at the geometric centre of the edge that faces the axis
+    const cardEdgeX = side === 'left' ? rect.right - cr.left : rect.left - cr.left;
+
+    // Bézier ORIGIN: midpoint of the duration bar (vertically)
+    const barMidY   = baseY + barH / 2;
+    // Bar X: use stored barCx (set by drawBarsAndNodes), fallback to computed value
+    const BAR_W = 5, BAR_NEAR = 9;
+    const barBx  = side === 'left' ? ax - BAR_NEAR - BAR_W : ax + BAR_NEAR;
+    const originX = parseFloat(el.dataset.barCx ?? String(barBx + BAR_W / 2));
+
+    // Control points:
+    //   CP1: depart from origin sideways (toward card side), keep Y
+    //   CP2: arrive at card edge from above-ish
+    const sign = side === 'left' ? -1 : 1;
+    const dy   = cardY - barMidY;   // positive = card pushed below bar midpoint
+    const cpStrength = Math.min(70, 28 + Math.abs(dy) * 0.18);
+    const cp1x = originX + sign * cpStrength;
+    const cp1y = barMidY + dy * 0.1;
+    const cp2x = cardEdgeX - sign * 16;
+    const cp2y = cardY - Math.min(20, Math.abs(dy) * 0.2);
+
+    const d = `M ${originX},${barMidY} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${cardEdgeX},${cardY}`;
+
+    if (!matched) return;   // 非選択カテゴリのベジェ曲線は描画しない
+    gCurves.appendChild(mkSvg('path', {
+      d, fill: 'none', stroke: color,
+      'stroke-width':   1.8,
+      'stroke-opacity': 0.6,
+      'stroke-linecap': 'round',
+    }));
+  });
+}
+
+// ─── RAF loop: redraw curves every frame for ANIM_MS ──────────────
+let animRaf = 0;
+let activeFilterRef = 'project';
+
+function startCurveAnimation() {
+  cancelAnimationFrame(animRaf);
+  const deadline = performance.now() + ANIM_MS;
+  function frame() {
+    drawCurves(activeFilterRef);
+    if (performance.now() < deadline) animRaf = requestAnimationFrame(frame);
+  }
+  animRaf = requestAnimationFrame(frame);
+}
+
+/**
+ * Core layout engine — called on every filter switch.
+ *
+ * Greedy L/R assignment:
+ *   For each matched entry (sorted by baseY):
+ *     leftDispY  = max(baseY, leftBottom  + PAD)
+ *     rightDispY = max(baseY, rightBottom + PAD)
+ *     Choose side with smaller dispY (less pushdown from time-true position).
+ *   If equal, prefer left.
+ *
+ * This distributes entries to both sides, keeping them close to the axis
+ * and reducing Bézier curve lengths.
+ */
+function applyFilter(f: string, animate = true) {
+  activeFilterRef = f;
+
+  if (!animate) {
+    allEntries.forEach(el => { el.style.transition = 'none'; });
+  }
+
+  const matched   = allEntries.filter(el => el.dataset.filter?.split(',').includes(f));
+  const unmatched = allEntries.filter(el => !el.dataset.filter?.split(',').includes(f));
+
+  // Unmatched: reset to time-true position, fade + grayscale
+  unmatched.forEach(el => {
+    el.style.transform     = 'translateY(0)';
+    el.style.opacity       = '0.1';
+    el.style.filter        = 'grayscale(1)';
+    el.style.pointerEvents = 'none';
+    const card = el.querySelector<HTMLElement>('.card-box');
+    if (card) card.style.borderColor = 'transparent';
+  });
+
+  // Sort matched by time-true position
+  const sortedMatched = [...matched].sort((a, b) =>
+    parseFloat(a.dataset.baseY ?? '0') - parseFloat(b.dataset.baseY ?? '0')
+  );
+
+  let leftBottom  = 0;
+  let rightBottom = 0;
+  let maxBottom   = 0;
+
+  sortedMatched.forEach(el => {
+    const baseY  = parseFloat(el.dataset.baseY  ?? '0');
+    const entryH = parseFloat(el.dataset.entryH ?? '108');
+
+    const leftDispY  = Math.max(baseY, leftBottom  + COLL_PAD);
+    const rightDispY = Math.max(baseY, rightBottom + COLL_PAD);
+
+    // Greedy: pick side with smaller pushdown (prefer left when equal)
+    const side: 'left' | 'right' = leftDispY <= rightDispY ? 'left' : 'right';
+    const dispY = side === 'left' ? leftDispY : rightDispY;
+
+    if (side === 'left') {
+      leftBottom          = dispY + entryH;
+      el.style.right      = `calc(50% + ${AXIS_GAP}px)`;
+      el.style.left       = 'auto';
+    } else {
+      rightBottom         = dispY + entryH;
+      el.style.left       = `calc(50% + ${AXIS_GAP}px)`;
+      el.style.right      = 'auto';
+    }
+
+    el.dataset.side        = side;
+    el.style.transform     = `translateY(${dispY - baseY}px)`;
+    el.style.opacity       = '1';
+    el.style.filter        = 'none';
+    el.style.pointerEvents = '';
+    const card = el.querySelector<HTMLElement>('.card-box');
+    if (card) card.style.borderColor = '';
+
+    maxBottom = Math.max(maxBottom, dispY + entryH);
+  });
+
+  // Expand container height if pushed entries exceed current height
+  if (desktop && svgEl) {
+    const needed = maxBottom + 140;
+    if (needed > parseInt(desktop.style.height || '0')) {
+      desktop.style.height = `${needed}px`;
+      svgEl.style.height   = `${needed}px`;
+      drawStatic();
+    }
+  }
+
+  // Filter button styles
+  filterBtns.forEach(btn => {
+    const active = btn.dataset.f === f;
+    btn.style.background  = active ? 'var(--color-accent)' : '';
+    btn.style.borderColor = active ? 'var(--color-accent)' : 'var(--color-border)';
+    btn.style.color       = active ? '#fff'                : 'var(--color-text-secondary)';
+  });
+
+  // Redraw bars + nodes (opacity depends on active filter)
+  drawBarsAndNodes(f);
+
+  // Scroll to first matched entry
+  if (animate && sortedMatched.length > 0) {
+    setTimeout(() => sortedMatched[0].scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+  }
+
+  // RAF loop to animate curves in sync with card movement
+  startCurveAnimation();
+
+  // Re-enable CSS transitions after no-animation first render
+  if (!animate) {
+    requestAnimationFrame(() => {
+      allEntries.forEach(el => { el.style.transition = ''; });
+    });
+  }
+
+  // Mobile: opacity only
+  mobEntries.forEach(el => {
+    const tags = el.dataset.filter?.split(',') ?? [];
+    el.style.opacity = tags.includes(f) ? '1' : '0.15';
+  });
+}
+
+// ─── Filter button listeners ───────────────────────────────────────
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => applyFilter(btn.dataset.f!));
+});
+
+// ─── Resize handler ────────────────────────────────────────────────
+let resizeTimer = 0;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(() => {
+    drawStatic();
+    drawBarsAndNodes(activeFilterRef);
+    drawCurves(activeFilterRef);
+  }, 80);
+}, { passive: true });
+
+// ─── Initial render (no animation on first paint) ─────────────────
+requestAnimationFrame(() => {
+  if (desktop) {
+    drawStatic();
+    applyFilter('project', false);
+  }
+});
+</script>
+
+<style>
+  .tl-entry {
+    transition:
+      transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity   0.40s ease,
+      filter    0.40s ease;
+  }
+  .card-box {
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .tl-entry .card-box:hover {
+    border-color: var(--color-accent) !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

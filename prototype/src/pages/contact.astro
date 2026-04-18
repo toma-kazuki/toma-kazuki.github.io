@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PROFILE } from '../data/mock';
+
+/** FormSubmit: first submission triggers a one-time verification email to this address. */
+const formAction = `https://formsubmit.co/${encodeURIComponent(PROFILE.email)}`;
+const sent = Astro.url.searchParams.get('sent') === '1';
+/** _next must be absolute; set at runtime so dev / GitHub Pages both work */
+---
+
+<BaseLayout title="Contact" description="Get in touch with Kazuki Toma.">
+
+  <div class="max-w-xl mx-auto px-6 py-12 md:py-16">
+    <p class="section-label mb-1">Contact</p>
+    <h1 class="font-heading text-3xl font-bold mb-2">Get in touch</h1>
+    <p class="text-sm mb-8" style="color:var(--color-text-secondary);">
+      Send a message via the form below. You can also email
+      <a href={`mailto:${PROFILE.email}`} class="underline font-medium" style="color:var(--color-accent);">{PROFILE.email}</a>
+      directly.
+    </p>
+
+    {sent && (
+      <div class="mb-8 rounded-xl border px-4 py-3 text-sm" role="status"
+           style="border-color:var(--color-accent);background:var(--color-surface);color:var(--color-text-primary);">
+        Thanks — your message was sent. I will get back to you when I can.
+      </div>
+    )}
+
+    <form
+      action={formAction}
+      method="POST"
+      class="card p-6 md:p-8 space-y-5"
+      style="border-color:var(--color-border);background:var(--color-surface);"
+    >
+      <!-- FormSubmit options -->
+      <input type="hidden" name="_subject" value="[Website] Contact form" />
+      <input type="hidden" name="_next" id="contact-form-next" value="" />
+      <input type="hidden" name="_captcha" value="false" />
+      <!-- Honeypot: bots that fill this get rejected -->
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+      <div>
+        <label for="name" class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--color-text-secondary);">Name</label>
+        <input id="name" name="name" type="text" required autocomplete="name"
+               class="w-full rounded-lg border px-3 py-2 text-sm outline-none transition-shadow focus:ring-2"
+               style="border-color:var(--color-border);background:var(--color-bg);color:var(--color-text-primary);--tw-ring-color:var(--color-accent);" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--color-text-secondary);">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email"
+               class="w-full rounded-lg border px-3 py-2 text-sm outline-none transition-shadow focus:ring-2"
+               style="border-color:var(--color-border);background:var(--color-bg);color:var(--color-text-primary);--tw-ring-color:var(--color-accent);" />
+      </div>
+
+      <div>
+        <label for="phone" class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--color-text-secondary);">Phone <span class="font-normal opacity-70">(optional)</span></label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel"
+               class="w-full rounded-lg border px-3 py-2 text-sm outline-none transition-shadow focus:ring-2"
+               style="border-color:var(--color-border);background:var(--color-bg);color:var(--color-text-primary);--tw-ring-color:var(--color-accent);" />
+      </div>
+
+      <div>
+        <label for="message" class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--color-text-secondary);">Message</label>
+        <textarea id="message" name="message" rows="6" required
+                  class="w-full rounded-lg border px-3 py-2 text-sm outline-none transition-shadow focus:ring-2 resize-y min-h-[140px]"
+                  style="border-color:var(--color-border);background:var(--color-bg);color:var(--color-text-primary);--tw-ring-color:var(--color-accent);"></textarea>
+      </div>
+
+      <button type="submit"
+              class="w-full md:w-auto px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+              style="background:var(--color-accent);color:#fff;">
+        Send message
+      </button>
+
+      <p class="text-xs leading-relaxed" style="color:var(--color-text-muted);">
+        This form uses <a href="https://formsubmit.co/" target="_blank" rel="noopener noreferrer" class="underline">FormSubmit</a>.
+        The first time someone submits, you may need to confirm your email address in the inbox for
+        <span class="font-mono">{PROFILE.email}</span>.
+      </p>
+    </form>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var el = document.getElementById('contact-form-next');
+      if (el) el.setAttribute('value', window.location.origin + '/contact?sent=1');
+    })();
+  </script>
+
+</BaseLayout>

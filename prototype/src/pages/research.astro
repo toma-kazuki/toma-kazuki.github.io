@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PROJECTS, type ProjectLabel } from '../data/mock';
+
+// Reduced main label set (remove rarely-used ones)
+const mainLabels: { id: string; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'research', label: 'Research' },
+  { id: 'work', label: 'Work' },
+  { id: 'capstone', label: 'Capstone' },
+  { id: 'hardware', label: 'Hardware' },
+  { id: 'mission', label: 'Mission' },
+  { id: 'human-factors', label: 'Human Factors' },
+];
+
+// Academic level labels (second filter row)
+const levelLabels: { id: string; label: string }[] = [
+  { id: 'level-all', label: 'All Levels' },
+  { id: 'phd', label: 'Ph.D.' },
+  { id: 'ms', label: 'M.S.' },
+  { id: 'bs', label: 'B.S.' },
+];
+
+// Add level metadata to projects (in production this comes from frontmatter)
+const projectsWithLevel = PROJECTS.map(p => ({
+  ...p,
+  level: p.slug === 'habitat-anomaly' || p.slug === 'lunar-rover-eclss' ? 'phd'
+       : p.slug === 'lnss' || p.slug === 'arkedge-cubsat' || p.slug === 'equuleus' ? 'ms'
+       : p.slug === 'space-music-hall' ? 'bs'
+       : 'phd',
+}));
+---
+<BaseLayout title="Research & Experience">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+
+    <div class="mb-8">
+      <p class="section-label mb-1">Projects & Experience</p>
+      <h1 class="font-heading text-3xl font-bold">Research & Experience</h1>
+    </div>
+
+    <!-- Primary Filter Bar (sticky) -->
+    <div class="sticky top-16 z-10 -mx-6 px-6 pt-3 pb-2 border-b"
+         style="background:var(--color-bg);border-color:var(--color-border);">
+      <!-- Main labels -->
+      <div id="main-filter-bar" class="flex flex-wrap gap-2 mb-2">
+        {mainLabels.map(l => (
+          <button class="main-filter text-xs px-3 py-1.5 rounded-full border font-medium transition-all cursor-pointer"
+                  data-main={l.id}
+                  style="border-color:var(--color-border);color:var(--color-text-secondary);">
+            {l.label}
+          </button>
+        ))}
+      </div>
+      <!-- Academic level row -->
+      <div id="level-filter-bar" class="flex flex-wrap gap-2 pb-1">
+        {levelLabels.map(l => (
+          <button class="level-filter text-xs px-3 py-1 rounded-full border font-medium transition-all cursor-pointer opacity-70"
+                  data-level={l.id}
+                  style="border-color:var(--color-border);color:var(--color-text-muted);">
+            {l.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+      {projectsWithLevel.map(p => (
+        <a
+          href={`/research/${p.slug}`}
+          class="card block group transition-opacity duration-200"
+          data-labels={p.labels.join(',')}
+          data-level={p.level}
+        >
+          {p.cover_image ? (
+            <div class="w-full aspect-video overflow-hidden">
+              <img src={p.cover_image} alt={p.title}
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+          ) : (
+            <div class="w-full aspect-video flex items-center justify-center text-3xl"
+                 style="background:var(--color-surface);">
+              {p.labels.includes('hardware') ? '🛰' : p.labels.includes('human-factors') ? '🏛' : '🔬'}
+            </div>
+          )}
+
+          <div class="p-5">
+            <!-- Title -->
+            <h2 class="font-heading font-semibold text-sm leading-snug mb-2 group-hover:text-accent transition-colors"
+                style="color:var(--color-text-primary);">{p.title}</h2>
+
+            <!-- Description -->
+            <p class="text-xs leading-relaxed" style="color:var(--color-text-secondary);">
+              {p.description.slice(0, 110)}…
+            </p>
+
+            <!-- Duration + status row -->
+            <div class="flex items-center justify-between mt-3 pt-3 border-t" style="border-color:var(--color-border);">
+              <span class="text-xs font-mono" style="color:var(--color-text-muted);">
+                {p.start}{p.end ? ` – ${p.end}` : ''}
+              </span>
+              <div class="flex items-center gap-2">
+                <!-- Academic level badge -->
+                <span class="text-xs font-mono px-2 py-0.5 rounded"
+                      style="color:var(--color-text-muted);background:var(--color-surface);border:1px solid var(--color-border);">
+                  {p.level.toUpperCase()}
+                </span>
+                <span class={`text-xs ${p.status === 'active' ? 'text-green-600' : ''}`}
+                      style={p.status !== 'active' ? 'color:var(--color-text-muted)' : ''}>
+                  {p.status === 'active' ? '● Active' : '✓ Done'}
+                </span>
+              </div>
+            </div>
+
+            <!-- Labels (at very bottom, subtle) -->
+            <div class="flex flex-wrap gap-1 mt-3">
+              {p.labels.map((l: string) => (
+                <span class={`tag tag-${l} !text-xs opacity-80`}>{l.replace('-', ' ')}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Empty state -->
+    <p id="empty-state" class="hidden text-center py-16 text-sm" style="color:var(--color-text-muted);">
+      No projects match the selected filters.
+    </p>
+
+  </div>
+</BaseLayout>
+
+<script>
+  const mainBtns = document.querySelectorAll<HTMLButtonElement>('.main-filter');
+  const levelBtns = document.querySelectorAll<HTMLButtonElement>('.level-filter');
+  const cards = document.querySelectorAll<HTMLElement>('[data-labels]');
+  const emptyState = document.getElementById('empty-state')!;
+
+  let activeMain = new Set<string>();
+  let activeLevel = 'level-all';
+
+  function setButtonActive(btn: HTMLButtonElement, active: boolean) {
+    btn.style.background = active ? 'var(--color-accent)' : '';
+    btn.style.borderColor = active ? 'var(--color-accent)' : 'var(--color-border)';
+    btn.style.color = active ? 'white' : 'var(--color-text-secondary)';
+    btn.style.opacity = '1';
+  }
+  function setLevelButtonActive(btn: HTMLButtonElement, active: boolean) {
+    btn.style.background = active ? 'var(--color-text-muted)' : '';
+    btn.style.borderColor = active ? 'var(--color-text-muted)' : 'var(--color-border)';
+    btn.style.color = active ? 'white' : 'var(--color-text-muted)';
+    btn.style.opacity = active ? '1' : '0.7';
+  }
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach(card => {
+      const cardLabels = card.dataset.labels?.split(',') ?? [];
+      const cardLevel = card.dataset.level ?? '';
+
+      const mainOk = activeMain.size === 0 || [...activeMain].some(l => cardLabels.includes(l));
+      const levelOk = activeLevel === 'level-all' || cardLevel === activeLevel;
+
+      const show = mainOk && levelOk;
+      card.style.opacity = show ? '1' : '0.15';
+      card.style.pointerEvents = show ? '' : 'none';
+      if (show) visible++;
+    });
+    emptyState.classList.toggle('hidden', visible > 0);
+
+    const params = new URLSearchParams();
+    if (activeMain.size > 0) params.set('labels', [...activeMain].join(','));
+    if (activeLevel !== 'level-all') params.set('level', activeLevel);
+    history.replaceState(null, '', window.location.pathname + (params.toString() ? '?' + params : ''));
+  }
+
+  // Restore from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.get('labels')?.split(',').forEach(l => activeMain.add(l));
+  activeLevel = urlParams.get('level') ?? 'level-all';
+
+  mainBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const l = btn.dataset.main!;
+      if (l === 'all') activeMain.clear();
+      else { activeMain.has(l) ? activeMain.delete(l) : activeMain.add(l); }
+      mainBtns.forEach(b => {
+        const bl = b.dataset.main!;
+        setButtonActive(b, bl === 'all' ? activeMain.size === 0 : activeMain.has(bl));
+      });
+      applyFilters();
+    });
+    const bl = btn.dataset.main!;
+    setButtonActive(btn, bl === 'all' ? activeMain.size === 0 : activeMain.has(bl));
+  });
+
+  levelBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeLevel = btn.dataset.level!;
+      levelBtns.forEach(b => setLevelButtonActive(b, b.dataset.level === activeLevel));
+      applyFilters();
+    });
+    setLevelButtonActive(btn, btn.dataset.level === activeLevel);
+  });
+
+  applyFilters();
+</script>

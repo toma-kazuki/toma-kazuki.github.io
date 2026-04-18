@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="CV">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+
+    <div class="flex items-start justify-between mb-10 no-print">
+      <div>
+        <p class="section-label mb-1">Academic</p>
+        <h1 class="font-heading text-3xl font-bold">Curriculum Vitae</h1>
+      </div>
+      <button onclick="window.print()" class="px-4 py-2 text-sm font-medium rounded-lg border transition-colors no-print"
+              style="border-color:var(--color-border);color:var(--color-text-secondary);">
+        ⬇ Print / PDF
+      </button>
+    </div>
+
+    <!-- Print header (only visible when printing) -->
+    <div class="hidden print:block mb-8">
+      <h1 class="text-3xl font-bold">Kazuki Toma</h1>
+      <p class="text-base">Ph.D. Student, Aerospace Engineering — Texas A&M University</p>
+      <p class="text-sm">kazengtoma@tamu.edu · linkedin.com/in/toma-kazuki</p>
+    </div>
+
+    <!-- Mission -->
+    <section class="mb-10 pb-8 border-b" style="border-color:var(--color-border);">
+      <h2 class="font-heading text-xl font-semibold mb-4">Mission</h2>
+      <p class="text-base leading-relaxed max-w-prose" style="color:var(--color-text-secondary);">
+        My ultimate mission is <strong style="color:var(--color-text-primary);">to create a diverse and sustainable human cultural sphere in space.</strong>
+        I aim to be the type of systems architect who simplifies complexity, clarifies ambiguity, and keeps the human at the center of engineered systems.
+      </p>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-10 pb-8 border-b" style="border-color:var(--color-border);">
+      <h2 class="font-heading text-xl font-semibold mb-5">Education</h2>
+      <div class="space-y-6">
+        {[
+          {
+            degree: "Ph.D. in Aerospace Engineering",
+            institution: "Texas A&M University",
+            end: "May 2028 (Scheduled)",
+            gpa: null,
+            thesis: "Design of a Physics-Based Diagnostic Model and Digital Twin Simulation for Autonomous Anomaly Resolution in Space Habitats (tentative)",
+            advisor: "Prof. Daniel Selva",
+          },
+          {
+            degree: "M.S. in Aerospace Engineering",
+            institution: "University of Tokyo",
+            end: "Mar 2024",
+            gpa: "4.00/4.00",
+            thesis: "System design optimization of a lunar navigation and communications constellation to meet uncertain lunar development demands in a phased manner.",
+            advisor: "Prof. Shinichi Nakasuka",
+          },
+          {
+            degree: "B.S. in Aerospace Engineering",
+            institution: "University of Tokyo",
+            end: "Mar 2022",
+            gpa: "3.80/4.00",
+            thesis: "A study on satellite system and their orbit estimation in the early lunar navigation satellite system",
+            advisor: "Prof. Shinichi Nakasuka",
+          },
+        ].map(e => (
+          <div class="grid md:grid-cols-4 gap-2">
+            <div class="md:col-span-1 text-sm font-mono" style="color:var(--color-text-muted);">{e.end}</div>
+            <div class="md:col-span-3">
+              <p class="font-semibold font-heading" style="color:var(--color-text-primary);">{e.degree}</p>
+              <p class="text-sm" style="color:var(--color-text-secondary);">{e.institution}</p>
+              {e.gpa && <p class="text-xs mt-0.5" style="color:var(--color-text-muted);">GPA: {e.gpa}</p>}
+              <p class="text-xs mt-1 leading-relaxed" style="color:var(--color-text-secondary);">
+                Thesis: <em>{e.thesis}</em>
+              </p>
+              <p class="text-xs" style="color:var(--color-text-muted);">Advisor: {e.advisor}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Research Experience -->
+    <section class="mb-10 pb-8 border-b" style="border-color:var(--color-border);">
+      <h2 class="font-heading text-xl font-semibold mb-5">Research Experience</h2>
+      <div class="space-y-6">
+        {[
+          {
+            title: "Design of Space Habitat Anomaly Diagnosis System",
+            period: "Aug 2024 – May 2028",
+            description: "Research on virtual assistants (VA) for spacecraft anomaly treatment during long duration exploration missions.",
+            funding: ["NASA HRP (Grant #80NSSC19K0656)", "NASA STTR Phase II (Award #80NSSC24CA028)"],
+            contribution: "Developing a physics-based anomaly diagnosis capability for Daphne-AT, a prototype VA, using hybrid model-based reasoning and simulation-based fault trend analysis with real-time telemetry.",
+            advisor: "Prof. Daniel Selva",
+            pubs: "C1, C9",
+          },
+          {
+            title: "Trade Study of Regenerative System for a Pressurized Rover",
+            period: "Apr 2023 – Aug 2024",
+            description: "Collaborative research project with JAXA on lunar pressurized rover systems.",
+            contribution: "ESM calculations and comparative analysis between current and advanced pressurized rover designs with regenerative life support.",
+            advisor: "Dr. Masato Sakurai & Prof. Shinichi Nakasuka",
+            pubs: "C2, C3",
+          },
+          {
+            title: "Conceptual Design of Space Music Hall",
+            period: "Dec 2021 – Feb 2022",
+            description: "Cultural facility module for a future LEO space station — bachelor's capstone and first HSI engineering project.",
+            contribution: "Systems engineering (Stakeholder Analysis, ConOps, Requirements), anthropometric design (Blender + human body models), ECLSS design.",
+            pubs: "C4, C8",
+          },
+          {
+            title: "Trade Study of Lunar Navigation Satellite System (LNSS)",
+            period: "Apr 2021 – Mar 2024",
+            description: "Nano-satellite constellation providing navigation and IoT services to lunar surface assets.",
+            funding: ["MEXT Space Exploration Fundamental Technology Program"],
+            advisor: "Prof. Shinichi Nakasuka & Dr. Toshiki Tanaka",
+            pubs: "C7",
+          },
+        ].map(r => (
+          <div class="grid md:grid-cols-4 gap-2">
+            <div class="md:col-span-1 text-xs font-mono pt-0.5" style="color:var(--color-text-muted);">{r.period}</div>
+            <div class="md:col-span-3">
+              <p class="font-semibold font-heading text-sm" style="color:var(--color-text-primary);">{r.title}</p>
+              <p class="text-xs italic mb-1" style="color:var(--color-text-secondary);">{r.description}</p>
+              {r.contribution && <p class="text-xs mb-1" style="color:var(--color-text-secondary);"><strong>Contribution:</strong> {r.contribution}</p>}
+              {r.funding && <p class="text-xs" style="color:var(--color-text-muted);">Funding: {r.funding.join('; ')}</p>}
+              {r.advisor && <p class="text-xs" style="color:var(--color-text-muted);">Advisor: {r.advisor}</p>}
+              <p class="text-xs mt-1" style="color:var(--color-accent);">Related: {r.pubs}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Work Experience -->
+    <section class="mb-10 pb-8 border-b" style="border-color:var(--color-border);">
+      <h2 class="font-heading text-xl font-semibold mb-5">Work Experience</h2>
+      <div class="space-y-6">
+        {[
+          {
+            title: "Structural Design Lead",
+            org: "ArkEdge Space Inc.",
+            period: "Apr 2022 – Aug 2024",
+            description: "Two geostationary satellite missions: SPHERE EYE-1 (launched Jan 2023) and ONGLAISAT (launched Nov 2024).",
+            contribution: "Chief responsibility for structure development, structural analysis (CAD/FEA), vibration test verification, hardware assembly management, safety assessment review.",
+            pubs: "J1, C6, C10",
+          },
+          {
+            title: "Thermal Operation Engineer",
+            org: "ISAS/JAXA",
+            period: "Aug 2022 – Mar 2024",
+            description: "EQUULEUS 6U CubeSat lunar mission, launched as secondary payload of NASA SLS in Nov 2022.",
+            contribution: "Thermal operations from initial critical phase to nominal phase; active heater control; thermal transition management during thrust operations.",
+            pubs: "C5",
+          },
+          {
+            title: "Marketing Assistant",
+            org: "SpaceBD Inc.",
+            period: "Oct 2022 – Nov 2022",
+            description: "Business development of commercial utilization of protein crystallization experiments at ISS JEM.",
+          },
+        ].map(w => (
+          <div class="grid md:grid-cols-4 gap-2">
+            <div class="md:col-span-1 text-xs font-mono pt-0.5" style="color:var(--color-text-muted);">{w.period}</div>
+            <div class="md:col-span-3">
+              <p class="font-semibold font-heading text-sm" style="color:var(--color-text-primary);">{w.title} <span class="font-normal" style="color:var(--color-text-secondary);">at {w.org}</span></p>
+              <p class="text-xs italic mb-1" style="color:var(--color-text-secondary);">{w.description}</p>
+              {w.contribution && <p class="text-xs" style="color:var(--color-text-secondary);"><strong>Contribution:</strong> {w.contribution}</p>}
+              {w.pubs && <p class="text-xs mt-1" style="color:var(--color-accent);">Related: {w.pubs}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Fellowships & Awards -->
+    <section class="mb-10 pb-8 border-b" style="border-color:var(--color-border);">
+      <h2 class="font-heading text-xl font-semibold mb-5">Fellowships & Awards</h2>
+      <div class="space-y-4">
+        {[
+          { title: "Nakajima Foundation Study Abroad Fellowship", period: "Sep 2024 – Sep 2026", detail: "Two-year funding (tuition + stipend) for Ph.D. study abroad. Max 5 years stipend." },
+          { title: "ISEB Student Embassy @ IAC 2024", period: "Oct 2024", detail: "JAXA-sponsored participant, specialized events at IAC 2024, Milan." },
+          { title: "WINGS CFS Fellowship", period: "Sep 2022 – Aug 2024", detail: "Two-year stipend for graduate study, University of Tokyo." },
+          { title: "28th Campus Genius Contest Finalist", period: "Nov 2022", detail: "Space Music Hall. 1 of 28 finalists from 404 submissions (artistic category)." },
+          { title: "Travel Award (NEC C&C Foundation)", period: "Apr 2023", detail: "Travel support for ICES 2023, Calgary, Canada." },
+        ].map(a => (
+          <div class="grid md:grid-cols-4 gap-2">
+            <div class="md:col-span-1 text-xs font-mono pt-0.5" style="color:var(--color-text-muted);">{a.period}</div>
+            <div class="md:col-span-3">
+              <p class="font-semibold text-sm" style="color:var(--color-text-primary);">{a.title}</p>
+              <p class="text-xs" style="color:var(--color-text-secondary);">{a.detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="mb-10">
+      <h2 class="font-heading text-xl font-semibold mb-5">Skills</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        {[
+          { category: "Languages", items: ["English (TOEFL 99/120)", "Japanese (Native)"] },
+          { category: "Programming", items: ["Python", "MATLAB", "C/C++", "JavaScript/TypeScript", "HTML/CSS", "LaTeX", "Git"] },
+          { category: "Engineering Tools", items: ["SolidWorks", "Inventor", "Fusion 360", "Femap", "Thermal Desktop", "Blender"] },
+          { category: "Certifications", items: ["First-Class Technical Radio Operator for On-The-Ground Services"] },
+        ].map(s => (
+          <div>
+            <p class="section-label mb-2">{s.category}</p>
+            <div class="flex flex-wrap gap-2">
+              {s.items.map(item => (
+                <span class="tag">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Publications link -->
+    <section class="mt-8 p-5 rounded-lg border" style="border-color:var(--color-border);background:var(--color-surface);">
+      <p class="text-sm" style="color:var(--color-text-secondary);">
+        For complete publication list, see <a href="/publications" style="color:var(--color-accent);">Publications page</a> or
+        <a href="https://www.researchgate.net/profile/Kazuki-Toma" target="_blank" style="color:var(--color-accent);">ResearchGate</a>.
+      </p>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  @media print {
+    .no-print { display: none !important; }
+    section { break-inside: avoid; }
+  }
+</style>
