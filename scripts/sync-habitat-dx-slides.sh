@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Sync habitat-dx HTML slides into this site repo and push to GitHub Pages.
-# Usage (from anywhere):
+# Usage:
 #   ./scripts/sync-habitat-dx-slides.sh
 # Optional:
 #   HABITAT_DX_SLIDES=/path/to/habitat-dx/slides ./scripts/sync-habitat-dx-slides.sh
-#   SYNC_NO_PUSH=1 ./scripts/sync-habitat-dx-slides.sh   # commit locally only
+#   SYNC_NO_PUSH=1 ./scripts/sync-habitat-dx-slides.sh
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -37,16 +37,17 @@ rsync -a --delete \
 mkdir -p "$HERE/prototype/public/slides"
 ln -sfn ../../../slides/habitat-dx "$HERE/prototype/public/slides/habitat-dx"
 
+# GitHub Pages: skip Jekyll so HTML/assets under slides/ publish as-is
+touch "$HERE/.nojekyll"
+
 echo "==> Stage & commit"
 git add slides/habitat-dx slides/README.md prototype/public/slides \
-  scripts/sync-habitat-dx-slides.sh
+  scripts/sync-habitat-dx-slides.sh .nojekyll
 git add research.html prototype/src/data/mock.ts \
   "prototype/src/pages/research/[slug].astro" \
   prototype/src/pages/publications.astro 2>/dev/null || true
 
-# Drop accidental junk from the index
 git reset HEAD -- '*.DS_Store' 2>/dev/null || true
-git checkout -- '*.DS_Store' 2>/dev/null || true
 
 if git diff --staged --quiet; then
   echo "No slide-related changes to commit."
