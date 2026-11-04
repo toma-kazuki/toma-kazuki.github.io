@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Evaluation comparison</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Diagnosis</header>
+    <h1>CDRA Failure, same loop — four diagnostic methods</h1>
+    <div class="evalgrid">
+      <div class="cell"><h3>Knowledge graph — <span class="hold">never confident</span></h3><img src="assets/eval_kg_02.png" alt="Knowledge graph scores, CDRA Failure"></div>
+      <div class="cell"><h3>Bayesian network — <span class="ok">correct at +16 s</span></h3><img src="assets/eval_bayesian_02.png" alt="Bayesian scores, CDRA Failure"></div>
+      <div class="cell"><h3>Time-series matching, single-channel — <span class="ok">correct at +17 s</span></h3><img src="assets/eval_physics_02.png" alt="Time-series matching single-channel scores, CDRA Failure"></div>
+      <div class="cell"><h3>Time-series matching, multi-channel — <span class="ok">correct at +10 s</span></h3><img src="assets/eval_multi_02.png" alt="Time-series matching multi-channel scores, CDRA Failure"></div>
+    </div>
+    <div class="legend" style="margin:6px 0 0 0">
+      <span><i style="background:#500000"></i>CDRA Failure (truth)</span>
+      <span><i style="background:#707070"></i>top rival</span>
+      <span><i style="background:#b5b5b5"></i>second rival</span>
+      <span><i style="background:#d6d3c4"></i>other</span>
+      <span>━ entropy</span>
+      <span>╌ 0.47-bit threshold</span>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

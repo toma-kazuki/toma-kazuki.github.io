@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case study setup</title>
+<link rel="stylesheet" href="style.css?v=34">
+<script src="nav.js?v=15"></script>
+<style>
+  .c07 { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+  .c07-cards {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+  }
+  .c07 .card {
+    margin: 0; padding: 14px 14px 12px;
+    display: flex; flex-direction: column; gap: 8px; min-height: 0;
+  }
+  .c07 .card h3 { font-size: 16px; margin: 0; flex: 0 0 auto; }
+  .c07 .card p { font-size: 14px; margin: 0; line-height: 1.35; }
+  .c07 .card .ask {
+    margin-top: auto; padding-top: 10px; border-top: 1px solid var(--faint);
+    font-size: 14px; flex: 0 0 auto;
+  }
+  .c07-strip {
+    flex: 0 0 auto;
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--accent-soft); border-radius: 6px; padding: 14px 18px;
+  }
+  .c07-strip .label { font-size: 14px; color: var(--muted); margin: 0; text-align: center; }
+  .c07-strip .row { display: flex; align-items: stretch; width: 100%; }
+  .c07-strip .st {
+    flex: 1; min-width: 0;
+    border: 2.5px solid var(--maroon); border-radius: 8px;
+    background: #fff; color: var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 10px 6px; gap: 4px; text-align: center;
+  }
+  .c07-strip .st b { font-size: 16px; font-weight: 700; line-height: 1.15; }
+  .c07-strip .st span { font-size: 13px; font-weight: 500; opacity: 0.9; line-height: 1.25; }
+  .c07-strip .st.on { background: var(--maroon); color: #fff; }
+  .c07-strip .st.dim { border-style: dashed; color: var(--grey); border-color: var(--grey); }
+  .c07-strip .ar {
+    color: var(--grey); font-size: 22px; padding: 0 5px; font-weight: 700;
+    display: flex; align-items: center; flex: 0 0 auto;
+  }
+  .c07-note { flex: 0 0 auto; font-size: 12px; color: var(--muted); margin: 0; text-align: center; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study</header>
+    <h1 style="margin-bottom:10px">Three light examples in the same loop: detect, diagnose, recover</h1>
+    <div class="c07">
+      <div class="c07-cards">
+        <div class="box card" style="border-left-color:var(--correct);background:#eef7ee">
+          <h3>Detection — threshold vs learned</h3>
+          <p><b>AnomalyLSTM</b>: 60 s × 68 → nominal / anomaly</p>
+          <p>Offline holdout · online open-loop scores</p>
+          <p>Inject at 80 s · ready after 60 s of context</p>
+          <p>Noise stress: 4 modes × 3 intensities × 10 seeds</p>
+          <p class="ask"><b>Ask:</b> when is anomaly declared?</p>
+        </div>
+        <div class="box card">
+          <h3>Diagnosis — evaluation methods</h3>
+          <p>31 HSS · four evaluators · confidence gate</p>
+          <p>Everything else fixed · open-loop recovery signal</p>
+          <p>KG · TS single · TS multi · Bayesian</p>
+          <p>Same scenario timelines for side-by-side read</p>
+          <p class="ask"><b>Ask:</b> correct / wrong / abstain?</p>
+        </div>
+        <div class="box card">
+          <h3>Recovery — procedure orderings</h3>
+          <p>Same 31 · 3600 s · KG fixed · P/T vs baselines</p>
+          <p>ETR procedures · verify on alarms</p>
+          <p>P/T · Highest P · Shortest T · Random</p>
+          <p>First-try vs recovered-after-wrongs mix</p>
+          <p class="ask"><b>Ask:</b> which order finishes under time?</p>
+        </div>
+      </div>
+      <div class="c07-strip">
+        <p class="label">habitat-dx stages spotlighted in the next three slides</p>
+        <div class="row">
+          <div class="st on"><b>Detection</b><span>limits vs LSTM</span></div><div class="ar">→</div>
+          <div class="st"><b>Hypothesis</b><span>shared catalog</span></div><div class="ar">→</div>
+          <div class="st on"><b>Evaluation</b><span>four methods</span></div><div class="ar">→</div>
+          <div class="st dim"><b>Prognosis</b><span>optional</span></div><div class="ar">→</div>
+          <div class="st on"><b>Decision</b><span>P/T orderings</span></div><div class="ar">→</div>
+          <div class="st on"><b>Execution</b><span>verify alarms</span></div>
+        </div>
+      </div>
+      <p class="c07-note">Maroon = spotlighted today · dashed = optional · dense plots in <a href="backup-index.html">backup</a></p>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation<a class="ms-link" href="manuscript/c07.html">notes</a></span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

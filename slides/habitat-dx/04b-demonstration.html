@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Integration demonstration</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">3. Proposed Method</header>
+    <h1>Preceding work: the integrated loop demonstrated end to end</h1>
+    <div class="body" style="gap:22px">
+      <div class="col" style="flex:0 0 46%">
+        <div class="figure"><img src="assets/figure9.jpg" alt="Interaction sequence between BioSim, Daphne-AT, operator, PRIDE, and robot"></div>
+        <p class="caption">Fault in BioSim → Daphne-AT diagnosis with operator approvals → PRIDE procedure → robot inspection and repair → telemetry back to nominal</p>
+      </div>
+      <div class="col">
+        <div class="demogrid">
+          <div class="cell">
+            <h3>Daphne-AT [1] — diagnosis</h3>
+            <img src="assets/figure10-d3.jpg" alt="Daphne-AT time-series matching analysis and chatbot approval request">
+          </div>
+          <div class="cell">
+            <h3>PRIDE [4] — procedure execution</h3>
+            <img src="assets/daphne-pride-interaction4.png" alt="PRIDE procedure steps driven from the Daphne-AT chatbot">
+          </div>
+          <div class="cell">
+            <h3>CRAFTSMAN [5][6] — robotic repair</h3>
+            <img src="assets/figure8a.jpg" alt="CRAFTSMAN robot arm at the air filter rack in simulation">
+          </div>
+          <div class="cell">
+            <div class="box" style="margin:0">
+              <p style="font-size:15px"><b>Qualitative only:</b> two scenarios (IVA, EVA) walk-through with the operator in the loop</p>
+              <p style="font-size:15px;margin-top:6px"><b>RQ1</b> How it works?→ demonstrated</p>
+              <p style="font-size:15px;margin-top:4px"><b>RQ2</b> Operator approvals removed? → Observed qualitatively</p>
+              <p style="font-size:15px;margin-top:6px"><b>RQ3</b> Alternative diagnosis method?→ Also demonstrated, but further analysis required</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Detection</title>
+<link rel="stylesheet" href="style.css?v=34">
+<script src="nav.js?v=15"></script>
+<style>
+  .c08 { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+  .c08-figs {
+    flex: 0 0 255px;
+    display: grid; grid-template-columns: 1.25fr 0.9fr 1.1fr; grid-template-rows: 1fr; gap: 10px;
+  }
+  .c08-figs .panel {
+    min-height: 0; display: flex; flex-direction: column;
+    border: 1px solid var(--faint); border-radius: 4px; background: #fafafa; padding: 6px 8px;
+  }
+  .c08-figs h3 { font-size: 13px; color: var(--maroon); margin: 0 0 4px; flex: 0 0 auto; line-height: 1.2; }
+  .c08-figs .imgwrap { flex: 1; min-height: 0; position: relative; }
+  .c08-figs .imgwrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain; object-position: center;
+  }
+  .c08-foot {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;
+  }
+  .c08-foot .box {
+    margin: 0; padding: 14px 16px;
+    display: flex; flex-direction: column; justify-content: center; gap: 8px; min-height: 0;
+  }
+  .c08-foot h3 { font-size: 16px; margin: 0; }
+  .c08-foot p { font-size: 15px; margin: 0; line-height: 1.35; }
+  .c08-foot .kwrow { margin: 2px 0; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">5. Detection</header>
+    <h1 style="margin-bottom:8px">When is “anomaly” declared? — limits vs learned binary score</h1>
+    <div class="c08">
+      <div class="c08-figs">
+        <div class="panel">
+          <h3>Onset — p(anomaly) after inject</h3>
+          <div class="imgwrap"><img src="assets/lstm_det_score_onset_01_trim.png" alt="onset"></div>
+        </div>
+        <div class="panel">
+          <h3>Speed — median / mean</h3>
+          <div class="imgwrap"><img src="assets/lstm_det_vs_thr_speed_trim.png" alt="speed"></div>
+        </div>
+        <div class="panel">
+          <h3>Noise — pooled F1 (4×3×10)</h3>
+          <div class="imgwrap"><img src="assets/lstm_det_noise_prf1_trim.png" alt="noise F1"></div>
+        </div>
+      </div>
+      <div class="c08-foot">
+        <div class="box">
+          <h3>Compare</h3>
+          <p>Threshold limits vs <b>LSTM-binary</b> (60&nbsp;s × 68) · open loop · inject 80&nbsp;s · ready ≥ 60&nbsp;s</p>
+          <div class="kwrow">
+            <span class="kw mute">med 7 s → 3 s</span>
+            <span class="kw ok">30/31 → 31/31</span>
+            <span class="kw mute">TPR 0.88 → 0.96</span>
+            <span class="kw">pre FPR 0</span>
+            <span class="kw">noise F1 0.92–0.99</span>
+          </div>
+          <p style="color:var(--muted)">High AR1/mixed: precision drops via FA — detection rate stays 31/31</p>
+        </div>
+        <div class="box">
+          <h3>Discuss</h3>
+          <p>Faster onset vs noise false alarms — <b>who gates diagnosis?</b></p>
+          <p style="color:var(--muted)">Limits are interpretable; LSTM is faster and covers the soft miss.</p>
+          <p style="color:var(--muted)">Noise mainly hurts <b>precision</b> (FA), not detection rate.</p>
+          <p style="font-size:13px;color:var(--muted)"><a href="backup-index.html#detection">▸ timelines · classifier · full noise grid</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation<a class="ms-link" href="manuscript/c08.html">notes</a></span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

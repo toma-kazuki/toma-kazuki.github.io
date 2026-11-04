@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recovery ordering comparison</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Recovery</header>
+    <h1>Same KG scores, four orderings — Fan #1 Failure</h1>
+    <div class="body">
+      <div class="col" style="flex:1.15">
+        <h2 style="margin-bottom:6px">Candidates at the first decision (after 60 s gate)</h2>
+        <table style="font-size:15px">
+          <thead><tr><th>Hypothesis</th><th class="num">P</th><th class="num">T</th><th class="num">P/T</th></tr></thead>
+          <tbody>
+            <tr class="best"><td>TCCS Aux. Fan #1 Failure ★</td><td class="num">0.372</td><td class="num">20</td><td class="num">0.019</td></tr>
+            <tr><td>PDU 5 Failure</td><td class="num">0.056</td><td class="num">6</td><td class="num">0.009</td></tr>
+            <tr><td>TCCS Aux. Fan #2 Failure</td><td class="num">0.164</td><td class="num">20</td><td class="num">0.008</td></tr>
+            <tr><td>PDU 4 Failure</td><td class="num">0.048</td><td class="num">6</td><td class="num">0.008</td></tr>
+            <tr><td>TCCS Aux. Fan at Reduced Capacity</td><td class="num">0.030</td><td class="num">4</td><td class="num">0.007</td></tr>
+            <tr><td>Reduced Main Cabin Fan #1 Capacity</td><td class="num">0.030</td><td class="num">4</td><td class="num">0.007</td></tr>
+            <tr><td>TCCS Filter Clog</td><td class="num">0.123</td><td class="num">18</td><td class="num">0.007</td></tr>
+            <tr><td>Trace Contaminants</td><td class="num">0.123</td><td class="num">20</td><td class="num">0.006</td></tr>
+            <tr><td>Fuel Cell #1 and PDU Failure</td><td class="num">0.056</td><td class="num">14</td><td class="num">0.004</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:14px;color:var(--muted);margin:8px 0 0">Diagnosis is held fixed (knowledge graph). Only the recovery ranking changes.</p>
+      </div>
+      <div class="col">
+        <h2 style="margin-bottom:6px">What each ordering tries</h2>
+        <table style="font-size:15px">
+          <thead><tr><th>Ordering</th><th>Sequence</th><th class="num">TTR</th></tr></thead>
+          <tbody>
+            <tr class="best"><td><b>P/T</b></td><td><b>Fan #1</b> (first)</td><td class="num">21 min</td></tr>
+            <tr class="best"><td><b>Highest P</b></td><td><b>Fan #1</b> (first)</td><td class="num">21 min</td></tr>
+            <tr><td><b>Shortest T</b></td><td>Reduced Cap. → PDU → … → Fan #1</td><td class="num">61 min</td></tr>
+            <tr><td><b>Random</b></td><td>PDU → Trace → … (timeout)</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+        <div class="box" style="margin-top:12px">
+          <p>After the timed gate, Fan #1 leads on both P and P/T, so those two orderings recover on the first try. Shortest T still burns cheap wrong procedures; this random seed never reaches the true swap in time.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

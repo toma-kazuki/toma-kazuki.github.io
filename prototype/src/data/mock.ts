@@ -39,6 +39,8 @@ export interface Project {
   institutions?: string[];
   related_publications?: string[];
   featured?: boolean;
+  /** Absolute site path or URL to an interactive deck / talk materials */
+  slides_url?: string;
 }
 
 export const PROJECTS: Project[] = [
@@ -57,6 +59,7 @@ export const PROJECTS: Project[] = [
     institutions: ["Texas A&M University", "TRACLabs Inc."],
     related_publications: ["C1", "C9"],
     featured: true,
+    slides_url: "/slides/habitat-dx/",
   },
   {
     slug: "lunar-rover-eclss",
@@ -169,7 +172,10 @@ export const PUBLICATIONS: Publication[] = [
     location: "Galveston, USA",
     month: "Jan",
     year: 2025,
-    links: { poster: "https://drive.google.com/file/d/1DnlPYFNfGEwaeDGkW9aJ82pf4FLKCvzh/view" },
+    links: {
+      poster: "https://drive.google.com/file/d/1DnlPYFNfGEwaeDGkW9aJ82pf4FLKCvzh/view",
+      slides: "/slides/habitat-dx/",
+    },
   },
   {
     id: "C2",

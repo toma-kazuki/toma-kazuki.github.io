@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recovery method</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Recovery</header>
+    <h1>Close the loop: rank recovery actions by P<sub>i</sub> / T<sub>i</sub>, then verify on telemetry</h1>
+    <div class="body">
+      <div class="col">
+        <h2>At each decision</h2>
+        <ul>
+          <li>Hold the <b>first</b> pick for <b>60 s</b> after the first nonzero evaluation (timed gate), so early score mass can settle</li>
+          <li>Take the evaluation scores as P<sub>i</sub>; look up remaining procedure times T<sub>i</sub> from the knowledge-graph catalog</li>
+          <li>Work the top-ranked hypothesis's <b>not-yet-done procedures in series</b></li>
+          <li>The experimenter removes the fault only when the <b>required procedures</b> are complete — not by anomaly name</li>
+          <li>Wait <b>1 min</b>: any alarm that drops or clears → success; otherwise eliminate that hypothesis (and any sharing the same procedures) and re-rank</li>
+        </ul>
+      </div>
+      <div class="col narrow">
+        <div class="box">
+          <h3>Orderings compared</h3>
+          <p><b>P/T</b> — descending priority</p>
+          <p><b>Highest P</b> first</p>
+          <p><b>Shortest T</b> first</p>
+          <p><b>Random</b> (5 seeds)</p>
+        </div>
+        <p style="font-size:17px;color:var(--muted);margin:0">Expected recovery time for a fixed order π: E[T] = Σ<sub>k</sub> P<sub>π<sub>k</sub></sub> Σ<sub>j≤k</sub> T<sub>π<sub>j</sub></sub>. P/T is optimal when probabilities are calibrated and procedures do not overlap.</p>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

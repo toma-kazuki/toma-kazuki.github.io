@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case study: HERA</title>
+<link rel="stylesheet" href="style.css?v=30">
+<script src="nav.js?v=15"></script>
+<style>
+  .c06 { flex: 1; min-height: 0; display: grid; grid-template-columns: 340px 1fr; gap: 28px; }
+  .c06-left { display: flex; flex-direction: column; min-height: 0; gap: 10px; }
+  .c06-left .pic { flex: 1; min-height: 0; border-radius: 4px; overflow: hidden; }
+  .c06-left .pic img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .c06-left ul { margin: 0; padding-left: 22px; flex: 0 0 auto; }
+  .c06-left li { font-size: 16px; margin-bottom: 4px; }
+  .c06-tags { flex: 0 0 auto; }
+  .c06-right { display: flex; flex-direction: column; min-height: 0; }
+  .c06-right h2 { margin: 0 0 4px; flex: 0 0 auto; }
+  .c06-right .blurb { font-size: 15px; margin: 0 0 6px; flex: 0 0 auto; }
+  .c06-right .fig { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .c06-right .fig img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .c06-right .caption { flex: 0 0 auto; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study</header>
+    <h1 style="margin-bottom:10px">HERA habitat: 31 life-support anomaly scenarios on simulated telemetry</h1>
+    <div class="c06">
+      <div class="c06-left">
+        <div class="pic"><img src="assets/hera.jpeg" alt="HERA habitat"></div>
+        <ul>
+          <li>NASA Human Exploration Research Analog (HERA)</li>
+          <li><b>68 telemetry parameters</b> with caution / warning limits</li>
+          <li><b>31 anomaly scenarios</b></li>
+        </ul>
+        <div class="c06-tags">
+          <span class="tag">CO₂ removal</span><span class="tag">O₂ generation</span><span class="tag">fans / TCCS</span>
+          <span class="tag">fuel cells &amp; power</span><span class="tag">water</span><span class="tag">pressure &amp; leaks</span>
+          <span class="tag">trace contaminants</span>
+        </div>
+      </div>
+      <div class="c06-right">
+        <h2>Telemetry: predefined linear ramps</h2>
+        <p class="blurb">Each anomaly moves its parameters from nominal along a <b>linear phase-in</b> (rate, target, delay), holds, then <b>phases out</b> at recovery.</p>
+        <div class="fig"><img src="assets/hera_telemetry_02.png" alt="CDRA Failure telemetry ramps"></div>
+        <p class="caption">Example: CDRA Failure — injected at 20 s, recovered at 100 s</p>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation<a class="ms-link" href="manuscript/c06.html">notes</a></span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

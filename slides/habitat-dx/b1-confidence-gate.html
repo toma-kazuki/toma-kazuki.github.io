@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Confidence gate</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup</header>
+    <h1>Entropy-based confidence gate for decision-making</h1>
+    <div class="body">
+      <div class="col">
+        <div class="eq">H<sub>t</sub> = − Σ<sub>i</sub> p<sub>i,t</sub> log<sub>2</sub> p<sub>i,t</sub></div>
+        <p style="margin-top:0">Signal recovery of the top hypothesis when</p>
+        <div class="eq" style="font-size:26px">H̄<sub>t</sub> &lt; H([0.9, 0.1]) ≈ 0.47 bit</div>
+        <p style="font-size:18px;color:var(--muted);margin-top:0">H̄<sub>t</sub>: moving average of entropy over the last evaluations. Threshold = one hypothesis holding 90 % of the mass against one rival.</p>
+        <svg viewBox="0 0 520 190" width="100%" style="margin-top:4px" font-family="Helvetica, Arial, sans-serif">
+          <line x1="40" y1="160" x2="510" y2="160" stroke="#202020"/>
+          <line x1="40" y1="20" x2="40" y2="160" stroke="#202020"/>
+          <text x="12" y="92" font-size="12" transform="rotate(-90 12 92)" text-anchor="middle" fill="#3e3e3e">entropy</text>
+          <text x="505" y="178" font-size="12" text-anchor="end" fill="#3e3e3e">time</text>
+          <line x1="40" y1="128" x2="510" y2="128" stroke="#d62728" stroke-dasharray="6 4"/>
+          <text x="505" y="122" font-size="12" text-anchor="end" fill="#d62728">threshold 0.47</text>
+          <polyline fill="none" stroke="#a0a0a0" stroke-width="2"
+            points="60,40 90,48 120,55 150,60 170,150 190,62 220,70 250,95 280,122 310,140 340,150 370,154 400,156 430,157 460,157 490,157"/>
+          <text x="176" y="172" font-size="11" text-anchor="middle" fill="#3e3e3e">spike</text>
+          <polyline fill="none" stroke="#500000" stroke-width="3"
+            points="60,40 90,44 120,48 150,51 170,70 190,75 220,79 250,85 280,95 310,111 340,127 370,140 400,149 430,153 460,155 490,156"/>
+          <circle cx="343" cy="129" r="6" fill="#2ca02c" stroke="#202020"/>
+          <text x="352" y="112" font-size="12" fill="#2ca02c" font-weight="bold">act</text>
+          <line x1="60" y1="12" x2="80" y2="12" stroke="#a0a0a0" stroke-width="2"/><text x="85" y="16" font-size="12" fill="#3e3e3e">raw H</text>
+          <line x1="140" y1="12" x2="160" y2="12" stroke="#500000" stroke-width="3"/><text x="165" y="16" font-size="12" fill="#3e3e3e">smoothed H̄</text>
+        </svg>
+      </div>
+      <div class="col">
+        <div class="box">
+          <h3>1 · Evidence wait</h3>
+          <p>≥ 2 detected parameters → window of 5 evaluations. One parameter → longer window (10).</p>
+        </div>
+        <div class="box">
+          <h3>2 · Smoothing</h3>
+          <p>Average entropy over the window, so a one-tick dip cannot trigger action.</p>
+        </div>
+        <div class="box">
+          <h3>3 · Hold</h3>
+          <p>Never act when “No Anomalies Present” leads; restart the window.</p>
+        </div>
+      </div>
+    </div>
+    <div><span class="tag">input: any normalized score vector</span><span class="tag">output: recover(target) or wait</span><span class="tag">no per-method tuning</span></div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

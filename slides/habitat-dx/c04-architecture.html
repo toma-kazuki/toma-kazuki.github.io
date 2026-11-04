@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Proposed architecture</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=14"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">3. Proposed Method</header>
+    <h1>habitat-dx integrates three agents into one closed loop</h1>
+    <div class="body">
+      <div class="col" style="flex:1.1">
+        <div class="figure"><img src="assets/figure1.jpg" alt="habitat-dx architecture"></div>
+      </div>
+      <div class="col agentlist">
+        <div class="item">
+          <h3>Daphne-AT [1] — diagnosis</h3>
+          <p>Virtual assistant that detects and diagnoses faults. Hosts several diagnostic methods side by side: knowledge-graph symptom matching, Bayesian network inference [2], time-series matching [3].</p>
+        </div>
+        <div class="item">
+          <h3>PRIDE [4] — procedures</h3>
+          <p>Adjustably autonomous procedure execution. Carries out recovery procedures and requests <b>operator approval</b> at consequential decision points.</p>
+        </div>
+        <div class="item">
+          <h3>CRAFTSMAN [5][6] — robotics</h3>
+          <p>Semi-autonomous IVA and EVA robotic caretakers that perform inspection and repair.</p>
+        </div>
+        <div class="box" style="margin:4px 0 0">
+          <p><b>Bidirectional:</b> diagnosis requests inspection; evidence gathered by the robots refines the fault hypotheses.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation<a class="ms-link" href="manuscript/c04.html">notes</a></span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

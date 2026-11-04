@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recovery: decision tree</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Recovery</header>
+    <h1>Decision · chance · leaf — Fan #1 Failure under P/T (7 candidates)</h1>
+    <div class="body" style="gap:18px">
+      <div class="col" style="flex:1.55;justify-content:center">
+        <svg viewBox="0 0 760 420" width="100%" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#707070"/>
+            </marker>
+          </defs>
+          <!-- decision D0 -->
+          <rect x="20" y="180" width="28" height="28" fill="#1f5fa8"/>
+          <text x="34" y="170" font-size="13" text-anchor="middle" fill="#500000" font-weight="700">E* 29.4</text>
+          <!-- to C0 -->
+          <path d="M48,194 H120" stroke="#500000" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+          <text x="84" y="186" font-size="12" text-anchor="middle" fill="#500000" font-weight="700">Reduced Cap. 4 min</text>
+          <!-- chance C0 -->
+          <circle cx="140" cy="194" r="12" fill="#e0a800"/>
+          <!-- fixed -->
+          <path d="M152,194 H200 V90 H250" stroke="#500000" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+          <text x="200" y="82" font-size="12" fill="#500000" font-weight="700">fixed 0.17</text>
+          <polygon points="250,82 266,90 250,98" fill="#2ca02c"/>
+          <text x="274" y="94" font-size="13" fill="#202020">4.1 min</text>
+          <!-- miss -->
+          <path d="M152,194 H200 V300 H250" stroke="#500000" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+          <text x="188" y="280" font-size="12" fill="#500000" font-weight="700">not fixed 0.83</text>
+          <!-- D1 -->
+          <rect x="250" y="286" width="28" height="28" fill="#1f5fa8"/>
+          <text x="264" y="276" font-size="13" text-anchor="middle" fill="#500000" font-weight="700">E* 29.6</text>
+          <!-- to Fan1 -->
+          <path d="M278,300 H360" stroke="#500000" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+          <text x="320" y="292" font-size="12" text-anchor="middle" fill="#500000" font-weight="700">… then Fan #1 swap 20 min</text>
+          <circle cx="380" cy="300" r="12" fill="#e0a800"/>
+          <path d="M392,300 H450 V220 H500" stroke="#500000" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+          <text x="440" y="212" font-size="12" fill="#500000" font-weight="700">fixed (true)</text>
+          <polygon points="500,212 516,220 500,228" fill="#2ca02c" stroke="#000" stroke-width="1.5"/>
+          <text x="524" y="224" font-size="13" font-weight="700" fill="#202020">32.1 min ★</text>
+          <!-- collapsed rivals -->
+          <path d="M48,194 H90 V60 H140" stroke="#c9c9c9" stroke-width="1.4" fill="none"/>
+          <circle cx="152" cy="60" r="10" fill="#fff" stroke="#e0a800" stroke-width="2"/>
+          <text x="168" y="64" font-size="12" fill="#707070">PDU 5 · Q 31.2 ▸</text>
+          <path d="M48,194 H90 V120 H140" stroke="#c9c9c9" stroke-width="1.4" fill="none"/>
+          <circle cx="152" cy="120" r="10" fill="#fff" stroke="#e0a800" stroke-width="2"/>
+          <text x="168" y="124" font-size="12" fill="#707070">PDU 4 · Q 31.4 ▸</text>
+          <path d="M48,194 H90 V360 H140" stroke="#c9c9c9" stroke-width="1.4" fill="none"/>
+          <circle cx="152" cy="360" r="10" fill="#fff" stroke="#e0a800" stroke-width="2"/>
+          <text x="168" y="364" font-size="12" fill="#707070">other rivals collapsed</text>
+          <!-- legend -->
+          <rect x="560" y="40" width="16" height="16" fill="#1f5fa8"/>
+          <text x="584" y="53" font-size="13" fill="#202020">decision</text>
+          <circle cx="568" cy="80" r="8" fill="#e0a800"/>
+          <text x="584" y="84" font-size="13" fill="#202020">chance</text>
+          <polygon points="560,108 576,116 560,124" fill="#2ca02c"/>
+          <text x="584" y="120" font-size="13" fill="#202020">leaf · recovered</text>
+          <text x="560" y="150" font-size="12" fill="#707070">maroon = P/T path</text>
+        </svg>
+      </div>
+      <div class="col steps">
+        <div class="box">
+          <h3>On this tree</h3>
+          <p>P/T E[T] = <b>29.6 min</b></p>
+          <p>Optimal = <b>29.4 min</b></p>
+          <p>Highest P = 32.3 · Shortest T = 37.1</p>
+        </div>
+        <div class="box">
+          <h3>Why not exactly optimal?</h3>
+          <p>Fan #1 and #2 share one 20 min swap — together they carry mass 0.45; the optimal policy treats that shared procedure as one act</p>
+        </div>
+        <div class="box">
+          <h3>Interactive</h3>
+          <p style="font-size:16px">Full expandable tree for every scenario: <code style="font-size:14px">results/comparison/recovery/decision-tree.html</code></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

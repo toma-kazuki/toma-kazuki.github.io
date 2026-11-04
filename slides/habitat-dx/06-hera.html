@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case study: HERA</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study</header>
+    <h1>HERA habitat: 31 life-support anomaly scenarios on simulated telemetry</h1>
+    <div class="body" style="gap:28px">
+      <div class="col" style="flex:0 0 30%">
+        <div class="figure"><img src="assets/hera.jpeg" alt="HERA habitat"></div>
+        <ul style="margin-top:14px">
+          <li style="font-size:18px">NASA Human Exploration Research Analog (HERA)</li>
+          <li style="font-size:18px"><b>68 telemetry parameters</b> with caution / warning limits</li>
+          <li style="font-size:18px"><b>31 anomaly scenarios</b></li>
+        </ul>
+        <div>
+          <span class="tag">CO₂ removal</span><span class="tag">O₂ generation</span><span class="tag">fans / TCCS</span>
+          <span class="tag">fuel cells &amp; power</span><span class="tag">water</span><span class="tag">pressure &amp; leaks</span>
+          <span class="tag">trace contaminants</span>
+        </div>
+      </div>
+      <div class="col">
+        <h2>Telemetry: predefined linear ramps</h2>
+        <p style="font-size:18px;margin:0 0 6px">Each anomaly moves its parameters from nominal along a <b>linear phase-in</b> (rate, target, delay), holds, then <b>phases out</b> at recovery.</p>
+        <div class="figure"><img src="assets/hera_telemetry_02.png" alt="CDRA Failure telemetry ramps"></div>
+        <p class="caption">Example: CDRA Failure — injected at 20 s, recovered at 100 s</p>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Diagnosis</title>
+<link rel="stylesheet" href="style.css?v=34">
+<script src="nav.js?v=15"></script>
+<style>
+  .c09 { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  .c09-top {
+    flex: 0 0 175px;
+    display: grid; grid-template-columns: 1fr 1.15fr; gap: 12px; align-items: stretch;
+  }
+  .c09-top .left { display: flex; flex-direction: column; min-height: 0; gap: 6px; }
+  .c09-top .box { margin: 0; padding: 6px 10px; flex: 0 0 auto; }
+  .c09-top .box p { margin: 0; font-size: 13px; line-height: 1.3; }
+  .c09-top table { font-size: 14px; margin: 0; flex: 1; }
+  .c09-top th, .c09-top td { padding: 5px 8px; }
+  .c09-top h3 { font-size: 13px; color: var(--maroon); margin: 0 0 2px; flex: 0 0 auto; }
+  .c09-top .out { display: flex; flex-direction: column; min-height: 0; }
+  .c09-top .out .imgwrap { flex: 1; min-height: 0; position: relative; }
+  .c09-top .out .imgwrap img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; object-position: left center;
+  }
+  .c09-bot { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 4px; }
+  .c09-bot > h3 { font-size: 14px; color: var(--maroon); margin: 0; flex: 0 0 auto; }
+  .c09-grid {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px 10px;
+  }
+  .c09-grid .panel {
+    min-height: 0; border: 1px solid var(--faint); border-radius: 3px; background: #fafafa;
+    padding: 3px 5px 4px; display: flex; flex-direction: column;
+  }
+  .c09-grid h4 { font-size: 12px; margin: 0 0 1px; color: var(--muted); flex: 0 0 auto; }
+  .c09-grid .imgwrap { flex: 1; min-height: 0; position: relative; }
+  .c09-grid .imgwrap img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: fill;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">6. Diagnosis</header>
+    <h1 style="margin-bottom:4px">Same loop, four evaluators — correct / wrong / abstain</h1>
+    <div class="c09">
+      <div class="c09-top">
+        <div class="left">
+          <div class="box">
+            <p>Shared detection &amp; hypotheses · swap <b>evaluation</b> only · gate → correct / wrong / <b>never</b>
+              · <b style="color:var(--maroon)">Discuss:</b> abstain vs wrong · <a href="backup-index.html#diagnosis">▸ backup</a></p>
+          </div>
+          <table>
+            <thead><tr><th>Pipeline</th><th class="num">✓</th><th class="num">✗</th><th class="num">∅</th><th class="num">med t</th></tr></thead>
+            <tbody>
+              <tr><td>Knowledge graph</td><td class="num">9</td><td class="num bad">3</td><td class="num">18</td><td class="num">19 s</td></tr>
+              <tr><td>TS single</td><td class="num">21</td><td class="num">0</td><td class="num">9</td><td class="num">19 s</td></tr>
+              <tr class="best"><td>TS multi</td><td class="num">25</td><td class="num">0</td><td class="num">5</td><td class="num">14 s</td></tr>
+              <tr><td>Bayesian</td><td class="num">14</td><td class="num">0</td><td class="num">16</td><td class="num">21.5 s</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="out">
+          <h3>Pooled outcomes (31)</h3>
+          <div class="imgwrap"><img src="assets/conf_diagnosis_outcomes_trim.png" alt="outcomes"></div>
+        </div>
+      </div>
+      <div class="c09-bot">
+        <h3>Same scenario (CDRA Failure) — four score timelines</h3>
+        <div class="c09-grid">
+          <div class="panel"><h4>KG — never confident</h4><div class="imgwrap"><img src="assets/eval_kg_02_trim.png" alt="KG"></div></div>
+          <div class="panel"><h4>Bayesian — correct +16 s</h4><div class="imgwrap"><img src="assets/eval_bayesian_02_trim.png" alt="Bayesian"></div></div>
+          <div class="panel"><h4>TS single — correct +17 s</h4><div class="imgwrap"><img src="assets/eval_physics_02_trim.png" alt="TS single"></div></div>
+          <div class="panel"><h4>TS multi — correct +10 s</h4><div class="imgwrap"><img src="assets/eval_multi_02_trim.png" alt="TS multi"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation<a class="ms-link" href="manuscript/c09.html">notes</a></span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

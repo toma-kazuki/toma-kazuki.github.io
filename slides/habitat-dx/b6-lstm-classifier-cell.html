@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM cell gates</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup — LSTM classifier (Stage 5)</header>
+    <h1>Inside one LSTM cell: forget, write, then read</h1>
+    <svg viewBox="0 0 1152 500" width="100%" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" aria-label="LSTM cell gate schematic">
+      <defs>
+        <marker id="garr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#707070"/>
+        </marker>
+        <marker id="garrd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#500000"/>
+        </marker>
+      </defs>
+
+      <!--
+        Grid:
+          inputs:  x=16..136
+          cell:    x=156..880
+          outs:    x=900..1136
+          gates:   y=100 h=58 ; x0=176, pitch=167 (155+12)
+          c-eqn:   y=176 h=48 under gates 0..2
+          h-eqn:   y=236 h=48 full
+      -->
+
+      <!-- LEFT -->
+      <text x="76" y="40" font-size="13" font-weight="700" text-anchor="middle" fill="#500000">Inputs at step t</text>
+      <rect x="16" y="52" width="120" height="44" rx="8" fill="#f2f0ea" stroke="#500000" stroke-width="2"/>
+      <text x="76" y="70" font-size="14" font-weight="700" text-anchor="middle" fill="#202020">cₜ₋₁</text>
+      <text x="76" y="86" font-size="11" text-anchor="middle" fill="#707070">cell memory</text>
+      <rect x="16" y="120" width="120" height="44" rx="8" fill="#f2f0ea" stroke="#500000" stroke-width="2"/>
+      <text x="76" y="138" font-size="14" font-weight="700" text-anchor="middle" fill="#202020">hₜ₋₁</text>
+      <text x="76" y="154" font-size="11" text-anchor="middle" fill="#707070">hidden state</text>
+      <rect x="16" y="188" width="120" height="44" rx="8" fill="#d6d3c4" stroke="#500000" stroke-width="2"/>
+      <text x="76" y="206" font-size="14" font-weight="700" text-anchor="middle" fill="#202020">xₜ</text>
+      <text x="76" y="222" font-size="11" text-anchor="middle" fill="#707070">sensors @ t</text>
+
+      <!-- CELL FRAME -->
+      <rect x="156" y="12" width="724" height="288" rx="12" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+      <text x="518" y="34" font-size="15" font-weight="700" text-anchor="middle" fill="#500000">One LSTM cell  ·  PyTorch nn.LSTM in AnomalyLSTM</text>
+      <text x="518" y="52" font-size="11" text-anchor="middle" fill="#707070">gates ∈ ℝ³²  ·  ⊙ = element-wise multiply  ·  σ = sigmoid</text>
+
+      <!-- concat -->
+      <rect x="176" y="64" width="140" height="28" rx="6" fill="#f2f0ea" stroke="#707070" stroke-width="1.5"/>
+      <text x="246" y="82" font-size="13" font-weight="700" text-anchor="middle" fill="#202020">[hₜ₋₁ ; xₜ]</text>
+
+      <!-- inputs → concat / c-eqn (orthogonal) -->
+      <path d="M136,74 L146,74 L146,200 L174,200" stroke="#707070" stroke-width="1.6" fill="none" marker-end="url(#garr)"/>
+      <path d="M136,142 L146,142 L146,78 L174,78" stroke="#707070" stroke-width="1.6" fill="none" marker-end="url(#garr)"/>
+      <path d="M136,210 L146,210 L146,78" stroke="#707070" stroke-width="1.6" fill="none"/>
+
+      <!-- gates: centers 253.5, 420.5, 587.5, 754.5 -->
+      <g font-size="12" text-anchor="middle">
+        <rect x="176" y="100" width="155" height="58" rx="8" fill="#fff" stroke="#500000" stroke-width="2"/>
+        <text x="253" y="120" font-size="13" font-weight="700" fill="#500000">Forget  fₜ</text>
+        <text x="253" y="138" fill="#707070">σ(W_f [h;x] + b_f)</text>
+        <text x="253" y="152" fill="#202020">erase from c?</text>
+
+        <rect x="343" y="100" width="155" height="58" rx="8" fill="#fff" stroke="#500000" stroke-width="2"/>
+        <text x="420" y="120" font-size="13" font-weight="700" fill="#500000">Input  iₜ</text>
+        <text x="420" y="138" fill="#707070">σ(W_i [h;x] + b_i)</text>
+        <text x="420" y="152" fill="#202020">write how much?</text>
+
+        <rect x="510" y="100" width="155" height="58" rx="8" fill="#fff" stroke="#500000" stroke-width="2"/>
+        <text x="587" y="120" font-size="13" font-weight="700" fill="#500000">Candidate  gₜ</text>
+        <text x="587" y="138" fill="#707070">tanh(W_g [h;x] + b_g)</text>
+        <text x="587" y="152" fill="#202020">new content</text>
+
+        <rect x="677" y="100" width="155" height="58" rx="8" fill="#fff" stroke="#500000" stroke-width="2"/>
+        <text x="754" y="120" font-size="13" font-weight="700" fill="#500000">Output  oₜ</text>
+        <text x="754" y="138" fill="#707070">σ(W_o [h;x] + b_o)</text>
+        <text x="754" y="152" fill="#202020">expose from c?</text>
+      </g>
+
+      <!-- concat → gate tops -->
+      <path d="M246,92 L246,98" stroke="#707070" stroke-width="1.5" marker-end="url(#garr)"/>
+      <path d="M246,92 L420,92 L420,98" stroke="#707070" stroke-width="1.5" fill="none" marker-end="url(#garr)"/>
+      <path d="M246,92 L587,92 L587,98" stroke="#707070" stroke-width="1.5" fill="none" marker-end="url(#garr)"/>
+      <path d="M246,92 L754,92 L754,98" stroke="#707070" stroke-width="1.5" fill="none" marker-end="url(#garr)"/>
+
+      <!-- c equation under f,i,g only (176..665) -->
+      <rect x="176" y="176" width="489" height="48" rx="8" fill="#f2f0ea" stroke="#500000" stroke-width="2"/>
+      <text x="420" y="196" font-size="15" font-weight="700" text-anchor="middle" fill="#202020">cₜ = fₜ ⊙ cₜ₋₁ + iₜ ⊙ gₜ</text>
+      <text x="420" y="214" font-size="11" text-anchor="middle" fill="#707070">keep some old · add some new</text>
+
+      <!-- o drops in the clear column under output gate -->
+      <path d="M253,158 L253,176" stroke="#500000" stroke-width="1.6" marker-end="url(#garrd)"/>
+      <path d="M420,158 L420,176" stroke="#500000" stroke-width="1.6" marker-end="url(#garrd)"/>
+      <path d="M587,158 L587,176" stroke="#500000" stroke-width="1.6" marker-end="url(#garrd)"/>
+      <path d="M754,158 L754,236" stroke="#500000" stroke-width="1.6" marker-end="url(#garrd)"/>
+
+      <!-- h equation full width -->
+      <rect x="176" y="236" width="656" height="48" rx="8" fill="#f2f0ea" stroke="#500000" stroke-width="2"/>
+      <text x="504" y="256" font-size="15" font-weight="700" text-anchor="middle" fill="#202020">hₜ = oₜ ⊙ tanh(cₜ)</text>
+      <text x="504" y="274" font-size="11" text-anchor="middle" fill="#707070">read filtered memory</text>
+
+      <!-- c → h -->
+      <path d="M420,224 L420,236" stroke="#500000" stroke-width="1.8" marker-end="url(#garrd)"/>
+
+      <!-- RIGHT OUTPUTS aligned to equation boxes -->
+      <path d="M665,200 L896,200" stroke="#500000" stroke-width="2" marker-end="url(#garrd)"/>
+      <path d="M832,260 L896,260" stroke="#500000" stroke-width="2" marker-end="url(#garrd)"/>
+
+      <rect x="900" y="176" width="232" height="48" rx="8" fill="#d6d3c4" stroke="#500000" stroke-width="2.5"/>
+      <text x="1016" y="196" font-size="14" font-weight="700" text-anchor="middle" fill="#202020">cₜ → next step</text>
+      <text x="1016" y="214" font-size="11" text-anchor="middle" fill="#707070">long-term memory</text>
+
+      <rect x="900" y="236" width="232" height="48" rx="8" fill="#d6d3c4" stroke="#500000" stroke-width="2.5"/>
+      <text x="1016" y="256" font-size="14" font-weight="700" text-anchor="middle" fill="#202020">hₜ → next step</text>
+      <text x="1016" y="274" font-size="11" text-anchor="middle" fill="#707070">+ class head if last</text>
+
+      <!-- BOTTOM -->
+      <g font-size="13">
+        <rect x="16" y="320" width="364" height="96" rx="8" fill="#f2f0ea" stroke="#707070" stroke-width="1.5"/>
+        <text x="34" y="344" font-weight="700" fill="#500000">Forget (f)</text>
+        <text x="34" y="366" fill="#202020">Near 0 wipes old cell memory; near 1 keeps it.</text>
+        <text x="34" y="386" fill="#202020">After onset, drops stale “still nominal”</text>
+        <text x="34" y="406" fill="#202020">evidence from earlier in the window.</text>
+
+        <rect x="394" y="320" width="364" height="96" rx="8" fill="#f2f0ea" stroke="#707070" stroke-width="1.5"/>
+        <text x="412" y="344" font-weight="700" fill="#500000">Input (i) + candidate (g)</text>
+        <text x="412" y="366" fill="#202020">i scales how much new content g is written</text>
+        <text x="412" y="386" fill="#202020">into c. Onset ramps in x get stored as the</text>
+        <text x="412" y="406" fill="#202020">fault signature builds across the 60 s.</text>
+
+        <rect x="772" y="320" width="364" height="96" rx="8" fill="#f2f0ea" stroke="#707070" stroke-width="1.5"/>
+        <text x="790" y="344" font-weight="700" fill="#500000">Output (o)</text>
+        <text x="790" y="366" fill="#202020">Selects which parts of tanh(c) become h —</text>
+        <text x="790" y="386" fill="#202020">the vector the linear head reads to score</text>
+        <text x="790" y="406" fill="#202020">nominal vs each of the 31 anomalies.</text>
+      </g>
+    </svg>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

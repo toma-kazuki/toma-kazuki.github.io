@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Results: example</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup</header>
+    <h1>Same scenario, same gate: the evaluation decides what “confident” means</h1>
+    <p class="caption" style="margin:-10px 0 8px;text-align:left">Scenario 10: Fuel Cell #2 and PDU Failure · area = score share, black line = entropy, dashed = threshold</p>
+    <div class="body" style="gap:24px">
+      <div class="col">
+        <h2>Knowledge graph — <span class="bad">wrong at +18 s</span></h2>
+        <div class="figure"><img src="assets/slide_kg_10.png" alt="Knowledge graph score distribution, scenario 10"></div>
+        <p class="caption">Early symptoms match only “Fuel Cell Failure” → entropy stays 0 for the full window → gate opens. The true fault’s symptoms appear later (≈ 45 s).</p>
+      </div>
+      <div class="col">
+        <h2>Time-series matching, multi — <span class="ok">correct at +18 s</span></h2>
+        <div class="figure"><img src="assets/slide_multi_10.png" alt="Multi-channel similarity score distribution, scenario 10"></div>
+        <p class="caption">Trajectory shape separates the fuel-cell faults: entropy falls from ≈ 2 bit to ≈ 0 on the true fault.</p>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

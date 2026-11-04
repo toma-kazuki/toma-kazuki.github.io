@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Results: overall</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Diagnosis</header>
+    <h1>Multi-channel time-series matching decides correctly most often — and fastest</h1>
+    <table style="font-size:20px">
+      <thead><tr><th>Pipeline</th><th class="num">Correct</th><th class="num">Wrong</th><th class="num">Never</th><th class="num">Precision</th><th class="num">Coverage</th><th class="num">Median latency</th></tr></thead>
+      <tbody>
+        <tr><td>Knowledge graph</td><td class="num">9</td><td class="num bad">3</td><td class="num">18</td><td class="num">0.75</td><td class="num">0.40</td><td class="num">19 s</td></tr>
+        <tr><td>Time-series matching, single-channel</td><td class="num">21</td><td class="num">0</td><td class="num">9</td><td class="num">1.00</td><td class="num">0.70</td><td class="num">19 s</td></tr>
+        <tr class="best"><td>Time-series matching, multi-channel</td><td class="num">25</td><td class="num">0</td><td class="num">5</td><td class="num">1.00</td><td class="num">0.83</td><td class="num">14 s</td></tr>
+        <tr><td>Bayesian network</td><td class="num">14</td><td class="num">0</td><td class="num">16</td><td class="num">1.00</td><td class="num">0.47</td><td class="num">21.5 s</td></tr>
+      </tbody>
+    </table>
+    <div class="body" style="margin-top:14px">
+      <div class="col center" style="flex:1.5">
+        <div class="bars">
+<div class="barrow"><div class="barlabel">Knowledge graph</div><div class="bar"><div class="seg correct" style="flex:9">9</div><div class="seg wrong" style="flex:3">3</div><div class="seg never" style="flex:18">18</div><div class="seg no_detection" style="flex:1">1</div></div></div>
+<div class="barrow"><div class="barlabel">Time-series, single</div><div class="bar"><div class="seg correct" style="flex:21">21</div><div class="seg never" style="flex:9">9</div><div class="seg no_detection" style="flex:1">1</div></div></div>
+<div class="barrow"><div class="barlabel">Time-series, multi</div><div class="bar"><div class="seg correct" style="flex:25">25</div><div class="seg never" style="flex:5">5</div><div class="seg no_detection" style="flex:1">1</div></div></div>
+<div class="barrow"><div class="barlabel">Bayesian</div><div class="bar"><div class="seg correct" style="flex:14">14</div><div class="seg never" style="flex:16">16</div><div class="seg no_detection" style="flex:1">1</div></div></div>
+          <div class="legend"><span><i style="background:var(--correct)"></i>correct</span><span><i style="background:var(--wrong)"></i>wrong</span><span><i style="background:var(--never)"></i>never confident</span><span><i style="background:var(--nodet)"></i>no detection</span></div>
+        </div>
+      </div>
+      <div class="col center">
+        <div class="box">
+          <p>The gate produced <b>no wrong decisions</b> for three of four pipelines.</p>
+          <p>Errors remain only where the evaluation itself is ambiguous (overlapping symptoms).</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

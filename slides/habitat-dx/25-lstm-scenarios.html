@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM vs threshold detection</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=10"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — LSTM detection</header>
+    <h1>Threshold vs LSTM-binary: speed and coverage on all 31</h1>
+    <div class="body" style="gap:14px">
+      <div class="col" style="flex:2.15">
+        <div class="figure"><img src="assets/lstm_det_vs_thr_heatmap.png" alt="Heatmap of detection latency for threshold versus LSTM-binary"></div>
+        <p class="caption">Open loop · inject 80 s · recover 180 s · latency = first positive observation after inject · green Δ = LSTM faster</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>Detection rate</h3><p>Threshold <b>30 / 31</b> · LSTM <b>31 / 31</b> (miss: WRS Maintenance)</p></div>
+        <div class="box"><h3>Median latency</h3><p>Threshold <b>7 s</b> · LSTM <b>3 s</b> · LSTM faster on 24 scenarios</p></div>
+        <div class="box"><h3>Tick TPR / FPR</h3><p>Mean TPR 0.88 → <b>0.96</b> · both FPR = 0 in [60, inject)</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

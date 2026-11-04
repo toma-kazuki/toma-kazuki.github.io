@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recovery: overall</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Recovery</header>
+    <h1>P/T and highest-P recover equally often — both beat shortest-T and random</h1>
+    <table style="font-size:17px">
+      <thead><tr><th>Ordering</th><th class="num">Recovered</th><th class="num">1st try</th><th class="num">Not recovered</th><th class="num">Wrong procs</th><th class="num">Median TTR</th><th class="num">Mean TTR, capped</th></tr></thead>
+      <tbody>
+<tr><td>P/T (priority)</td><td class="num">28</td><td class="num">21</td><td class="num bad">1</td><td class="num">14</td><td class="num">14.3 min</td><td class="num">19.6 min</td></tr>
+<tr class="best"><td>Highest P first</td><td class="num">28</td><td class="num">26</td><td class="num bad">1</td><td class="num">5</td><td class="num">15.3 min</td><td class="num">17.6 min</td></tr>
+<tr><td>Shortest T first</td><td class="num">25</td><td class="num">14</td><td class="num bad">4</td><td class="num">45</td><td class="num">16.1 min</td><td class="num">27.0 min</td></tr>
+<tr><td>Random (mean of 5 seeds)</td><td class="num">23.8</td><td class="num">12.6</td><td class="num bad">5.2</td><td class="num">41.2</td><td class="num">22.3 min</td><td class="num">32.6 min</td></tr>
+      </tbody>
+    </table>
+    <div class="body" style="margin-top:12px">
+      <div class="col center" style="flex:1.5">
+        <div class="bars">
+          <div class="barrow"><div class="barlabel">P/T</div><div class="bar"><div class="seg correct" style="flex:21">21</div><div class="seg never" style="flex:7">7</div><div class="seg wrong" style="flex:1">1</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="barrow"><div class="barlabel">Highest P</div><div class="bar"><div class="seg correct" style="flex:26">26</div><div class="seg never" style="flex:2">2</div><div class="seg wrong" style="flex:1">1</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="barrow"><div class="barlabel">Shortest T</div><div class="bar"><div class="seg correct" style="flex:14">14</div><div class="seg never" style="flex:11">11</div><div class="seg wrong" style="flex:4">4</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="barrow"><div class="barlabel">Random</div><div class="bar"><div class="seg correct" style="flex:13">13</div><div class="seg never" style="flex:8">8</div><div class="seg wrong" style="flex:8">8</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="legend"><span><i style="background:var(--correct)"></i>1st procedure</span><span><i style="background:var(--never)"></i>after wrong procedure(s)</span><span><i style="background:var(--wrong)"></i>not recovered</span><span><i style="background:var(--nodet)"></i>no action</span></div>
+        </div>
+      </div>
+      <div class="col center">
+        <div class="box">
+          <p>TTR = injection → correct procedure(s) done. <b>Capped</b> mean counts unrecovered runs as the full hour.</p>
+          <p>First pick waits <b>60 s</b> after the first nonzero evaluation (timed gate). P/T is not always faster than highest P: KG scores are not calibrated probabilities, and shared procedures blur the ranking.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

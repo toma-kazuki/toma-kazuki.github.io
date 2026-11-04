@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>08 Excess Water Vapor Pressure in Cabin — Shortest T first</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../nav.js?v=4"></script>
+</head>
+<body data-back="../16-recovery-scenarios.html" data-prev="recovery_shortest-07.html" data-next="recovery_shortest-09.html" data-up="recovery_probability-08.html" data-down="recovery_random-08.html">
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup · Recovery detail</header>
+    <h1>08 Excess Water Vapor Pressure in Cabin — Shortest T first · <span class="hold">recovered after wrong procedure(s)</span></h1>
+    <div class="body" style="gap:18px">
+      <div class="col" style="flex:1.45;min-height:0">
+        <div class="recovery-plots">
+          <div class="cell"><h3>Module activation</h3>
+            <a href="../assets/detail/recovery_shortest/activation_08.png" target="_blank"><img src="../assets/detail/recovery_shortest/activation_08.png" alt="Module activation"></a>
+          </div>
+          <div class="cell"><h3>Score distribution</h3>
+            <a href="../assets/detail/recovery_shortest/score_distribution_08.png" target="_blank"><img src="../assets/detail/recovery_shortest/score_distribution_08.png" alt="Score distribution"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col rank-panel">
+        <h2>Ranking at first decision (Shortest T first)</h2>
+        <table class="rank-table">
+          <thead><tr><th>Hypothesis</th><th class="num">P</th><th class="num">T</th><th class="num">P/T</th></tr></thead>
+          <tbody>
+<tr class='best'><td>1. Main Cabin Fan Failure ▸</td><td class='num'>0.324</td><td class='num'>3</td><td class='num'>0.1081</td></tr>
+<tr class=''><td>2. Reduced Main Cabin Fan #1 Capacity</td><td class='num'>0.000</td><td class='num'>4</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>3. TCCS Auxiliary Fan at Reduced Capacity</td><td class='num'>0.000</td><td class='num'>4</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>4. PDU 5 Failure ▸</td><td class='num'>0.081</td><td class='num'>6</td><td class='num'>0.0135</td></tr>
+<tr class=''><td>5. PDU 4 Failure</td><td class='num'>0.070</td><td class='num'>6</td><td class='num'>0.0117</td></tr>
+<tr class=''><td>6. Emergency O2 System Maintenance</td><td class='num'>0.000</td><td class='num'>8</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>7. Fuel Cell Degrade</td><td class='num'>0.000</td><td class='num'>8</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>8. Fuel Cell Failure</td><td class='num'>0.000</td><td class='num'>8</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>9. CDRA LiOH Canister Saturation</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>10. Loss of Pressure</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>11. MOXIE Antenna Failure</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>12. MOXIE ECM Failure</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>13. MOXIE Fan Failure</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>14. N2 Tank Burst</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+<tr class='truth'><td>20. Excess Water Vapor Pressure in Cabin ★ ▸</td><td class='num'>0.405</td><td class='num'>15</td><td class='num'>0.0270</td></tr>
+          </tbody>
+        </table>
+        <p class="rank-note">15 of 31 · ★ truth · ▸ attempted · highlight = first pick · P=0 if unscored at first decision</p>
+        <div class="box rank-summary">
+          <p><b>Sequence:</b> Main Cabin Fan Failure → PDU 5 Failure → Excess Water Vapor Pressure in Cabin</p>
+          <p><b>TTR:</b> 27.1 min · attempts 3 · wrong 2</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>← → scenario · ↑ ↓ ordering · Esc back</span><span>08 / 31 · Shortest T first</span></div>
+  </section>
+</div>
+</body>
+</html>

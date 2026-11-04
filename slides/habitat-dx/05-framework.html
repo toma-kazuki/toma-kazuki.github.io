@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>habitat-dx framework</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">3. Proposed Method</header>
+    <h1>habitat-dx represents the loop as six modular stages</h1>
+    <svg viewBox="0 0 1152 262" width="100%" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#707070"/>
+        </marker>
+        <marker id="ahd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#500000"/>
+        </marker>
+      </defs>
+      <rect x="386" y="6" width="380" height="54" rx="8" fill="#f2f0ea" stroke="#707070" stroke-width="2"/>
+      <text x="576" y="30" font-size="19" font-weight="700" text-anchor="middle" fill="#202020">Habitat simulation</text>
+      <text x="576" y="50" font-size="14" text-anchor="middle" fill="#707070">telemetry stream · physical state</text>
+
+      <path d="M386,33 L75,33 L75,132" fill="none" stroke="#707070" stroke-width="2" marker-end="url(#ah)"/>
+      <text x="230" y="25" font-size="14" text-anchor="middle" fill="#707070">telemetry</text>
+      <path d="M1100,169 L1136,169 L1136,33 L766,33" fill="none" stroke="#707070" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+      <text x="950" y="25" font-size="14" text-anchor="middle" fill="#707070">recovery action</text>
+
+      <text x="455" y="112" font-size="22" font-weight="700" text-anchor="middle" fill="#500000">Daphne-AT</text>
+      <text x="1018" y="112" font-size="19" font-weight="700" text-anchor="middle" fill="#3e3e3e">PRIDE + CRAFTSMAN</text>
+
+      <g font-size="17" font-weight="700" text-anchor="middle" fill="#202020">
+        <rect x="0" y="134" width="150" height="70" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="75" y="174">Detection</text>
+        <rect x="190" y="134" width="150" height="70" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="265" y="165">Hypothesis</text><text x="265" y="186">generation</text>
+        <rect x="380" y="134" width="150" height="70" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="455" y="174">Evaluation</text>
+        <rect x="570" y="134" width="150" height="70" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5" stroke-dasharray="7 5"/>
+        <text x="645" y="174">Prognosis</text>
+        <rect x="760" y="134" width="150" height="70" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="835" y="165">Decision-</text><text x="835" y="186">making</text>
+        <rect x="950" y="134" width="150" height="70" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="1025" y="174">Execution</text>
+      </g>
+      <g stroke="#707070" stroke-width="2" marker-end="url(#ah)">
+        <line x1="152" y1="169" x2="186" y2="169"/>
+        <line x1="342" y1="169" x2="376" y2="169"/>
+        <line x1="532" y1="169" x2="566" y2="169"/>
+        <line x1="722" y1="169" x2="756" y2="169"/>
+        <line x1="912" y1="169" x2="946" y2="169"/>
+      </g>
+      <path d="M1025,206 L1025,232 L455,232 L455,210" fill="none" stroke="#707070" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+      <text x="740" y="254" font-size="14" text-anchor="middle" fill="#707070">robotic inspection evidence → refines hypotheses</text>
+    </svg>
+    <div class="body" style="margin-top:8px">
+      <div class="col">
+        <ul>
+          <li>A <b>coordinator</b> schedules the stages; stages never call each other</li>
+          <li>Each stage method is chosen by a JSON <b>combination</b> — swap one stage, keep the rest fixed</li>
+          <li>Every evaluation method outputs a <b>probability distribution</b> over hypotheses, so any decision rule can read any method</li>
+        </ul>
+      </div>
+      <div class="col narrow">
+        <div class="box">
+          <p>Decision selects recovery procedures from the KG catalog; execution applies them with ETR durations and reliability. Physical robotics remain a surrogate pending CRAFTSMAN integration.</p>
+        </div>
+        <p style="font-size:15px;color:var(--muted);margin:0">solid = implemented · dashed = optional / not yet in the closed-loop study</p>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

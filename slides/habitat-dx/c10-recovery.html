@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recovery</title>
+<link rel="stylesheet" href="style.css?v=34">
+<script src="nav.js?v=15"></script>
+<style>
+  .c10 { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+  .c10-top {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: 0.88fr 1.22fr; grid-template-rows: 1fr; gap: 12px;
+  }
+  .c10-top .box {
+    margin: 0; padding: 14px 16px; min-height: 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .c10-top h3 { font-size: 16px; margin: 0 0 4px; }
+  .c10-top li { font-size: 14px; margin-bottom: 4px; line-height: 1.35; }
+  .c10-top p { font-size: 14px; margin: 0; line-height: 1.35; }
+  .c10-top .kwrow { margin-top: 6px; }
+  .c10-top .prompt { margin-top: auto; padding-top: 8px; }
+  .c10-chart { min-height: 0; display: flex; flex-direction: column; }
+  .c10-chart h3 { font-size: 14px; color: var(--maroon); margin: 0 0 4px; flex: 0 0 auto; }
+  .c10-chart .imgwrap {
+    flex: 1; min-height: 0; position: relative;
+    border: 1px solid var(--faint); border-radius: 3px; background: #fafafa;
+  }
+  .c10-chart .imgwrap img {
+    position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px);
+    object-fit: contain; object-position: center;
+  }
+  .c10-bot {
+    flex: 0 0 auto;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .c10-bot h3 { font-size: 14px; color: var(--maroon); margin: 0; }
+  .c10-bot .bar { height: 30px; }
+  .c10-bot .barrow { margin-bottom: 6px; }
+  .c10-bot .barlabel { flex: 0 0 100px; font-size: 14px; }
+  .c10-bot .seg { font-size: 14px; }
+  .c10-bot .legend { margin-left: 100px; font-size: 12px; margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">7. Recovery</header>
+    <h1 style="margin-bottom:8px">Same KG scores — rank by P/T (and baselines), verify on alarms</h1>
+    <div class="c10">
+      <div class="c10-top">
+        <div class="box">
+          <h3>At each decision</h3>
+          <ul style="margin:0;padding-left:18px">
+            <li><b>60 s</b> timed gate after first nonzero eval</li>
+            <li>Scores → P<sub>i</sub>; catalog → T<sub>i</sub></li>
+            <li>Run top hypothesis procedures <b>in series</b></li>
+            <li>Verify 1 min on alarms; else eliminate &amp; re-rank</li>
+          </ul>
+          <p><b>Orderings:</b> P/T · Highest P · Shortest T · Random (5 seeds)</p>
+          <div class="kwrow">
+            <span class="kw">P/T &amp; P: 28/31</span>
+            <span class="kw mute">short T 25</span>
+            <span class="kw mute">rand ~24</span>
+          </div>
+          <p class="prompt"><b>Discuss:</b> belief vs cost under time · <a href="backup-index.html#recovery">▸ backup</a></p>
+        </div>
+        <div class="c10-chart">
+          <h3>Recovered vs first-try (31)</h3>
+          <div class="imgwrap"><img src="assets/conf_recovery_orderings_trim.png" alt="orderings"></div>
+        </div>
+      </div>
+      <div class="c10-bot">
+        <h3>Outcome mix — 1st procedure / after wrongs / not recovered / no action</h3>
+        <div class="bars">
+          <div class="barrow"><div class="barlabel">P/T</div><div class="bar"><div class="seg correct" style="flex:21">21</div><div class="seg never" style="flex:7">7</div><div class="seg wrong" style="flex:1">1</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="barrow"><div class="barlabel">Highest P</div><div class="bar"><div class="seg correct" style="flex:26">26</div><div class="seg never" style="flex:2">2</div><div class="seg wrong" style="flex:1">1</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="barrow"><div class="barlabel">Shortest T</div><div class="bar"><div class="seg correct" style="flex:14">14</div><div class="seg never" style="flex:11">11</div><div class="seg wrong" style="flex:4">4</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="barrow" style="margin-bottom:2px"><div class="barlabel">Random</div><div class="bar"><div class="seg correct" style="flex:13">13</div><div class="seg never" style="flex:8">8</div><div class="seg wrong" style="flex:8">8</div><div class="seg no_detection" style="flex:2">2</div></div></div>
+          <div class="legend"><span><i style="background:var(--correct)"></i>1st proc</span><span><i style="background:var(--never)"></i>after wrongs</span><span><i style="background:var(--wrong)"></i>not recovered</span><span><i style="background:var(--nodet)"></i>no action</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation<a class="ms-link" href="manuscript/c10.html">notes</a></span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

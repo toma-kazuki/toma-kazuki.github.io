@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM detector normalization</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — LSTM detection</header>
+    <h1>Z-score sensors with train-set statistics, then classify the window</h1>
+    <div class="body" style="gap:18px">
+      <div class="col" style="flex:1.7">
+        <div class="figure"><img src="assets/lstm_det_zscore_timeline.png" alt="Z-score normalized sensors and LSTM anomaly probability"></div>
+        <p class="caption">Illustration · top: channels on a common z-score scale · bottom: rising P(anomaly) after inject</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>Fit on train only</h3><p>Per-sensor mean / std from clean training windows; frozen for val, holdout, and live inference</p></div>
+        <div class="box"><h3>Not per-window</h3><p>Absolute offsets can be diagnostic — we do not re-center each 60 s crop on its own</p></div>
+        <div class="box"><h3>Effect</h3><p>Mixed units share one scale so the binary LSTM can weigh cross-channel dynamics</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

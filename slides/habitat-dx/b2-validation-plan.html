@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Validation method</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup</header>
+    <h1>Three studies in the same loop, one per research question</h1>
+    <table style="font-size:18px">
+      <thead><tr><th style="width:22%">Study</th><th style="width:7%">RQ</th><th>Design</th><th style="width:18%">Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Agent interaction</b></td><td>RQ1</td>
+          <td>Loop closed: fault removed only when correct procedures succeed. Vary <b>confidence before acting</b>, <b>verify window</b>, and <b>procedure reliability</b>.</td>
+          <td><span class="status pre">preliminary · recovery ordering</span></td>
+        </tr>
+        <tr>
+          <td><b>Autonomy-level sweep</b></td><td>RQ2</td>
+          <td>Same scenarios from <b>full supervision to full autonomy</b>. At full autonomy, trace each unsuccessful recovery to its cause.</td>
+          <td><span class="status plan">planned</span></td>
+        </tr>
+        <tr class="best">
+          <td><b>Diagnosis ablation</b></td><td>RQ3</td>
+          <td>Swap Daphne-AT's <b>diagnostic method</b> while every other stage stays fixed.</td>
+          <td><span class="status pre">preliminary · this talk</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 style="margin-top:22px">Metrics</h2>
+    <div>
+      <span class="tag" style="font-size:17px">faults resolved</span>
+      <span class="tag" style="font-size:17px">time to resolution</span>
+      <span class="tag" style="font-size:17px">wrong procedures attempted</span>
+      <span class="tag" style="font-size:17px">operator interventions</span>
+      <span class="tag" style="font-size:17px">rank and timeliness of the correct diagnosis</span>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

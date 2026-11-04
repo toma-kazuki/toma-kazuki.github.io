@@ -76,6 +76,7 @@ const coAuthorConf = PUBLICATIONS.filter(p => p.type === 'conference' && p.role 
               <span class="tag tag-work !text-xs">Conference</span>
               <span class="tag tag-capstone !text-xs">First Author</span>
               {pub.links?.poster && <a href={pub.links.poster} target="_blank" class="text-xs font-medium" style="color:var(--color-accent);">[Poster]</a>}
+              {pub.links?.slides && <a href={pub.links.slides} target="_blank" class="text-xs font-medium" style="color:var(--color-accent);">[Slides]</a>}
               {pub.links?.materials && <a href={pub.links.materials} target="_blank" class="text-xs font-medium" style="color:var(--color-accent);">[Materials]</a>}
             </div>
           </div>

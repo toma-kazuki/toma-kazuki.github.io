@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Conclusion</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=10"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">6. Conclusion</header>
+    <h1>Conclusion and future work</h1>
+    <div class="body">
+      <div class="col" style="flex:1.2">
+        <ul>
+          <li>A <b>closed-loop AFDDR architecture</b> integrating Daphne-AT (diagnosis and decision), PRIDE (procedures), and CRAFTSMAN (robotics) under adjustable human supervision</li>
+          <li><b>habitat-dx</b>: six modular stages; diagnosis and procedure execution are now exercised end to end</li>
+          <li><b>RQ3:</b> multi-channel time-series matching performs best among hand-crafted evaluators (25 correct, 0 wrong, 14 s median)</li>
+          <li><b>Recovery ordering:</b> P/T and highest P both recover 28/31; shortest T and random lose more to the hour limit</li>
+          <li><b>Learned detection:</b> binary LSTM beats threshold (median 3 s vs 7 s); F1 0.92–0.99 across the full noise mode×intensity Monte Carlo grid</li>
+          <li><b>RQ1, RQ2:</b> closed loop enables interaction and autonomy studies; operator and robotics still planned</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h2>Future work</h2>
+        <ul>
+          <li>Gate KG / time-series diagnosis from LSTM detections; match Study A schedules</li>
+          <li>Hold-out runs / higher-fidelity sims (e.g. BioSim) where train ≠ test generator</li>
+          <li>Planning and execution modules sampled from PRIDE and CRAFTSMAN</li>
+          <li>Autonomy sweep with operator approvals and iterative robot–diagnosis feedback</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

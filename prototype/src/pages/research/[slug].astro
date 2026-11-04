@@ -75,6 +75,16 @@ const relatedPubs = (project.related_publications ?? [])
       )}
     </div>
 
+    {project.slides_url && (
+      <p class="mb-8">
+        <a href={project.slides_url} target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border transition-colors"
+           style="color:var(--color-accent);border-color:var(--color-accent);">
+          Interactive slides →
+        </a>
+      </p>
+    )}
+
     <!-- Project detail (placeholder for MDX content) -->
     <div class="mb-12 p-6 rounded-xl border-l-4" style="border-color:var(--color-accent);background:var(--color-surface);">
       <p class="text-sm font-medium mb-1" style="color:var(--color-accent);">Project Details</p>
@@ -120,6 +130,11 @@ const relatedPubs = (project.related_publications ?? [])
                   <a href={pub.links.poster} target="_blank"
                      class="text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors"
                      style="color:var(--color-accent);border-color:var(--color-accent);">[Poster]</a>
+                )}
+                {pub.links?.slides && (
+                  <a href={pub.links.slides} target="_blank"
+                     class="text-xs font-medium px-2.5 py-1 rounded-lg border transition-colors"
+                     style="color:var(--color-accent);border-color:var(--color-accent);">[Slides]</a>
                 )}
                 {pub.links?.materials && (
                   <a href={pub.links.materials} target="_blank"

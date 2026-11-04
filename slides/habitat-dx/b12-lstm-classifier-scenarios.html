@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM scenario heatmap</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup — LSTM classifier (Stage 5)</header>
+    <h1>All 31 scenarios: correct decision, then successful procedure</h1>
+    <div class="body" style="gap:16px">
+      <div class="col" style="flex:2.2">
+        <div class="figure"><img src="assets/lstm_scenario_heatmap.png" alt="Heatmap of decision latency, truth peak, and entropy across 31 scenarios"></div>
+        <p class="caption">Closed-loop <code>lstm-confidence</code> · inject at 80 s · green ● = correct decision (31/31) · execute success 100%</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>Headline</h3><p><b>31 / 31</b> correct · median decision latency <b>5 s</b> · mean <b>5.4 s</b></p></div>
+        <div class="box"><h3>What varies</h3><p>Latency spans ~1–10 s; truth peak P stays ≈ 1.0 once the gate fires; entropy is low everywhere</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

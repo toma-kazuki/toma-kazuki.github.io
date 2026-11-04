@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM detection noise Monte Carlo</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=11"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — LSTM detection</header>
+    <h1>Noise grid: 4 modes × 3 intensities × 32 × 10</h1>
+    <div class="body" style="gap:12px">
+      <div class="col" style="flex:1.55">
+        <div class="figure"><img src="assets/lstm_det_noise_grid.png" alt="F1 latency detection-rate heatmaps across noise mode and intensity"></div>
+        <p class="caption">Pooled pre-inject + active-fault windows · τ = 0.5 · catalog caution-margin priors · 3872 runs</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>Protocol</h3><p><b>white / ar1 / periodic / mixed</b> × <b>low·med·high</b> (2/5/15% σ) · 31 anomalies + 1 nominal · 10 seeds + clean</p></div>
+        <div class="box"><h3>Accuracy</h3><p>Clean F1 <b>0.981</b> · grid F1 <b>0.922–0.986</b> · worst <b>ar1/med</b> · best <b>periodic/med</b> · detect <b>31/31</b> every cell</p></div>
+        <div class="box"><h3>Speed</h3><p>Median latency stays <b>0–4 s</b> · high AR1/mixed often fire at inject (lat ≈ 0) via elevated scores</p></div>
+        <div class="box"><h3>FP / precision</h3><p>Low white &amp; periodic: FP = 0, P = 1.0 · high AR1/mixed: P ≈ 0.88–0.89 (nominal FA rises)</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

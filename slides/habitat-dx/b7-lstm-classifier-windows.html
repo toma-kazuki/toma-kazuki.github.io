@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM windows and split</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup — LSTM classifier (Stage 5)</header>
+    <h1>Sliding windows turn each run into labeled training examples</h1>
+    <div class="body" style="gap:18px">
+      <div class="col" style="flex:1.55">
+        <div class="figure"><img src="assets/lstm_windows_overview.png" alt="Overlapping 60-second window crops around anomaly onset"></div>
+        <p class="caption">Stage-1 illustration · 60 s crops of ppCO₂ around inject (red). Label = nom / anom at the window end</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>Windowing</h3><p>Stride along each trajectory; early anomaly windows still contain mostly nominal history</p></div>
+        <div class="box"><h3>Train / val split</h3><p>Stratified by class (not by time): Stage 5 uses <b>80% / 20%</b> → 3032 train · 750 val windows</p></div>
+        <div class="box"><h3>Why stratified</h3><p>Keeps rare anomaly classes in both sets; same generator family, so this is an in-distribution check</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

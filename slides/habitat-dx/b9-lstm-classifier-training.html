@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM training</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup — LSTM classifier (Stage 5)</header>
+    <h1>Stage 5 converges: validation accuracy ≈ 98%</h1>
+    <div class="body">
+      <div class="col" style="flex:2.2">
+        <div class="figure"><img src="assets/lstm_train_curves.png" alt="Stage-5 train and validation loss and accuracy"></div>
+        <p class="caption">Cross-entropy loss and accuracy over 20 epochs · train and val track each other</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>Setup</h3><p>32-way softmax · hidden 32 · batch 32 · lr 10<sup>−3</sup></p></div>
+        <div class="box"><h3>Result</h3><p>Final val accuracy <b>0.981</b> · val loss ≈ 0.10</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM schematic</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup — LSTM classifier (Stage 5)</header>
+    <h1>AnomalyLSTM in the loop: window → recurrent net → class scores</h1>
+    <svg viewBox="0 0 1152 480" width="100%" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" aria-label="LSTM detector schematic">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#707070"/>
+        </marker>
+        <marker id="arrd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#500000"/>
+        </marker>
+      </defs>
+
+      <!-- Habitat -->
+      <rect x="8" y="4" width="150" height="48" rx="8" fill="#f2f0ea" stroke="#707070" stroke-width="2"/>
+      <text x="83" y="24" font-size="14" font-weight="700" text-anchor="middle" fill="#202020">Habitat sim</text>
+      <text x="83" y="42" font-size="11" text-anchor="middle" fill="#707070">1 Hz telemetry</text>
+      <path d="M158,28 L188,28" stroke="#707070" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Input window -->
+      <rect x="190" y="4" width="200" height="188" rx="10" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+      <text x="290" y="24" font-size="15" font-weight="700" text-anchor="middle" fill="#500000">Input window</text>
+      <text x="290" y="42" font-size="11" text-anchor="middle" fill="#707070">T=60 · F=68 · z-scored</text>
+      <g font-size="10" fill="#707070" text-anchor="middle">
+        <text x="230" y="64">t−59</text>
+        <text x="270" y="64">…</text>
+        <text x="310" y="64">t−1</text>
+        <text x="350" y="64">t</text>
+      </g>
+      <g stroke="#500000" stroke-width="1.3">
+        <circle cx="230" cy="84" r="7" fill="#f2f0ea"/><circle cx="230" cy="108" r="7" fill="#f2f0ea"/><circle cx="230" cy="132" r="7" fill="#f2f0ea"/>
+        <circle cx="270" cy="84" r="7" fill="#f2f0ea"/><circle cx="270" cy="108" r="7" fill="#f2f0ea"/><circle cx="270" cy="132" r="7" fill="#f2f0ea"/>
+        <circle cx="310" cy="84" r="7" fill="#f2f0ea"/><circle cx="310" cy="108" r="7" fill="#f2f0ea"/><circle cx="310" cy="132" r="7" fill="#f2f0ea"/>
+        <circle cx="350" cy="84" r="7" fill="#d6d3c4"/><circle cx="350" cy="108" r="7" fill="#d6d3c4"/><circle cx="350" cy="132" r="7" fill="#d6d3c4"/>
+      </g>
+      <text x="230" y="156" font-size="13" text-anchor="middle" fill="#707070">⋮</text>
+      <text x="270" y="156" font-size="13" text-anchor="middle" fill="#707070">⋮</text>
+      <text x="310" y="156" font-size="13" text-anchor="middle" fill="#707070">⋮</text>
+      <text x="350" y="156" font-size="13" text-anchor="middle" fill="#707070">⋮</text>
+      <text x="290" y="176" font-size="11" text-anchor="middle" fill="#707070">x ∈ ℝ⁶⁸ each second</text>
+
+      <path d="M390,98 L418,98" stroke="#707070" stroke-width="2.5" marker-end="url(#arr)"/>
+
+      <!-- AnomalyLSTM — clearer unrolling -->
+      <rect x="420" y="4" width="370" height="188" rx="10" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+      <text x="605" y="22" font-size="15" font-weight="700" text-anchor="middle" fill="#500000">AnomalyLSTM (unrolled)</text>
+      <text x="605" y="38" font-size="11" text-anchor="middle" fill="#707070">same cell · shared weights · H = 32</text>
+
+      <!-- inputs into cells -->
+      <g font-size="10" fill="#707070" text-anchor="middle">
+        <text x="470" y="54">xₜ₋₅₉</text>
+        <text x="560" y="54">…</text>
+        <text x="650" y="54">xₜ₋₁</text>
+        <text x="740" y="54">xₜ</text>
+      </g>
+      <g stroke="#707070" stroke-width="1.4" fill="none" marker-end="url(#arr)">
+        <path d="M470,56 L470,66"/>
+        <path d="M650,56 L650,66"/>
+        <path d="M740,56 L740,66"/>
+      </g>
+
+      <!-- LSTM cells -->
+      <g font-size="11" text-anchor="middle">
+        <rect x="438" y="68" width="64" height="44" rx="7" fill="#f2f0ea" stroke="#500000" stroke-width="2"/>
+        <text x="470" y="88" font-weight="700" fill="#202020">LSTM</text>
+        <text x="470" y="103" fill="#707070">cell</text>
+
+        <text x="560" y="94" font-size="18" fill="#707070">···</text>
+
+        <rect x="618" y="68" width="64" height="44" rx="7" fill="#f2f0ea" stroke="#500000" stroke-width="2"/>
+        <text x="650" y="88" font-weight="700" fill="#202020">LSTM</text>
+        <text x="650" y="103" fill="#707070">cell</text>
+
+        <rect x="708" y="68" width="64" height="44" rx="7" fill="#d6d3c4" stroke="#500000" stroke-width="2.5"/>
+        <text x="740" y="88" font-weight="700" fill="#202020">LSTM</text>
+        <text x="740" y="103" fill="#707070">cell</text>
+      </g>
+
+      <!-- hidden-state chain under cells -->
+      <g font-size="10" text-anchor="middle" fill="#500000">
+        <circle cx="470" cy="132" r="11" fill="#fff" stroke="#500000" stroke-width="1.6"/>
+        <text x="470" y="135" font-weight="700">h</text>
+        <text x="470" y="152">hₜ₋₅₉</text>
+
+        <path d="M481,132 L538,132" stroke="#500000" stroke-width="1.8" marker-end="url(#arrd)"/>
+        <text x="560" y="136" font-size="14" fill="#707070">···</text>
+        <path d="M582,132 L638,132" stroke="#500000" stroke-width="1.8" marker-end="url(#arrd)"/>
+
+        <circle cx="650" cy="132" r="11" fill="#fff" stroke="#500000" stroke-width="1.6"/>
+        <text x="650" y="135" font-weight="700">h</text>
+        <text x="650" y="152">hₜ₋₁</text>
+
+        <path d="M661,132 L728,132" stroke="#500000" stroke-width="2" marker-end="url(#arrd)"/>
+
+        <circle cx="740" cy="132" r="12" fill="#d6d3c4" stroke="#500000" stroke-width="2"/>
+        <text x="740" y="135" font-weight="700">h</text>
+        <text x="740" y="152" font-weight="700">hₜ ∈ ℝ³²</text>
+      </g>
+
+      <!-- vertical links cell → h -->
+      <g stroke="#500000" stroke-width="1.3" stroke-dasharray="3 2" fill="none">
+        <path d="M470,112 L470,121"/>
+        <path d="M650,112 L650,121"/>
+        <path d="M740,112 L740,120"/>
+      </g>
+
+      <text x="605" y="172" font-size="11" text-anchor="middle" fill="#707070">each step τ: (h_τ, c_τ) = LSTM(x_τ, h_{τ−1}, c_{τ−1})</text>
+      <text x="605" y="186" font-size="11" text-anchor="middle" fill="#500000" font-weight="700">only final h_t → class head · gates: next slide</text>
+
+      <path d="M790,132 L818,132" stroke="#500000" stroke-width="2.5" marker-end="url(#arrd)"/>
+
+      <!-- Class head — explicit linear map -->
+      <rect x="820" y="4" width="324" height="188" rx="10" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+      <text x="982" y="22" font-size="15" font-weight="700" text-anchor="middle" fill="#500000">Class head</text>
+      <text x="982" y="38" font-size="11" text-anchor="middle" fill="#707070">one linear score per class, then softmax</text>
+
+      <!-- h_t as a small stack of units -->
+      <g stroke="#500000" stroke-width="1.2">
+        <circle cx="860" cy="70" r="6" fill="#d6d3c4"/>
+        <circle cx="860" cy="90" r="6" fill="#d6d3c4"/>
+        <circle cx="860" cy="110" r="6" fill="#d6d3c4"/>
+        <text x="860" y="132" font-size="12" text-anchor="middle" fill="#707070">⋮</text>
+        <circle cx="860" cy="148" r="6" fill="#d6d3c4"/>
+      </g>
+      <text x="860" y="166" font-size="10" text-anchor="middle" fill="#500000" font-weight="700">hₜ (32)</text>
+
+      <!-- Dense edges: every h unit → every logit (fully connected) -->
+      <g stroke="#9e9e9e" stroke-width="0.85" fill="none" opacity="0.85">
+        <line x1="866" y1="70" x2="944" y2="56"/>
+        <line x1="866" y1="70" x2="944" y2="80"/>
+        <line x1="866" y1="70" x2="944" y2="104"/>
+        <line x1="866" y1="70" x2="944" y2="140"/>
+        <line x1="866" y1="90" x2="944" y2="56"/>
+        <line x1="866" y1="90" x2="944" y2="80"/>
+        <line x1="866" y1="90" x2="944" y2="104"/>
+        <line x1="866" y1="90" x2="944" y2="140"/>
+        <line x1="866" y1="110" x2="944" y2="56"/>
+        <line x1="866" y1="110" x2="944" y2="80"/>
+        <line x1="866" y1="110" x2="944" y2="104"/>
+        <line x1="866" y1="110" x2="944" y2="140"/>
+        <line x1="866" y1="148" x2="944" y2="56"/>
+        <line x1="866" y1="148" x2="944" y2="80"/>
+        <line x1="866" y1="148" x2="944" y2="104"/>
+        <line x1="866" y1="148" x2="944" y2="140"/>
+      </g>
+
+      <!-- logits: each z_k = row_k(W) · h_t + b_k -->
+      <g stroke="#500000" stroke-width="1.4" font-size="11" fill="#202020">
+        <circle cx="952" cy="56" r="8" fill="#fff"/><text x="968" y="60">z₀  nominal</text>
+        <circle cx="952" cy="80" r="8" fill="#fff"/><text x="968" y="84">z₁  anom. 1</text>
+        <circle cx="952" cy="104" r="8" fill="#fff"/><text x="968" y="108">z₂  anom. 2</text>
+        <text x="952" y="126" font-size="13" text-anchor="middle" fill="#707070">⋮</text>
+        <circle cx="952" cy="140" r="8" fill="#fff"/><text x="968" y="144">z₃₁ anom. 31</text>
+      </g>
+
+      <text x="1095" y="78" font-size="10" text-anchor="start" fill="#707070">each z_k uses</text>
+      <text x="1095" y="92" font-size="10" text-anchor="start" fill="#707070">its own row of W</text>
+      <text x="1095" y="106" font-size="10" text-anchor="start" fill="#707070">on the same h_t</text>
+
+      <!-- formula callout -->
+      <rect x="888" y="158" width="242" height="28" rx="4" fill="#f2f0ea" stroke="#707070" stroke-width="1"/>
+      <text x="1009" y="170" font-size="11" text-anchor="middle" fill="#202020">
+        <tspan font-weight="700">z = W h_t + b</tspan>
+        <tspan fill="#707070">,  W ∈ ℝ³²ˣ³²</tspan>
+      </text>
+      <text x="1009" y="182" font-size="11" text-anchor="middle" fill="#202020">
+        <tspan font-weight="700">P = softmax(z)</tspan>
+        <tspan fill="#707070">  → class probabilities</tspan>
+      </text>
+
+      <!-- Loop placement (unchanged structure) -->
+      <rect x="16" y="210" width="1120" height="250" rx="10" fill="#f2f0ea" stroke="#707070" stroke-width="1.5"/>
+      <text x="576" y="236" font-size="15" font-weight="700" text-anchor="middle" fill="#500000">In the habitat-dx loop</text>
+
+      <g font-size="14" font-weight="700" text-anchor="middle" fill="#202020">
+        <rect x="48" y="256" width="150" height="54" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="123" y="278">Detection</text>
+        <text x="123" y="296" font-size="11" font-weight="400" fill="#707070">AnomalyLSTM</text>
+
+        <rect x="248" y="256" width="150" height="54" rx="8" fill="#fff" stroke="#9e9e9e" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="323" y="278" fill="#707070">Hypothesis</text>
+        <text x="323" y="296" font-size="11" font-weight="400" fill="#9e9e9e">skipped</text>
+
+        <rect x="448" y="256" width="170" height="54" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="533" y="278">Evaluation</text>
+        <text x="533" y="296" font-size="11" font-weight="400" fill="#707070">= LSTM posteriors</text>
+
+        <rect x="668" y="256" width="150" height="54" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="743" y="278">Decision</text>
+        <text x="743" y="296" font-size="11" font-weight="400" fill="#707070">confidence gate</text>
+
+        <rect x="868" y="256" width="150" height="54" rx="8" fill="#fff" stroke="#500000" stroke-width="2.5"/>
+        <text x="943" y="278">Execute</text>
+        <text x="943" y="296" font-size="11" font-weight="400" fill="#707070">procedures</text>
+      </g>
+      <g stroke="#707070" stroke-width="2" marker-end="url(#arr)">
+        <line x1="198" y1="283" x2="244" y2="283"/>
+        <line x1="398" y1="283" x2="444" y2="283"/>
+        <line x1="618" y1="283" x2="664" y2="283"/>
+        <line x1="818" y1="283" x2="864" y2="283"/>
+      </g>
+
+      <path d="M123,310 L123,360 L533,360 L533,314" fill="none" stroke="#500000" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrd)"/>
+      <text x="330" y="382" font-size="13" text-anchor="middle" fill="#500000">Detection publishes class scores as evaluation each tick</text>
+      <text x="330" y="402" font-size="12" text-anchor="middle" fill="#707070">hold while leader is nominal · decide on an anomaly · recover_nominal</text>
+      <text x="920" y="380" font-size="12" text-anchor="middle" fill="#707070">solid = active in Study C</text>
+      <text x="920" y="400" font-size="12" text-anchor="middle" fill="#707070">dashed = disabled</text>
+    </svg>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recovery play-out</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Recovery</header>
+    <h1>Fan #1 Failure: timed gate → P/T picks the true swap → verify → recover</h1>
+    <div class="body" style="gap:24px">
+      <div class="col" style="flex:2.3">
+        <div class="figure"><img src="assets/recovery_playout_24.png" alt="Module activation for TCCS Auxiliary Fan #1 Failure under P/T recovery"></div>
+        <p class="caption">Scenario 24 · knowledge graph + cardinality fixed · P/T recovery · 60 s timed gate · procedure execute · 3600 s run</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>+4 s · diagnosis</h3><p>KG returns candidates (symptom overlap). Scores become P<sub>i</sub>; catalog ETRs become T<sub>i</sub></p></div>
+        <div class="box"><h3>+4 – 64 s · timed gate</h3><p>Hold first pick for <b>60 s</b> after first nonzero evaluation so early score mass can settle</p></div>
+        <div class="box"><h3>+64 s · first pick</h3><p>P/T ranks <b>Fan #1 Failure</b> first (P=0.37, T=20 min) — true fault, first try</p></div>
+        <div class="box"><h3>+64 – 1264 s · execute</h3><p>Auxiliary fan swap-out runs; experimenter accepts the required procedure</p></div>
+        <div class="box" style="border-left-color:var(--correct);background:#eef7ee"><h3>+1264 – 1324 s · verify / recover</h3><p>1 min window: alarms drop → success (TTR ≈ 21 min from injection)</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

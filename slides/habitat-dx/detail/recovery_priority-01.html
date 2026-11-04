@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>01 Biological Filter Saturation — P/T (priority)</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../nav.js?v=4"></script>
+</head>
+<body data-back="../16-recovery-scenarios.html" data-next="recovery_priority-02.html" data-down="recovery_probability-01.html">
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup · Recovery detail</header>
+    <h1>01 Biological Filter Saturation — P/T (priority) · <span class="hold">recovered after wrong procedure(s)</span></h1>
+    <div class="body" style="gap:18px">
+      <div class="col" style="flex:1.45;min-height:0">
+        <div class="recovery-plots">
+          <div class="cell"><h3>Module activation</h3>
+            <a href="../assets/detail/recovery_priority/activation_01.png" target="_blank"><img src="../assets/detail/recovery_priority/activation_01.png" alt="Module activation"></a>
+          </div>
+          <div class="cell"><h3>Score distribution</h3>
+            <a href="../assets/detail/recovery_priority/score_distribution_01.png" target="_blank"><img src="../assets/detail/recovery_priority/score_distribution_01.png" alt="Score distribution"></a>
+          </div>
+        </div>
+      </div>
+      <div class="col rank-panel">
+        <h2>Ranking at first decision (P/T (priority))</h2>
+        <table class="rank-table">
+          <thead><tr><th>Hypothesis</th><th class="num">P</th><th class="num">T</th><th class="num">P/T</th></tr></thead>
+          <tbody>
+<tr class='best'><td>1. CDRA LiOH Canister Saturation ▸</td><td class='num'>0.255</td><td class='num'>12</td><td class='num'>0.0213</td></tr>
+<tr class=''><td>2. RWGSR Malfunction ▸</td><td class='num'>0.204</td><td class='num'>12</td><td class='num'>0.0170</td></tr>
+<tr class=''><td>3. Emergency O2 System Maintenance ▸</td><td class='num'>0.128</td><td class='num'>8</td><td class='num'>0.0159</td></tr>
+<tr class='truth'><td>4. Biological Filter Saturation ★ ▸</td><td class='num'>0.255</td><td class='num'>25</td><td class='num'>0.0102</td></tr>
+<tr class=''><td>5. CDRA Failure</td><td class='num'>0.043</td><td class='num'>15</td><td class='num'>0.0029</td></tr>
+<tr class=''><td>6. Loss of Pressure</td><td class='num'>0.031</td><td class='num'>12</td><td class='num'>0.0026</td></tr>
+<tr class=''><td>7. Electrolysis System Failure</td><td class='num'>0.084</td><td class='num'>35</td><td class='num'>0.0024</td></tr>
+<tr class=''><td>8. Main Cabin Fan Failure</td><td class='num'>0.000</td><td class='num'>3</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>9. Reduced Main Cabin Fan #1 Capacity</td><td class='num'>0.000</td><td class='num'>4</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>10. TCCS Auxiliary Fan at Reduced Capacity</td><td class='num'>0.000</td><td class='num'>4</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>11. PDU 4 Failure</td><td class='num'>0.000</td><td class='num'>6</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>12. PDU 5 Failure</td><td class='num'>0.000</td><td class='num'>6</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>13. Fuel Cell Degrade</td><td class='num'>0.000</td><td class='num'>8</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>14. Fuel Cell Failure</td><td class='num'>0.000</td><td class='num'>8</td><td class='num'>0.0000</td></tr>
+<tr class=''><td>15. MOXIE Antenna Failure</td><td class='num'>0.000</td><td class='num'>12</td><td class='num'>0.0000</td></tr>
+          </tbody>
+        </table>
+        <p class="rank-note">15 of 31 · ★ truth · ▸ attempted · highlight = first pick · P=0 if unscored at first decision</p>
+        <div class="box rank-summary">
+          <p><b>Sequence:</b> CDRA LiOH Canister Saturation → RWGSR Malfunction → Emergency O2 System Maintenance → Biological Filter Saturation</p>
+          <p><b>TTR:</b> 61.1 min · attempts 4 · wrong 3</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>← → scenario · ↑ ↓ ordering · Esc back</span><span>01 / 31 · P/T (priority)</span></div>
+  </section>
+</div>
+</body>
+</html>

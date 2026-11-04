@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scenario play-out</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=4"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — Diagnosis</header>
+    <h1>CDRA Failure: from first limit crossing to decision in 10 s</h1>
+    <div class="body" style="gap:24px">
+      <div class="col" style="flex:2.3">
+        <div class="figure"><img src="assets/playout_02.png" alt="Module activation, detection, and hypotheses for CDRA Failure"></div>
+        <p class="caption">Scenario 2 · activation and limit crossings for multi-channel time-series matching; hypotheses sharing symptoms: knowledge graph = nonzero symptom match, time-series = signature drives every scored channel</p>
+      </div>
+      <div class="col steps">
+        <div class="box"><h3>+5 s · detection</h3><p>Humidity L1 / L2 cross caution → hypothesis generation and evaluation start</p></div>
+        <div class="box"><h3>+5 s · hypotheses</h3><p>5 candidates share the humidity symptom, for all three methods</p></div>
+        <div class="box"><h3>+7 – 8 s · more evidence</h3><p>ppCO₂ and crew-quarters humidity cross caution → knowledge graph 8, single 2, multi 1 (CDRA Failure)</p></div>
+        <div class="box" style="border-left-color:var(--correct);background:#eef7ee"><h3>+10 s · decision</h3><p>Daphne-AT signals recovery of <b>CDRA Failure</b> (correct)</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

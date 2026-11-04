@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM detection reflection</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=10"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study — LSTM detection</header>
+    <h1>Detection is the right claim — isolation stays with other stages</h1>
+    <div class="body" style="gap:14px">
+      <div class="col">
+        <div class="box">
+          <h3>What this Study C shows</h3>
+          <p>A <b>binary LSTM</b> can outperform caution/warning thresholds on latency and coverage in the same open loop</p>
+          <p>Positive detection is an <b>observation</b> that can gate hypothesis / evaluation — not a fault ID</p>
+        </div>
+        <div class="box">
+          <h3>Limits to keep in view</h3>
+          <p>Train / holdout still share the HSS31 generator — in-distribution detection, not a fidelity leap</p>
+          <p>Soft faults (#11, #26) stay closer to nominal; residual dynamics after recover can look “shaky”</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box" style="border-left-color:var(--correct);background:#eef7ee">
+          <h3>Why keep threshold (and KG / TS / BN)</h3>
+          <p>RQ3 compares methods <b>inside the loop</b> — interpretability, evidence needs, failure modes</p>
+          <p>Thresholds remain auditable baselines; learned detection is one modular swap</p>
+        </div>
+        <div class="box">
+          <h3>Next</h3>
+          <p>Gated KG / time-series after LSTM arm; match Study A schedules</p>
+          <p>Full noise grid (4×3×32×10): F1 0.92–0.99, detect 31/31 every cell — classifier slides stay in <b>backup</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

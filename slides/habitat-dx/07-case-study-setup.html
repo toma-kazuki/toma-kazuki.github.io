@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case study setup</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">4. Case Study</header>
+    <h1>Three studies in the same loop: diagnose, recover, then learn</h1>
+    <div class="body" style="gap:16px">
+      <div class="col">
+        <div class="box">
+          <h3>Study A — diagnosis (RQ3)</h3>
+          <p>31 HSS scenarios · 160 s · inject at 20 s</p>
+          <p>Four evaluation methods; everything else fixed</p>
+          <p>Decision = <b>confidence gate</b> → recovery <b>signal</b> (open loop)</p>
+        </div>
+        <div class="box">
+          <h3>Study B — recovery ordering</h3>
+          <p>Same 31 · <b>3600 s</b> · inject at 20 s</p>
+          <p>Diagnosis fixed: KG + cardinality · Decision = <b>P/T priority</b></p>
+          <p>Execute = <b>procedures</b> with ETRs; verify on alarms</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box" style="border-left-color:var(--correct);background:#eef7ee">
+          <h3>Study C — learned LSTM detection</h3>
+          <p><b>AnomalyLSTM</b>: 60 s × 68 sensors → <b>nominal / anomaly</b></p>
+          <p>Offline: Part B5 scenario holdout · binary train</p>
+          <p>Online open loop: binary scores + threshold compare; anomaly obs can gate diagnosis</p>
+        </div>
+        <p style="font-size:16px;color:var(--muted);margin-top:12px">A asks which evaluator to trust. B asks which recovery to try next. C asks whether a <b>learned detector</b> beats thresholds and can arm the diagnosis stages.</p>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

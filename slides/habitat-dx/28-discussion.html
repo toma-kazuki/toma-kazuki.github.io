@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Discussion</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=10"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide roomy">
+    <header class="head">5. Discussion</header>
+    <h1>Diagnosis, recovery ordering, and a learned detector answer different questions</h1>
+    <div class="body">
+      <div class="col">
+        <h2>What the case studies show</h2>
+        <ul>
+          <li><b>Stage isolation works:</b> swapping only evaluation moves correct decisions from 9 to 25 of 31</li>
+          <li><b>Dynamics beat symptoms:</b> trajectory similarity separates faults that share the same limit crossings</li>
+          <li><b>Closing the loop works:</b> procedure ETRs + alarm verification recover 28 of 31 under P/T or highest P</li>
+          <li><b>Learned detection beats thresholds and holds under noise:</b> 31/31 detect on every mode×intensity cell; F1 stays ≥ 0.92 (worst ar1/med), median latency ≤ 4 s</li>
+        </ul>
+      </div>
+      <div class="col narrow">
+        <h2>Limitations</h2>
+        <ul>
+          <li>Recovery study uses knowledge-graph diagnosis only</li>
+          <li>LSTM train / holdout share one synthetic generator</li>
+          <li>Study C open-loop detection not yet gating full diagnosis</li>
+          <li>Gate thresholds and verify window not tuned</li>
+          <li>Robotics still a surrogate; no operator-in-the-loop yet</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>

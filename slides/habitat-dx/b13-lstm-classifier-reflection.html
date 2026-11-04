@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LSTM reflection</title>
+<link rel="stylesheet" href="style.css">
+<script src="nav.js?v=9"></script>
+</head>
+<body>
+<div class="stage">
+  <section class="slide">
+    <header class="head">Backup — LSTM classifier (Stage 5)</header>
+    <h1>High accuracy was expected — the claim is the loop, not 100% isolation</h1>
+    <div class="body" style="gap:14px">
+      <div class="col">
+        <div class="box">
+          <h3>Why ~98% / 31⁄31 is unsurprising</h3>
+          <p>Training windows are exhaustive for this generator: little within-label variation</p>
+          <p>Train / val are a <b>split of the same dataset</b>, not independent runs or a different simulator</p>
+          <p>So the scoreboard measures in-distribution fit more than generalization</p>
+        </div>
+        <div class="box">
+          <h3>Back to the research objective</h3>
+          <p>habitat-dx exists to <b>analyze autonomous FDDR</b> — agent interactions, autonomy, and alternative methods in one closed loop (RQ1–RQ3)</p>
+          <p>The goal is <b>not</b> to maximize fault-isolation accuracy on a single simplified sim</p>
+          <p>Today’s HSS31 data are a convenient substrate; medium- / high-fidelity tools remain in scope</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box" style="border-left-color:var(--correct);background:#eef7ee">
+          <h3>What LSTM still contributes</h3>
+          <p>Shows a <b>learned detector</b> can publish evaluation scores and drive confidence → procedures</p>
+          <p>Stress-tests the same modular stages used by KG / time-series / BN methods</p>
+        </div>
+        <div class="box">
+          <h3>Why other methods are not wasted</h3>
+          <p>RQ3 asks how methods <b>compare inside the loop</b> — interpretability, evidence needs, failure modes — not which wins a leaderboard on this corpus</p>
+          <p>Hand-crafted evaluators stay useful when labels are sparse, physics changes, or operators must audit why a score moved</p>
+        </div>
+        <div class="box">
+          <h3>How to prove that (next)</h3>
+          <p>Matched schedules across Study A vs C; hold-out runs / fidelity upgrades where train ≠ test generator</p>
+          <p>Metrics beyond argmax: latency, wrong-action cost, operator load, recovery under method swap</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>habitat-dx · multi-agent AFDDR simulation</span><span data-page></span></div>
+  </section>
+</div>
+</body>
+</html>
