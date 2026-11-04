@@ -340,16 +340,17 @@ a:hover { text-decoration-thickness: 2px; }
 @keyframes spin { to { rotate: 360deg; } }
 
 @media (max-width: 900px) {
-  .hero { display: block; min-height: 0; padding-bottom: 0; }
-  .hero-inner { padding-block: 0 40px; }
+  .hero { flex-direction: column; min-height: 0; padding-bottom: 0; }
+  .hero-inner { order: -1; padding-block: 48px 8px; }
   .hero-copy { max-width: none; }
   .hero-caption { margin-top: 24px; }
   .porthole {
     position: relative;
     top: auto;
     right: auto;
-    width: 118vw;
-    margin: 8px -9vw -9vw;
+    flex: none;
+    width: min(118vw, 720px);
+    margin: 8px 0 -9vw;
     transform: none;
   }
 }
