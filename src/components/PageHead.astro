@@ -1,0 +1,19 @@
+---
+import { PROFILE } from '../data/profile';
+
+interface Props {
+  title: string;
+  role?: string[];
+}
+
+const { title, role = PROFILE.role } = Astro.props;
+const hasSlot = Astro.slots.has('default');
+---
+<section class="page-head">
+  <div class="wrap">
+    <h1>{title}</h1>
+    <div class="page-head-meta">
+      {hasSlot ? <slot /> : <p><b>{PROFILE.name}</b><br>{role[0]}<br>{role[1]}</p>}
+    </div>
+  </div>
+</section>

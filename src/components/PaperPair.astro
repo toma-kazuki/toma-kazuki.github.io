@@ -1,0 +1,15 @@
+---
+import Plate from './Plate.astro';
+import { PUBLICATIONS, markAuthors } from '../data/publications';
+
+const featured = PUBLICATIONS.filter((p) => p.featured);
+---
+<div class="paper-pair">
+  {featured.map((p) => (
+    <article class="paper-card reveal">
+      <Plate fig={p.featured!.fig} caption={p.featured!.caption} dark={p.featured!.dark} />
+      <h3><a href={p.links?.[0]?.href ?? `/publications/#${p.id}`} target="_blank" rel="noopener">{p.title}</a></h3>
+      <p><Fragment set:html={markAuthors(p.authors)} /><br><em>{p.venue}</em></p>
+    </article>
+  ))}
+</div>

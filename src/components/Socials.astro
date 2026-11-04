@@ -1,0 +1,19 @@
+---
+import { SOCIALS } from '../data/profile';
+
+const ICONS: Record<string, string> = {
+  linkedin: '<path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.54h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-4.98c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21h-4z"/>',
+  github: '<path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86V21c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/>',
+  mail: '<path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 5.5h18v13H3zM3.5 6l8.5 7 8.5-7"/>',
+  facebook: '<path fill="currentColor" d="M13.5 22v-8.5h2.9l.43-3.32H13.5V8.06c0-.96.27-1.62 1.65-1.62h1.76V3.47A23.6 23.6 0 0 0 14.34 3.34c-2.55 0-4.3 1.56-4.3 4.42v2.42H7.17v3.32h2.87V22z"/>',
+  instagram: '<g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17" cy="7" r="1.2" fill="currentColor"/>',
+  scholar: '<path fill="currentColor" d="M12 3 1.5 9.5 5 11.7V17c0 1.8 3.1 3.5 7 3.5s7-1.7 7-3.5v-5.3l3.5-2.2zm0 2.35L18.7 9.5 12 13.65 5.3 9.5zM7 12.95l5 3.1 5-3.1V17c-.3.6-2.4 1.5-5 1.5s-4.7-.9-5-1.5z"/>',
+};
+---
+<div class="socials">
+  {SOCIALS.map((s) => (
+    <a href={s.href} target={s.href.startsWith('mailto:') ? undefined : '_blank'} rel={s.href.startsWith('mailto:') ? undefined : 'noopener'}>
+      <svg viewBox="0 0 24 24" aria-hidden="true" set:html={ICONS[s.icon]}></svg>{s.label}
+    </a>
+  ))}
+</div>

@@ -1,0 +1,46 @@
+---
+// Career chart on Home. Rows come from entries marked `span: true` in cv.ts.
+import { allEntries, cvEntry, entryHref, stripTags } from '../data/cv';
+
+const AXIS_START = 2021;
+const AXIS_YEARS = 8;
+const pct = (iso: string) => {
+  const [y, m] = iso.split('-').map(Number);
+  return ((y + (m - 1) / 12 - AXIS_START) / AXIS_YEARS) * 100;
+};
+
+const rows = allEntries()
+  .filter((e) => e.span)
+  .sort((a, b) => a.start.localeCompare(b.start))
+  .map((e) => {
+    const left = pct(e.start);
+    const right = pct(e.end!);
+    // Labels on the right half of the chart hang off the end of the bar.
+    const flip = left > 40;
+    return { e, left, width: right - left, labelAt: flip ? right : left, flip };
+  });
+
+const axis = Array.from({ length: AXIS_YEARS }, (_, i) => AXIS_START + i);
+const miles = [['B.S.', 'bs'], ['M.S.', 'ms'], ['Ph.D.', 'phd']].map(([label, id]) => ({ label, at: pct(cvEntry(id).end!) }));
+---
+<div class="spans reveal">
+  <div class="span-axis">
+    {axis.map((y) => <span style={`left:${pct(`${y}-01`).toFixed(2)}%`}>{y}</span>)}
+  </div>
+  <div class="span-rows" data-now={AXIS_START} data-now-years={AXIS_YEARS}>
+    <div class="span-mile-row">
+      {miles.map((m) => (
+        <Fragment>
+          <span class="span-mile-label" style={`left:${m.at.toFixed(2)}%`}>{m.label}</span>
+          <span class="span-mile" style={`left:${m.at.toFixed(2)}%`}></span>
+        </Fragment>
+      ))}
+    </div>
+    {rows.map((r) => (
+      <a class:list={['span-row', r.e.tone]} href={entryHref(r.e)}>
+        <span class:list={['span-label', { flip: r.flip }]} style={`--l:${r.labelAt.toFixed(2)}%`}>{stripTags(r.e.title)}</span>
+        <span class="span-bar" style={`left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%`}></span>
+      </a>
+    ))}
+  </div>
+</div>

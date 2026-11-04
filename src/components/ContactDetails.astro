@@ -1,0 +1,14 @@
+---
+import { PROFILE } from '../data/profile';
+import { ADDRESS } from '../data/cv';
+---
+<div class="contact-grid">
+  <div>
+    <p><strong>Email:</strong> <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a></p>
+    <p><strong>Phone:</strong> {PROFILE.phone}</p>
+    <p><strong>LinkedIn:</strong> <a href={PROFILE.linkedin} target="_blank" rel="noopener">{PROFILE.linkedin}</a></p>
+  </div>
+  <div>
+    <p><strong>Address:</strong><br><Fragment set:html={ADDRESS.join('<br>')} /></p>
+  </div>
+</div>

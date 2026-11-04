@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import CvEntry from '../components/CvEntry.astro';
+import ContactDetails from '../components/ContactDetails.astro';
+import { PROFILE } from '../data/profile';
+import { CV_SECTIONS, SKILLS } from '../data/cv';
+import { PUBLICATIONS, markAuthors } from '../data/publications';
+---
+<BaseLayout title="CV - Kazuki Toma" description="Curriculum vitae of Kazuki Toma - Ph.D. Student in Aerospace Engineering at Texas A&M University">
+  <PageHead title="CV">
+    <p><b>{PROFILE.name}</b><br>{PROFILE.role[0]}<br>{PROFILE.role[1]}</p>
+    <button class="chip no-print" type="button" data-print>Print / PDF</button>
+  </PageHead>
+
+  <section class="section">
+    <div class="wrap cv-grid">
+      <nav class="toc" aria-label="On this page">
+        {CV_SECTIONS.map((s) => <a href={`#${s.id}`} set:html={s.title} />)}
+        <a href="#skills">Skills</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div>
+        <section class="cv-block" id="mission">
+          <h2>Mission</h2>
+          <p>My ultimate mission is <strong>to create a diverse and sustainable human cultural sphere in space.</strong></p>
+        </section>
+
+        {CV_SECTIONS.map((s) => (
+          <section class="cv-block" id={s.id}>
+            <h2 set:html={s.title} />
+            {s.entries.map((entry) => <CvEntry entry={entry} />)}
+          </section>
+        ))}
+
+        <section class="cv-block" id="skills">
+          <h2>Skills</h2>
+          <div class="skill-grid">
+            {SKILLS.map((s) => <div><h3 set:html={s.title} /><p set:html={s.html} /></div>)}
+          </div>
+        </section>
+
+        <section class="cv-block" id="publications">
+          <h2>Publications</h2>
+          <p class="no-print">Please see <a href="/publications/">here</a></p>
+          <ul class="print-only">
+            {PUBLICATIONS.map((p) => (
+              <li><Fragment set:html={markAuthors(p.authors)} />, "{p.title}", <em>{p.venue}</em></li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="cv-block" id="contact">
+          <h2>Contact</h2>
+          <ContactDetails />
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

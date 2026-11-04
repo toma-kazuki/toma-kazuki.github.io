@@ -1,3 +1,29 @@
+# toma-kazuki.github.io
+
+Astro site, deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
+
+```bash
+npm install
+npm run dev
+```
+
+Preview at http://localhost:4321. Run `npm run build` to check the production build.
+
+## Where to edit
+
+| To change | Edit |
+|-----------|------|
+| A publication | `src/data/publications.ts` |
+| CV, Timeline and the Home career chart | `src/data/cv.ts` |
+| Research cards and project pages, loop explorer text | `src/data/projects.ts` |
+| Name, role, social links | `src/data/profile.ts` |
+| Figures | add a `.webp` to `src/assets/figures/` and use its file name |
+| Slides | `./scripts/sync-habitat-dx-slides.sh` (see `docs/slides.md`) |
+
+Original full-size images are in `docs/source-images/` and are not deployed.
+
+---
+
 # Webページの作成〜toma-kazuki.github.io〜
 ## 1.目標
 * 自分用のウェブサイトを作る

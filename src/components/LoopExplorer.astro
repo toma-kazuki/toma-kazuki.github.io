@@ -1,0 +1,66 @@
+---
+import Plate from './Plate.astro';
+import { STAGES } from '../data/projects';
+
+const C = 310;
+const R = 220;
+const polar = (r: number, deg: number) => {
+  const a = (deg * Math.PI) / 180;
+  return [C + r * Math.cos(a), C + r * Math.sin(a)];
+};
+const f = (n: number) => n.toFixed(1);
+const arc = (r: number, a0: number, a1: number) => {
+  const [x0, y0] = polar(r, a0);
+  const [x1, y1] = polar(r, a1);
+  return `M${f(x0)},${f(y0)} A${r},${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${f(x1)},${f(y1)}`;
+};
+
+const orbit = arc(R, -90, 269.9);
+const top = polar(R - 58, -90);
+const exA = polar(R - 58, 210);
+const exB = polar(70, 210);
+
+// The centre node comes first so it is stage 0; the rest sit around the ring.
+const nodes = STAGES.map((stage, i) => {
+  const [cx, cy] = i === 0 ? [C, C] : polar(R, -90 + (i - 1) * 60);
+  const lineHeight = 18;
+  const y0 = cy - ((stage.label.length - 1) * lineHeight) / 2 + 5;
+  return { stage, cx: f(cx), cy: f(cy), r: i === 0 ? 74 : 56, y0: f(y0), lineHeight };
+});
+---
+<div class="loop">
+  <div>
+    <svg class="loop-svg" viewBox="-14 -14 648 648" role="tablist" aria-label="Six modular stages of the habitat-dx closed loop">
+      <circle class="loop-track" cx={C} cy={C} r={R} />
+      <path class="loop-arc" d={arc(292, -112, 172)} />
+      <path class="loop-arc b" d={arc(292, 188, 232)} />
+      <path id="lab-a" d={arc(304, -60, 60)} fill="none" />
+      <path id="lab-b" d={arc(304, 172, 248)} fill="none" />
+      <text class="loop-agent"><textPath href="#lab-a" startOffset="50%" text-anchor="middle">Daphne-AT</textPath></text>
+      <text class="loop-agent b"><textPath href="#lab-b" startOffset="50%" text-anchor="middle">PRIDE + CRAFTSMAN</textPath></text>
+      <line x1={C} y1="240" x2={f(top[0])} y2={f(top[1] + 2)} stroke="var(--border-strong)" stroke-width="1.5" />
+      <line x1={f(exA[0])} y1={f(exA[1])} x2={f(exB[0])} y2={f(exB[1])} stroke="var(--border-strong)" stroke-width="1.5" stroke-dasharray="6 4" />
+      <circle class="loop-pulse-glow" r="13"><animateMotion dur="14s" repeatCount="indefinite" path={orbit} /></circle>
+      <circle class="loop-pulse" r="5"><animateMotion dur="14s" repeatCount="indefinite" path={orbit} /></circle>
+      {nodes.map((n) => (
+        <g class:list={['stage-node', { dashed: n.stage.dashed }]} role="tab" tabindex="-1" aria-selected="false" aria-label={n.stage.name}>
+          <circle cx={n.cx} cy={n.cy} r={n.r} />
+          <text x={n.cx} y={n.y0}>
+            {n.stage.label.map((line, i) => <tspan x={n.cx} dy={i === 0 ? 0 : n.lineHeight}>{line}</tspan>)}
+          </text>
+        </g>
+      ))}
+    </svg>
+    <p class="mono loop-legend">solid = implemented · dashed = optional / not yet closed-loop</p>
+  </div>
+  <div class="loop-panel" data-stage-panels aria-live="polite">
+    {STAGES.map((stage, i) => (
+      <div data-stage-panel hidden={i !== 0}>
+        <h3>{stage.name}</h3>
+        {stage.who && <p class="mono who">{stage.who}</p>}
+        <Fragment set:html={stage.html} />
+        {stage.fig && <Plate fig={stage.fig.name} caption={stage.fig.caption} />}
+      </div>
+    ))}
+  </div>
+</div>

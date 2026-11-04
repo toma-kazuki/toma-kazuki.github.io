@@ -1,0 +1,11 @@
+---
+// Line drawings used as project covers where there is no figure to show.
+const { name } = Astro.props;
+const ART = {
+  rover: `<path d="M0 132c60-10 120 6 180-2s100-6 140 0" opacity=".5"/><path d="M78 96V70a16 16 0 0 1 16-16h110a24 24 0 0 1 24 24v18z"/><path d="M204 62h16l10 18h-26z"/><circle cx="110" cy="74" r="7"/><circle cx="140" cy="74" r="7"/><circle cx="170" cy="74" r="7"/><path d="M84 96h140"/><circle cx="104" cy="114" r="15"/><circle cx="154" cy="114" r="15"/><circle cx="204" cy="114" r="15"/><circle cx="104" cy="114" r="4"/><circle cx="154" cy="114" r="4"/><circle cx="204" cy="114" r="4"/><path d="M120 54V38h34M154 30v16" />`,
+  lnss: `<circle cx="160" cy="80" r="34"/><path d="M134 66c10 6 16 2 24 6s14-2 22 4M140 96c8-4 14 2 22-2" opacity=".5"/><ellipse cx="160" cy="80" rx="128" ry="42" transform="rotate(-14 160 80)" stroke-dasharray="3 5"/><ellipse cx="160" cy="80" rx="128" ry="42" transform="rotate(14 160 80)" stroke-dasharray="3 5"/><ellipse cx="160" cy="80" rx="74" ry="66" stroke-dasharray="3 5"/><g fill="currentColor" stroke="none"><rect x="273" y="41" width="9" height="9"/><rect x="40" y="108" width="9" height="9"/><rect x="264" y="110" width="9" height="9"/><rect x="48" y="44" width="9" height="9"/><rect x="156" y="10" width="9" height="9"/><rect x="156" y="142" width="9" height="9"/></g>`,
+  cube: `<path d="M160 22l70 26v64l-70 26-70-26V48z"/><path d="M90 48l70 26 70-26M160 74v64"/><path d="M90 69l70 26 70-26M90 91l70 26 70-26" opacity=".4"/><path d="M230 60l52-20v40l-52 20zM90 60L38 40v40l52 20z"/><path d="M247 53.500v40M264 47v40M73 53.500v40M56 47v40" opacity=".5"/>`,
+  lunar: `<circle cx="60" cy="112" r="30"/><path d="M34 98c18 8 36 4 52 10" opacity=".5"/><circle cx="266" cy="42" r="15"/><path d="M84 92C130 30 200 8 252 36" stroke-dasharray="3 5"/><path d="M252 36c30 16 26 40 4 26S210 46 180 66" stroke-dasharray="3 5" opacity=".6"/><g transform="translate(160 24) rotate(18)"><rect width="18" height="12"/><path d="M0 6h-14M18 6h14"/></g>`,
+};
+---
+<svg class="project-art" viewBox="0 0 320 160" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" set:html={ART[name]}></svg>

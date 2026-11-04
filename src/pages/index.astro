@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Socials from '../components/Socials.astro';
+import PaperPair from '../components/PaperPair.astro';
+import CareerSpans from '../components/CareerSpans.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { PROFILE } from '../data/profile';
+import { PROJECTS } from '../data/projects';
+import { figure } from '../data/figures';
+
+const window_ = figure('hall-porthole');
+const portrait = figure('portrait');
+const ticks = Array.from({ length: 72 }, (_, i) => {
+  const major = i % 6 === 0;
+  return { y1: major ? 14 : 22, rotate: i * 5, width: major ? 1.6 : 0.8, opacity: major ? 0.9 : 0.5 };
+});
+---
+<BaseLayout
+  title="Kazuki Toma's website"
+  description="Kazuki Toma - Ph.D. Student in Aerospace Engineering at Texas A&M University, specializing in space habitat systems and autonomous anomaly resolution."
+>
+  <script is:inline>
+    // The CV used to live on this page, so keep old links such as /#education working.
+    (function () {
+      var moved = { 'current-research': '/research/habitat-anomaly/', education: '/cv/#education', 'research-experience': '/cv/#research-experience', 'work-experience': '/cv/#work-experience', 'teaching-experience': '/cv/#teaching-experience', 'academic-appointments': '/cv/#academic-appointments', 'fellowships-awards': '/cv/#fellowships-awards', skills: '/cv/#skills', publications: '/publications/', contact: '/contact/' };
+      var target = moved[location.hash.slice(1)];
+      if (target) location.replace(target);
+    })();
+  </script>
+
+  <section class="hero">
+    <div class="porthole" aria-hidden="true">
+      <svg class="porthole-rings" viewBox="0 0 1000 1000" fill="none">
+        <g class="ring-a">
+          {ticks.map((t) => <line x1="500" y1={t.y1} x2="500" y2="34" transform={`rotate(${t.rotate} 500 500)`} stroke="currentColor" stroke-width={t.width} opacity={t.opacity} />)}
+        </g>
+        <g class="ring-c">
+          <circle cx="500" cy="500" r="438" stroke="currentColor" stroke-width="1" stroke-dasharray="2 10" opacity="0.7" />
+          <rect x="934" y="492" width="16" height="16" fill="currentColor" transform="rotate(45 942 500)" />
+        </g>
+        <g class="ring-b human">
+          <circle cx="500" cy="500" r="470" stroke="currentColor" stroke-width="1" stroke-dasharray="120 1400" stroke-linecap="round" opacity="0.8" />
+          <circle cx="970" cy="500" r="7" fill="currentColor" />
+        </g>
+      </svg>
+      <div class="porthole-window"><img src={window_.src} width={window_.width} height={window_.height} alt=""></div>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <h1>Kazuki<br>Toma</h1>
+        <p class="hero-role">{PROFILE.role[0]}<br>{PROFILE.role[1]}</p>
+        <Socials />
+        <p class="hero-caption">View of the Earth through the stage and window in "Space Music Hall" rendered by Kazuki Toma and Shuto Takashita</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap intro-grid">
+      <div class="portrait reveal"><img src={portrait.src} width={portrait.width} height={portrait.height} alt="Profile Picture" loading="lazy" decoding="async"></div>
+      <div class="prose">
+        <p class="lede">I am a Ph.D. student at Texas A&amp;M University pursuing a Ph.D. in Aerospace Engineering under the supervision of Professor Daniel Selva in the Systems Engineering, Autonomy and Knowledge Laboratory (SEAK). My research focuses on developing autonomous anomaly resolution systems for space habitats using physics-based diagnostic models and digital twin simulations.</p>
+        <p>My current research, supported by NASA's Human Research Program and NASA STTR Phase II, involves developing a physics-based anomaly diagnosis capability for Daphne-AT, a prototype virtual assistant. This work combines hybrid model-based reasoning with simulation-based fault trend analysis using real-time telemetry to enable autonomous operations for long-duration space exploration missions.</p>
+        <p>During my master's and bachelor's studies at the University of Tokyo, I conducted research on satellite hardware configurations and orbit determination strategies for the Lunar Navigation Satellite System (LNSS). I also worked on structural design, development, and thermal operations for several nano-satellite missions including EQUULEUS, SPHERE EYE-1, and ONGLAISAT, focusing on cutting-edge technology demonstration and versatile system design.</p>
+        <p>I have also been involved in human space mission design. For my bachelor's graduation project, I designed "Space Music Hall," a space station module for low Earth orbit that functions as a cultural facility. This project was mentored by a senior manager of the Kibo module on the International Space Station (ISS) at the Japan Aerospace Exploration Agency (JAXA).</p>
+        <p>I have gained extensive industry experience working as a Structural Design Lead at ArkEdge Space Inc. and as a Thermal Operation Engineer at ISAS/JAXA, contributing to successful satellite missions and gaining hands-on experience in space systems engineering.</p>
+        <p>Please refer to my <a href="/publications/">Publications</a> for detailed research contributions and <a href="/contact/">Contact</a> for inquiries.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Recent publications">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">Publications</h2>
+        <a class="more" href="/publications/">All publications</a>
+      </div>
+      <PaperPair />
+    </div>
+  </section>
+
+  <section class="section" aria-label="Research">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">Research</h2>
+        <a class="more" href="/research/">All research</a>
+      </div>
+      <div class="project-grid">
+        {PROJECTS.filter((p) => p.home).map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Timeline">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">Timeline</h2>
+        <a class="more" href="/timeline/">Full timeline</a>
+      </div>
+      <CareerSpans />
+    </div>
+  </section>
+</BaseLayout>

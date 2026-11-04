@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import { figure } from '../data/figures';
+
+const band = figure('hall-wide');
+---
+<BaseLayout title="About - Kazuki Toma" description="About Kazuki Toma - Ph.D. Student in Aerospace Engineering at Texas A&M University">
+  <PageHead title="About" />
+
+  <div class="wrap">
+    <section class="mvv mvv-mission" id="mission">
+      <h2>Mission</h2>
+      <p class="statement">My ultimate mission is <b>to create a diverse and sustainable human cultural sphere in space.</b></p>
+    </section>
+  </div>
+
+  <figure>
+    <div class="mission-band"><img src={band.src} width={band.width} height={band.height} alt="View of the Earth through the stage and window in Space Music Hall" loading="lazy" decoding="async"></div>
+    <figcaption class="wrap mission-caption">View of the Earth through the stage and window in "Space Music Hall" rendered by Kazuki Toma and Shuto Takashita</figcaption>
+  </figure>
+
+  <div class="wrap">
+    <section class="mvv reveal" id="vision">
+      <h2>Vision</h2>
+      <p>Upon graduating from Ph.D course, I aim to join the aerospace industry as a competent system architect. I aim to be involved from the initial stages of system development, playing a central role in the upstream system design processes. <b>The type of system architect I aspire to be is not a generalist but a specialist who simplifies complexity, clarifies ambiguity, and focuses on creativity.</b> I plan to acquire these skills through my doctoral studies.</p>
+    </section>
+    <section class="mvv reveal" id="value" style="border-top:1px solid var(--border)">
+      <h2>Value</h2>
+      <p>I aspire to contribute to advanced research and projects at world-leading space exploration organizations like NASA and SpaceX, focusing on space habitat design and ECLSS analysis. I also aim to use my research findings to invigorate peaceful, global collaboration in human space exploration, including in my home country of Japan.</p>
+    </section>
+  </div>
+</BaseLayout>

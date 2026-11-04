@@ -1,0 +1,54 @@
+---
+import Plate from './Plate.astro';
+import DeckLink from './DeckLink.astro';
+---
+<section class="section" id="current-research">
+  <div class="wrap">
+    <h2 class="section-title">Current Research</h2>
+    <h3 class="sub-title" style="margin-top:0">Development of a Physics-Based Diagnosis Model and Digital Twin Simulation of a Space Habitat for End-To-End Autonomous Anomaly Resolution</h3>
+    <dl class="meta-table">
+      <dt>Co-authors:</dt><dd>J. Elston, D. Kortenkamp, A. Diaz-Artiles, D. Selva</dd>
+      <dt>Institutions:</dt><dd>Texas A&amp;M University, TRACLabs Inc.</dd>
+      <dt>Funding:</dt><dd>NASA Human Research Program (Grant #80NSSC19K0656) &amp; NASA STTR Phase II (Award #80NSSC24CA028)</dd>
+    </dl>
+    <div class="prose" style="margin-top:28px">
+      <p><strong>Abstract:</strong> Astronauts in deep space exploration missions will experience long communication delays with mission control. In such environments, spacecraft anomalies or unexpected sudden environmental changes can occur, some of which could lead to loss of the mission or loss of life in a short period of time. Virtual Assistants (VAs) that can seamlessly retrieve information from several heterogeneous data sources and combine it to produce natural language answers are a promising technology to support astronauts during these situations.</p>
+      <p>Daphne-AT was developed to study the impact of such VAs on human performance and has been used for several laboratory and analog studies. This poster describes the ongoing development of a physics-based reasoning capability in Daphne-AT. A real-time telemetry data feed can be assimilated into the physics-based model to produce a digital twin of the habitat, significantly improving anomaly detection and diagnosis capabilities.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-label="Integrated loop">
+  <div class="wrap">
+    <h2 class="section-title">The integrated loop demonstrated end to end</h2>
+    <p class="lede prose" style="margin-bottom:36px">Fault in BioSim → Daphne-AT diagnosis with operator approvals → PRIDE procedure → robot inspection and repair → telemetry back to nominal</p>
+    <div class="figure-mosaic">
+      <div class="span-7 reveal"><Plate fig="daphne-ui" caption="Daphne-AT time-series matching analysis and chatbot approval request" dark /></div>
+      <div class="span-5 reveal"><Plate fig="interaction-sequence" caption="Interaction sequence between BioSim, Daphne-AT, operator, PRIDE, and robot" /></div>
+      <div class="span-5 reveal"><Plate fig="craftsman-robot" caption="CRAFTSMAN robot arm at the air filter rack in simulation" /></div>
+      <div class="span-7 reveal"><Plate fig="experiment-overview" caption="Experiment overview: anomaly scenario player, telemetry simulator and robotics environment, Daphne-AT, PRIDE, and crew / CRAFTSMAN, with mission control across a communication delay" dark /></div>
+      <div class="span-12 reveal"><Plate fig="architecture" caption="habitat-dx architecture" /></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-label="Research posters and presentations">
+  <div class="wrap split">
+    <div>
+      <h4 class="sub-title" style="margin-top:0">Research Posters and Presentations</h4>
+      <p><strong>Recent Conference Presentations:</strong></p>
+      <ul class="link-list">
+        <li><strong>2025 NASA HRP IWS:</strong> "Development of a Physics-Based Diagnosis Model and Digital Twin Simulation of a Space Habitat for End-To-End Autonomous Anomaly Resolution" - Galveston, USA, January 2025</li>
+        <li><strong>2025 NASA HRP IWS:</strong> "Bayesian Network Approach to Collaborative Anomaly Diagnosis in Human-Agent Environments" (Co-authored) - Galveston, USA, January 2025</li>
+      </ul>
+    </div>
+    <div>
+      <p><strong>Research Materials:</strong></p>
+      <DeckLink />
+      <ul class="link-list" style="margin-top:16px">
+        <li><a href="https://drive.google.com/file/d/1DnlPYFNfGEwaeDGkW9aJ82pf4FLKCvzh/view?usp=sharing" target="_blank" rel="noopener">Physics-Based Diagnosis Model and Digital Twin Simulation Poster</a></li>
+        <li><a href="https://drive.google.com/file/d/1hVYeR38zx6TgwakuBrXjXcf7-7JACvMA/view?usp=sharing" target="_blank" rel="noopener">Additional Research Materials and Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+</section>

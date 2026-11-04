@@ -1,0 +1,18 @@
+---
+import { figure } from '../data/figures';
+
+interface Props {
+  fig: string;
+  caption: string;
+  dark?: boolean;
+}
+
+const { fig, caption, dark = false } = Astro.props;
+const image = figure(fig);
+---
+<figure class="plate">
+  <a class:list={['plate-frame', { dark }]} href={image.src}>
+    <img src={image.src} width={image.width} height={image.height} alt={caption} loading="lazy" decoding="async">
+  </a>
+  <figcaption>{caption}</figcaption>
+</figure>

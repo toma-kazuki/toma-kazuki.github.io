@@ -1,0 +1,113 @@
+---
+// Kept word for word from the original Japanese Contents page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import { figure } from '../data/figures';
+
+const portrait = figure('portrait');
+const role = ['Master Student at Univ.Tokyo', 'Aerospace Engineering'];
+---
+<BaseLayout title="Japanese Contents - Kazuki Toma" description="Japanese Contents - Kazuki Toma, Ph.D. Student at Texas A&M University" role={role}>
+  <PageHead title="Japanese Contents" role={['Master Student at University of Tokyo', 'Aerospace Engineering']} />
+
+
+    <section class="section" id="about">
+      <div class="wrap intro-grid">
+        <div class="portrait reveal"><img src={portrait.src} width={portrait.width} height={portrait.height} alt="Profile Picture" loading="lazy" decoding="async"></div>
+        <div class="prose">
+          <p class="lede" lang="ja">私は東京大学大学院の修士課程に在籍しており、知能宇宙システム研究室の中須賀教授の指導の下、航空宇宙工学の修士課程を専攻しています。</p>
+          <p>During my bachelor’s and master’s studies, I am doing a resear on the satellite hardware configurations and orbit determination strategies for Lunar Navigation Satellite System (LNSS). I am also working on structural design and development and thermal operation for three nano-satellites missions called EQUULEUS, SPHERE 1-EYE, and ONGLAISAT focusing on cutting edge technology demonstration, versatile system design, and project management process.</p>
+          <p>I also engaged in a human space mission design. For my bachelor's graduation project, I have designed a space station module for low earth orbit, which functions as a music facility, which is called "Space Music Hall". This project was mentored by a senior manager of Kibo module in the International Space Station (ISS) in the Japan Aerospace Exploration Agency (JAXA).</p>
+          <p>I am eagerly working seeking a Ph.D. position that will start in fall 2024. If this opportunity piques your interest, I would be delighted to receive your correspondence.</p>
+          <p>Please refer to my <a href="https://drive.google.com/file/d/1sSzMpFmXJdizXnPtMOZEeYq0dkq4J-Ny/view?usp=sharing" target="_blank" rel="noopener">CV</a> (last updated at January 2024) for the latest information and <a href="#contact">Contact</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap" style="max-width:900px">
+        <section class="cv-block" id="education">
+          <h2>Education</h2>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">M.E. in Aerospace Engineering</span><span class="entry-date">Mar, 2024(Expected)</span></div>
+            <p>Department of Aeronautics and Astronautics, Faculty of Engineering, University of Tokyo</p>
+            <p class="muted">GPA: 3.83/4.00</p>
+            <p>Thesis: “System design optimization of a lunar navigation and communications constellation to meet uncertain lunar development demands in a phased manner.”(tentative)</p>
+          </div>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">B.E. in Aerospace Engineering</span><span class="entry-date">Mar, 2022</span></div>
+            <p>Department of Aeronautics and Astronautics, Faculty of Engineering, University of Tokyo</p>
+            <p class="muted">GPA: 3.53/4.00</p>
+            <p>Thesis: “A study on satellite system and their orbit estimation in the early lunar navigation satellite system”(Advisor: Prof. Shinichi Nakasuka)</p>
+          </div>
+        </section>
+
+        <section class="cv-block" id="research-expereience">
+          <h2>Research Experience</h2>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">Intelligent Space Systems Laboratory, The University of Tokyo</span><span class="entry-date">Apr, 2021 - Present</span></div>
+            <p>Role: Graduate research assistant</p>
+            <p>Adviser: Prof. Shinichi Nakasuka &amp; Dr. Toshiki Tanaka</p>
+            <p>Program Title: Nano-satellite to provide navigation and IoT communication services to lunar orbiters and spacecraft on the moon</p>
+            <p>Funding &amp; Agency: Space Exploration Fundamental Technology Advancement Program adopted by the Ministry of Education, Culture, Sports, Science and Technology (MEXT)</p>
+            <p class="muted">Related Publications: (J2)(C4)</p>
+            <p><em><strong>Keywords: Systems Engineering, Satellite System Design, Space Habitat Design,Decision making in complex systems</strong></em></p>
+            <p><em>Staged development of space system under demand uncertainty<br>Small satellite system design and optimization<br>Flexibility and versatility of the system<br>Model based systems engineering<br>Analysis and design of human space missions with a focus on environmental control and life support systems (ECLSS)</em></p>
+          </div>
+        </section>
+
+        <section class="cv-block" id="teaching-experience">
+          <h2>Teaching Experience</h2>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">Graduate Teaching Assistant</span><span class="entry-date">Apr, 2022 - Aug, 2022</span></div>
+            <p>To Prof.Shinichi Nakasuka in “Exercises in Space Engineering “</p>
+            <p>Created report assignments: satellite system design for a GEO communication mission</p>
+            <p class="muted">Topics: multi disciplinary design optimization, subsystem design of spacecraft</p>
+          </div>
+        </section>
+
+        <section class="cv-block" id="academic-appointments">
+          <h2>Academic Appointments</h2>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">Assistant Researcher of ISAS/JAXA</span><span class="entry-date">Aug, 2022 - Present</span></div>
+            <p>To Operation of the SLS onboard CubeSat explorer project (EQUULEUS)</p>
+          </div>
+        </section>
+
+        <section class="cv-block" id="fellowships--awards">
+          <h2>Fellowships &amp; Awards</h2>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">Nakajima Foundation Study Abroad Fellowship</span><span class="entry-date">Sep, 2024 - Sep, 2026</span></div>
+            <p>Two-year funding (tuition:3 million yen/year + stipend: 3.6 million yen/year) for Ph.D. study abroad. Maximum 5 years for stipend.</p>
+            <p class="muted">Agency: Nakajima Foundation, Japan</p>
+          </div>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">WINGS CFS Fellowship</span><span class="entry-date">Sep, 2022 - Present</span></div>
+            <p>Two years stipend funding for graduate study</p>
+            <p class="muted">Agency: WINGS CFS, The University of Tokyo, Japan</p>
+          </div>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">28th Campus Genius Contest finalist</span><span class="entry-date">Nov, 2022</span></div>
+            <p>Title of work: The Design of Space Music Hall</p>
+            <p>nominated as one of the 28 great works in the artistic category from 404 works</p>
+            <p class="muted" style="overflow-wrap:anywhere">Archive: https://archive.campusgenius.jp/2022/works/6304/</p>
+          </div>
+          <div class="entry">
+            <div class="entry-head"><span class="entry-title">Travel Award for Researchers Attending International Conferences</span><span class="entry-date">Apr, 2023</span></div>
+            <p>Travel expense for the 52nd International Conference on Environmental Systems in Calgary</p>
+            <p class="muted">Agency: The NEC C&amp;C Foundation, Japan</p>
+          </div>
+        </section>
+
+        <section class="cv-block" id="publications">
+          <h2>Publications</h2>
+          <p>Please see <a href="/publications/">here</a></p>
+        </section>
+
+        <section class="cv-block" id="contact">
+          <h2>Contact</h2>
+          <p>Email: toma [🌏] space.t.u-tokyo.ac.jp</p>
+        </section>
+      </div>
+    </section>
+</BaseLayout>

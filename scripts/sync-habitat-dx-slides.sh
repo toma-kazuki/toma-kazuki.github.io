@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sync habitat-dx HTML slides into this site repo and push to GitHub Pages.
+# Sync habitat-dx HTML slides into this site repo and push. The push triggers the site deploy.
 # Usage:
 #   ./scripts/sync-habitat-dx-slides.sh
 # Optional:
@@ -9,7 +9,7 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="${HABITAT_DX_SLIDES:-$HERE/../habitat-dx/slides}"
-DEST="$HERE/slides/habitat-dx"
+DEST="$HERE/public/slides/habitat-dx"
 BRANCH="$(git -C "$HERE" rev-parse --abbrev-ref HEAD)"
 
 if [[ ! -d "$SRC" ]]; then
@@ -34,20 +34,8 @@ rsync -a --delete \
   --exclude '.DS_Store' \
   "$SRC"/ "$DEST"/
 
-mkdir -p "$HERE/prototype/public/slides"
-ln -sfn ../../../slides/habitat-dx "$HERE/prototype/public/slides/habitat-dx"
-
-# GitHub Pages: skip Jekyll so HTML/assets under slides/ publish as-is
-touch "$HERE/.nojekyll"
-
 echo "==> Stage & commit"
-git add slides/habitat-dx slides/README.md prototype/public/slides \
-  scripts/sync-habitat-dx-slides.sh .nojekyll
-git add research.html prototype/src/data/mock.ts \
-  "prototype/src/pages/research/[slug].astro" \
-  prototype/src/pages/publications.astro 2>/dev/null || true
-
-git reset HEAD -- '*.DS_Store' 2>/dev/null || true
+git add public/slides/habitat-dx docs/slides.md scripts/sync-habitat-dx-slides.sh
 
 if git diff --staged --quiet; then
   echo "No slide-related changes to commit."
@@ -55,7 +43,7 @@ else
   git commit -m "$(cat <<'MSG'
 Publish habitat-dx HTML slides to GitHub Pages.
 
-Sync the static deck into slides/habitat-dx and keep research links pointed at /slides/habitat-dx/.
+Sync the static deck into public/slides/habitat-dx; the site build serves it at /slides/habitat-dx/.
 MSG
 )"
 fi
@@ -69,4 +57,4 @@ if [[ "${SYNC_NO_PUSH:-}" == "1" ]]; then
 fi
 
 git push origin "$BRANCH"
-echo "Done. Live: https://toma-kazuki.github.io/slides/habitat-dx/"
+echo "Done. Live after the deploy finishes: https://toma-kazuki.github.io/slides/habitat-dx/"

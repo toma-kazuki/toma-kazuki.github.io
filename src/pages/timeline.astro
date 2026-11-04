@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import { allEntries, entryHref, stripTags } from '../data/cv';
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthText = (iso: string) => {
+  const [y, m] = iso.split('-').map(Number);
+  return `${MONTHS[m - 1]}, ${y}`;
+};
+
+const entries = allEntries()
+  .filter((e) => e.timeline !== false)
+  .sort((a, b) => a.start.localeCompare(b.start));
+
+const dateText = (e: (typeof entries)[number]) =>
+  e.end && !e.date.includes(' - ') ? `${monthText(e.start)} - ${e.date}` : e.date;
+
+const firstLine = (e: (typeof entries)[number]) => {
+  const line = e.lines.find((l) => typeof l === 'string') as string | undefined;
+  return line ? stripTags(line).replace(/&amp;/g, '&') : '';
+};
+
+const lastYear = Math.max(...entries.map((e) => Number((e.end ?? e.start).slice(0, 4)))) + 1;
+const firstYear = Math.min(...entries.map((e) => Number(e.start.slice(0, 4))));
+---
+<BaseLayout title="Timeline - Kazuki Toma" description="Timeline of Kazuki Toma's education, research, work, and awards">
+  <PageHead title="Timeline" />
+
+  <section class="section">
+    <div class="wrap" data-filter-scope>
+      <div class="filters" role="group" aria-label="Filter timeline">
+        <div class="filter-group">
+          <button class="chip" type="button" data-group="type" data-value="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-group="type" data-value="education" aria-pressed="false">Education</button>
+          <button class="chip" type="button" data-group="type" data-value="research" aria-pressed="false">Research</button>
+          <button class="chip" type="button" data-group="type" data-value="work" aria-pressed="false">Work</button>
+          <button class="chip" type="button" data-group="type" data-value="award" aria-pressed="false">Awards</button>
+        </div>
+      </div>
+
+      <div class="tl" data-timeline data-first={firstYear} data-last={lastYear}>
+        <svg class="tl-svg" aria-hidden="true"></svg>
+        <ol class="tl-list">
+          {entries.map((e) => (
+            <li
+              class:list={['tl-item', `tl-${e.section.type}`, e.tone]}
+              data-filter-item
+              data-type={e.section.type}
+              data-start={e.start}
+              data-end={e.end}
+            >
+              <a class="tl-card" href={entryHref(e)}>
+                <span class="tl-date">{dateText(e)}</span>
+                <span class="tl-title">{stripTags(e.title)}</span>
+                <span class="tl-text">{firstLine(e)}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import '../scripts/timeline.js';
+  </script>
+</BaseLayout>

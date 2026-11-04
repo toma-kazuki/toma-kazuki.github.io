@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import LoopExplorer from '../components/LoopExplorer.astro';
+import DeckLink from '../components/DeckLink.astro';
+import { PROJECTS } from '../data/projects';
+
+const groups = ['Current Research', 'Previous Research Projects', 'Industry Experience'];
+const current = PROJECTS[0];
+---
+<BaseLayout title="Research - Kazuki Toma" description="Research Projects and Interests - Kazuki Toma, Ph.D. Student at Texas A&M University">
+  <PageHead title="Research" />
+
+  <section class="section">
+    <div class="wrap" data-filter-scope>
+      <div class="filters" role="group" aria-label="Filter research">
+        <div class="filter-group">
+          <button class="chip" type="button" data-group="kind" data-value="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-group="kind" data-value="research" aria-pressed="false">Research</button>
+          <button class="chip" type="button" data-group="kind" data-value="work" aria-pressed="false">Work</button>
+        </div>
+        <div class="filter-group">
+          <button class="chip" type="button" data-group="level" data-value="all" aria-pressed="true">All Levels</button>
+          <button class="chip" type="button" data-group="level" data-value="phd" aria-pressed="false">Ph.D.</button>
+          <button class="chip" type="button" data-group="level" data-value="ms" aria-pressed="false">M.S.</button>
+          <button class="chip" type="button" data-group="level" data-value="bs" aria-pressed="false">B.S.</button>
+        </div>
+      </div>
+      <p class="filter-empty" data-filter-empty hidden>No projects match the selected filters.</p>
+      {groups.map((group) => (
+        <section class="project-group" data-filter-section>
+          <h2 class="section-title">{group}</h2>
+          <div class="project-grid">
+            {PROJECTS.filter((p) => p.group === group).map((project) => <ProjectCard project={project} />)}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-title">Current Research</h2>
+      <h3 class="sub-title" style="font-size:clamp(1.4rem,2.6vw,2rem);max-width:30ch"><a class="plain-link" href={`/research/${current.slug}/`}>Physics-Based Diagnosis Model and Digital Twin Simulation for Space Habitats</a></h3>
+      <div class="split">
+        <div>
+          <dl class="meta-table">
+            <dt><strong>Duration:</strong></dt><dd>{current.date}</dd>
+            {current.rows.map(([label, value]) => (
+              <Fragment><dt><strong>{label}:</strong></dt><dd set:html={value} /></Fragment>
+            ))}
+          </dl>
+        </div>
+        <div>
+          <h4 class="sub-title" style="font-size:1.1rem;margin:0 0 10px">Project Overview</h4>
+          <p>This research focuses on developing autonomous anomaly resolution systems for space habitats using physics-based diagnostic models and digital twin simulations. The work is part of a larger effort to support astronauts during long-duration space exploration missions where communication delays with mission control make real-time support impossible.</p>
+        </div>
+      </div>
+
+      <h4 class="sub-title">Key Components</h4>
+      <div class="component-grid reveal">
+        <div class="component"><h4>Daphne-AT Virtual Assistant:</h4><p>A web-based application with natural language interface connected to real-time telemetry from NASA's Habitat Support System (HSS)</p></div>
+        <div class="component"><h4>Digital Twin Development:</h4><p>Real-time telemetry data assimilation into physics-based models to create habitat digital twins</p></div>
+        <div class="component"><h4>Multi-Agent Autonomous Anomaly Resolution System (MaARS):</h4><p>Integration with robotic agents for NASA's Gateway mission</p></div>
+        <div class="component"><h4>Anomaly Detection &amp; Diagnosis:</h4><p>Physics-based reasoning capabilities for proactive anomaly detection and diagnosis</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Closed loop">
+    <div class="wrap">
+      <h2 class="section-title">habitat-dx represents the loop as six modular stages</h2>
+      <LoopExplorer />
+      <div style="margin-top:40px"><DeckLink /></div>
+    </div>
+  </section>
+</BaseLayout>

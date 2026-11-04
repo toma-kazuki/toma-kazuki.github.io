@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import PaperPair from '../components/PaperPair.astro';
+import { PROFILE } from '../data/profile';
+import { PUBLICATIONS, markAuthors } from '../data/publications';
+
+const years = [...new Set(PUBLICATIONS.map((p) => p.year))].sort((a, b) => b - a);
+const isExternal = (href: string) => href.startsWith('http');
+---
+<BaseLayout title="Publications - Kazuki Toma" description="Kazuki Toma - Publications and Research Papers in Aerospace Engineering">
+  <PageHead title="Publications">
+    <p>You can also find my articles at my <a href={PROFILE.researchgate} target="_blank" rel="noopener">ResearchGate</a> and <a href={PROFILE.scholar} target="_blank" rel="noopener">Google Scholar</a>.</p>
+  </PageHead>
+
+  <section class="section">
+    <div class="wrap"><PaperPair /></div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" data-filter-scope>
+      <div class="filters" role="group" aria-label="Filter publications">
+        <div class="filter-group">
+          <button class="chip" type="button" data-group="kind" data-value="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-group="kind" data-value="journal" aria-pressed="false">Journal Papers</button>
+          <button class="chip" type="button" data-group="kind" data-value="conference" aria-pressed="false">Conference Papers</button>
+        </div>
+        <div class="filter-group">
+          <button class="chip" type="button" data-group="role" data-value="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-group="role" data-value="first" aria-pressed="false">First Author</button>
+          <button class="chip" type="button" data-group="role" data-value="co" aria-pressed="false">Co-Author</button>
+        </div>
+      </div>
+      <p class="filter-empty" data-filter-empty hidden>No publications match the selected filters.</p>
+      {years.map((year) => (
+        <section class="pub-year" data-filter-section>
+          <div class="pub-year-num">{year}</div>
+          <div>
+            {PUBLICATIONS.filter((p) => p.year === year).map((p) => (
+              <article class="pub" id={p.id} data-filter-item data-kind={p.kind} data-role={p.role}>
+                <span class="pub-title">{p.title}</span>
+                <p class="pub-meta">
+                  <Fragment set:html={markAuthors(p.authors)} />, <em>{p.venue}</em>
+                  {p.links?.map((l) => (
+                    <a class="pub-link" href={l.href} target={isExternal(l.href) ? '_blank' : undefined} rel={isExternal(l.href) ? 'noopener' : undefined}>{l.label}</a>
+                  ))}
+                </p>
+                <div class="pub-tags">
+                  <span class="tag">{p.kind === 'journal' ? 'Journal Papers' : 'Conference Papers'}</span>
+                  <span class:list={['tag', { lead: p.role === 'first' }]}>{p.role === 'first' ? 'First Author' : 'Co-Author'}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,103 @@
+---
+import '../styles/site.css';
+import Socials from '../components/Socials.astro';
+import { PROFILE } from '../data/profile';
+import { figure } from '../data/figures';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  role?: string[];
+}
+
+const { title, description, lang = 'en', role = PROFILE.role } = Astro.props;
+
+const NAV = [
+  ['/about/', 'About'],
+  ['/research/', 'Research'],
+  ['/timeline/', 'Timeline'],
+  ['/publications/', 'Publications'],
+  ['/cv/', 'CV'],
+  ['/contact/', 'Contact'],
+  ['/japanese/', 'Japanese Contents'],
+];
+const path = Astro.url.pathname;
+const pageUrl = new URL(path, Astro.site).href;
+const shareImage = new URL(figure('hall-wide').src, Astro.site).href;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8">
+  <title>{title}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content={description}>
+  <meta name="keywords" content="Kazuki Toma, Kazuki, Toma, 藤間一輝, 藤間, 一輝, Space Music Hall">
+  <link rel="canonical" href={pageUrl}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={pageUrl}>
+  <meta property="og:image" content={shareImage}>
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script is:inline>
+    document.documentElement.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap">
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-3PBJPS4WJX"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3PBJPS4WJX');
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="nav-brand" href="/">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 7.2l4.16 2.4v4.8L12 16.8l-4.16-2.4V9.6z"/></svg>
+        {PROFILE.name}
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        {NAV.map(([href, label]) => (
+          <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>
+        ))}
+      </nav>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch color theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>
+      </button>
+      <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-name">{PROFILE.name}</p>
+          <p class="footer-role">{role[0]}<br>{role[1]}</p>
+        </div>
+        <Socials />
+      </div>
+      <p class="footer-copy">&copy; {new Date().getFullYear()} {PROFILE.name}. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    import '../scripts/site.js';
+  </script>
+</body>
+</html>

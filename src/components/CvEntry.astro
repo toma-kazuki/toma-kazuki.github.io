@@ -1,0 +1,18 @@
+---
+import RelatedPubs from './RelatedPubs.astro';
+import type { CvEntry } from '../data/cv';
+
+const { entry } = Astro.props as { entry: CvEntry };
+---
+<div class="entry" id={entry.id}>
+  <div class="entry-head">
+    <span class="entry-title" set:html={entry.title} />
+    <span class="entry-date">{entry.date}</span>
+  </div>
+  {entry.lines.map((line) =>
+    typeof line === 'string'
+      ? <p set:html={line} />
+      : <p class="muted" set:html={line.muted} />
+  )}
+  <RelatedPubs ids={entry.related} />
+</div>

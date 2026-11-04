@@ -1,0 +1,28 @@
+---
+import ProjectArt from './ProjectArt.astro';
+import { figure } from '../data/figures';
+import { LEVEL_LABEL, KIND_LABEL, type Project } from '../data/projects';
+
+const { project: p } = Astro.props as { project: Project };
+const cover = p.cover ? figure(p.cover.fig) : null;
+---
+<article
+  class:list={['project', 'reveal', { human: p.human }]}
+  data-filter-item
+  data-kind={p.kind}
+  data-level={p.levels.join(' ')}
+>
+  {cover
+    ? <div class:list={['project-cover', { dark: p.cover?.dark }]}><img src={cover.src} width={cover.width} height={cover.height} alt="" loading="lazy" decoding="async"></div>
+    : <ProjectArt name={p.art} />}
+  <div class="project-body">
+    <h4><a class="project-link" href={`/research/${p.slug}/`}>{p.title}</a></h4>
+    <span class="mono">{p.date}</span>
+    {p.rows.map(([label, value]) => <p><strong>{label}:</strong> <Fragment set:html={value} /></p>)}
+    <div class="pub-tags">
+      <span class="tag">{KIND_LABEL[p.kind]}</span>
+      {p.levels.map((l) => <span class="tag">{LEVEL_LABEL[l]}</span>)}
+      {p.status === 'active' && <span class="tag lead">Ongoing</span>}
+    </div>
+  </div>
+</article>

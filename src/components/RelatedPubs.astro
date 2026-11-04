@@ -1,0 +1,11 @@
+---
+import { pubById } from '../data/publications';
+
+const { ids = [] } = Astro.props as { ids?: string[] };
+---
+{ids.length > 0 && (
+  <div class="related">
+    <span class="related-label">Related Publications:</span>
+    {ids.map((id) => <a href={`/publications/#${id}`}>{pubById(id).title}</a>)}
+  </div>
+)}

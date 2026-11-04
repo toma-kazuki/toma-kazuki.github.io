@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Plate from '../../components/Plate.astro';
+import RelatedPubs from '../../components/RelatedPubs.astro';
+import HabitatDetail from '../../components/HabitatDetail.astro';
+import { PROJECTS, LEVEL_LABEL, KIND_LABEL, type Project } from '../../data/projects';
+import { cvEntry } from '../../data/cv';
+import { figure } from '../../data/figures';
+
+export function getStaticPaths() {
+  return PROJECTS.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project: p } = Astro.props as { project: Project };
+const entry = cvEntry(p.cv);
+// Muted lines are the advisors, which the table above already lists.
+const description = entry.lines.filter((line): line is string => typeof line === 'string');
+---
+<BaseLayout title={`${p.title} - Kazuki Toma`} description={p.title}>
+  <PageHead title={p.title}>
+    <p class="mono">{p.date}</p>
+    <div class="pub-tags">
+      <span class="tag">{KIND_LABEL[p.kind]}</span>
+      {p.levels.map((l) => <span class="tag">{LEVEL_LABEL[l]}</span>)}
+      {p.status === 'active' && <span class="tag lead">Ongoing</span>}
+    </div>
+  </PageHead>
+
+  <section class="section">
+    <div class="wrap">
+      <a class="back-link" href="/research/">Back to Research</a>
+      <div class="split">
+        <dl class="meta-table">
+          {p.rows.map(([label, value]) => (
+            <Fragment><dt><strong>{label}:</strong></dt><dd set:html={value} /></Fragment>
+          ))}
+        </dl>
+        <div class="entry-lines">
+          {description.map((line) => <p set:html={line} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {p.figures && (
+    <section class="section">
+      <div class="wrap figure-mosaic">
+        {p.figures.map((f) => f.module
+          ? <figure class="span-12 reveal module-figure">
+              <img class="module" src={figure(f.fig).src} width={figure(f.fig).width} height={figure(f.fig).height} alt={f.caption} loading="lazy" decoding="async">
+              <figcaption>{f.caption}</figcaption>
+            </figure>
+          : <div class="span-12 reveal"><Plate fig={f.fig} caption={f.caption} dark={f.dark} /></div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {p.slug === 'habitat-anomaly' && <HabitatDetail />}
+
+  {entry.related && (
+    <section class="section">
+      <div class="wrap"><RelatedPubs ids={entry.related} /></div>
+    </section>
+  )}
+</BaseLayout>
